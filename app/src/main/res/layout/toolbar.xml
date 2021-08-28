@@ -27,7 +27,8 @@
             android:id="@+id/searchEditText"
             android:layout_width="0dp"
             android:layout_height="0dp"
-
+            android:textColorHint="@color/def_color"
+            android:drawableTint="@color/def_color"
             android:background="@drawable/search_style"
             android:drawableStart="@drawable/ic_baseline_search_24"
             android:drawableLeft="@drawable/ic_baseline_search_24"
@@ -40,7 +41,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.8"
-            tools:ignore="RtlSymmetry,TouchTargetSizeCheck" />
+            tools:ignore="RtlSymmetry,TouchTargetSizeCheck,UnusedAttribute" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

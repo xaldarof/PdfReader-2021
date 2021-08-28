@@ -1,45 +1,56 @@
 package pdf.reader.simplepdfreader.tools
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.ParcelFileDescriptor
 import android.widget.ImageView
 import com.shockwave.pdfium.PdfDocument
 import com.shockwave.pdfium.PdfiumCore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
+import android.R
+
 
 class MyPdfRenderer(private val context: Context) {
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     fun getBitmap(file: File?, imageView: ImageView): Bitmap? {
-        CoroutineScope(Dispatchers.Default).launch {
-            val pageNum = 0
-            val pdfiumCore = PdfiumCore(context)
-            try {
-                val pdfDocument: PdfDocument = pdfiumCore.newDocument(openFile(file))
-                pdfiumCore.openPage(pdfDocument, pageNum)
-                val width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNum)
-                val height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNum)
+        if (file!!.exists()) {
+            CoroutineScope(Dispatchers.Default).launch {
+                val pageNum = 0
+                val pdfiumCore = PdfiumCore(context)
+                try {
+                    val pdfDocument: PdfDocument = pdfiumCore.newDocument(openFile(file))
+                    pdfiumCore.openPage(pdfDocument, pageNum)
+                    val width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNum)
+                    val height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNum)
 
-                val bitmap = Bitmap.createBitmap(
-                    width, height,
-                    Bitmap.Config.RGB_565
-                )
-                pdfiumCore.renderPageBitmap(
-                    pdfDocument, bitmap, pageNum, 0, 0,
-                    width, height)
-                pdfiumCore.closeDocument(pdfDocument)
+                    val bitmap = Bitmap.createBitmap(
+                        width, height,
+                        Bitmap.Config.RGB_565
+                    )
+                    pdfiumCore.renderPageBitmap(
+                        pdfDocument, bitmap, pageNum, 0, 0,
+                        width, height
+                    )
+                    pdfiumCore.closeDocument(pdfDocument)
 
-                setImage(bitmap, imageView)
+                    setImage(bitmap, imageView)
 
-            } catch (ex: IOException) {
-                ex.printStackTrace()
+                } catch (ex: IOException) {
+                    ex.printStackTrace()
+                }
             }
+        }else {
+            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.stat_notify_error)
+
+            return bitmap
         }
         return null
     }
