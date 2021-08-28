@@ -1,23 +1,13 @@
 package pdf.reader.simplepdfreader.presentation.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.ItemBinding
-import android.graphics.Bitmap
-
 import kotlin.collections.ArrayList
-import android.os.ParcelFileDescriptor
-import android.text.Layout
 import com.google.android.material.snackbar.Snackbar
-import com.shockwave.pdfium.PdfDocument
-
-import com.shockwave.pdfium.PdfiumCore
-import kotlinx.coroutines.*
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import java.io.*
@@ -32,22 +22,18 @@ class ItemAdapter(
 
     private val list = ArrayList<PdfFileDb>()
 
-    fun update(list: List<PdfFileDb>) {
+    fun update(list: List<PdfFileDb>,position: Int) {
         this.list.clear()
         this.list.addAll(list)
-        notifyDataSetChanged()
+        notifyItemChanged(position)
     }
 
     inner class VH(private val item: ItemBinding) : RecyclerView.ViewHolder(item.root) {
-        fun onBind(pdfFile: PdfFileDb) {
+        fun onBind(pdfFile: PdfFileDb,position: Int) {
             item.fileName.text = pdfFile.name
             item.sizeTv.text = pdfFile.size
-            item.imageView.setImageBitmap(
-                myPdfRenderer.getBitmap(
-                    File(pdfFile.dirName),
-                    item.imageView
-                )
-            )
+            item.imageView.setImageBitmap(myPdfRenderer.getBitmap(File(pdfFile.dirName), item.imageView))
+            item.layout.setOnClickListener { onClickListener.onClick(pdfFile) }
 
             if (pdfFile.favorite) {
                 item.favoriteState.setColorFilter(context.resources.getColor(R.color.colorRed))
@@ -61,6 +47,19 @@ class ItemAdapter(
                 item.interestingState.setColorFilter(context.resources.getColor(R.color.def_color))
             }
 
+            if (pdfFile.willRead) {
+                item.willReadState.setColorFilter(context.resources.getColor(R.color.colorRed))
+            } else {
+                item.willReadState.setColorFilter(context.resources.getColor(R.color.def_color))
+            }
+
+            if (pdfFile.finished){
+                item.doneState.setColorFilter(context.resources.getColor(R.color.colorRed))
+            } else {
+                item.doneState.setColorFilter(context.resources.getColor(R.color.def_color))
+            }
+
+
             //CLICKS FAVORITES
             item.favoriteState.setOnClickListener {
                 if (pdfFile.favorite) {
@@ -70,21 +69,43 @@ class ItemAdapter(
                     Snackbar.make(recyclerView, "Добавлено в 'Избранные'", Snackbar.LENGTH_SHORT)
                         .show()
                 }
-                onClickListener.onClickAddToFavorites(pdfFile)
+                onClickListener.onClickAddToFavorites(pdfFile,position)
             }
 
             //CLICKS INTERESTING
             item.interestingState.setOnClickListener {
                 if (pdfFile.interesting) {
-                    item.interestingState.setColorFilter(Color.BLACK)
                     Snackbar.make(recyclerView, "Удалено из 'Интересные'", Snackbar.LENGTH_SHORT)
                         .show()
                 } else {
-                    item.interestingState.setColorFilter(Color.RED)
                     Snackbar.make(recyclerView, "Добавлено в 'Интересные'", Snackbar.LENGTH_SHORT)
                         .show()
                 }
-                onClickListener.onClickAddTooInteresting(pdfFile)
+                onClickListener.onClickAddTooInteresting(pdfFile,position)
+            }
+
+            //CLICKS WILL READ
+            item.willReadState.setOnClickListener {
+                if (pdfFile.willRead) {
+                    Snackbar.make(recyclerView, "Удалено из 'Буду читать'", Snackbar.LENGTH_SHORT)
+                        .show()
+                } else {
+                    Snackbar.make(recyclerView, "Добавлено в 'Буду читать'", Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+                onClickListener.onClickAddToWillRead(pdfFile,position)
+            }
+
+            //CLICKS FINISHED
+            item.doneState.setOnClickListener {
+                if (pdfFile.finished) {
+                    Snackbar.make(recyclerView, "Удалено из 'Прочитанные'", Snackbar.LENGTH_SHORT)
+                        .show()
+                } else {
+                    Snackbar.make(recyclerView, "Добавлено в 'Прочитанные'", Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+                onClickListener.onClickAddToFinished(pdfFile,position)
             }
         }
     }
@@ -94,7 +115,7 @@ class ItemAdapter(
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.onBind(this.list[position])
+        holder.onBind(this.list[position],position)
     }
 
     override fun getItemCount(): Int {
@@ -104,8 +125,12 @@ class ItemAdapter(
     interface OnClickListener {
         fun onClick(pdfFileDb: PdfFileDb)
 
-        fun onClickAddToFavorites(pdfFileDb: PdfFileDb)
+        fun onClickAddToFavorites(pdfFileDb: PdfFileDb,position: Int)
 
-        fun onClickAddTooInteresting(pdfFileDb: PdfFileDb)
+        fun onClickAddTooInteresting(pdfFileDb: PdfFileDb,position: Int)
+
+        fun onClickAddToWillRead(pdfFileDb: PdfFileDb,position: Int)
+
+        fun onClickAddToFinished(pdfFileDb: PdfFileDb,position: Int)
     }
 }

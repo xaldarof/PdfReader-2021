@@ -20,9 +20,15 @@ interface PdfFilesDao {
 
 
     @Query("UPDATE pdf SET favorite = :favorite WHERE dirName = :dirName")
-    suspend fun updateFavoriteState(dirName: String,favorite:Boolean)
+    suspend fun updateFavoriteState(dirName: String, favorite: Boolean)
 
     @Query("UPDATE pdf SET interesting = :interesting WHERE dirName = :dirName")
-    suspend fun updateInterestingState(dirName: String,interesting:Boolean)
+    suspend fun updateInterestingState(dirName: String, interesting: Boolean)
+
+    @Query("UPDATE pdf SET willRead = :willRead WHERE dirName = :dirName")
+    suspend fun updateWillReadState(dirName: String, willRead: Boolean)
+
+    @Query("UPDATE pdf SET finished = :finished WHERE dirName = :dirName")
+    suspend fun updateFinishedState(dirName: String, finished: Boolean)
 
 }

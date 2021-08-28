@@ -1,4 +1,4 @@
-package pdf.reader.simplepdfreader.presentation.viewModels
+package pdf.reader.simplepdfreader.domain
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

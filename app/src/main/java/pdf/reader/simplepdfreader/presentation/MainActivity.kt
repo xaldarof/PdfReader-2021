@@ -1,9 +1,8 @@
-package pdf.reader.simplepdfreader
+package pdf.reader.simplepdfreader.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import pdf.reader.simplepdfreader.presentation.CoreFragment
-import pdf.reader.simplepdfreader.presentation.adapter.*
+import pdf.reader.simplepdfreader.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

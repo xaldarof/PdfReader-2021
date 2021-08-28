@@ -6,6 +6,7 @@ import pdf.reader.simplepdfreader.databinding.ActivityReadingBinding
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import pdf.reader.simplepdfreader.domain.PdfFileModel
 import java.io.File
 
 
@@ -17,15 +18,9 @@ class ReadingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityReadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val action = intent.action
+        val pdfFile = intent.getSerializableExtra("pdf") as PdfFileModel
 
-        if (Intent.ACTION_VIEW == action) {
-            val uri: Uri? = intent.data
-            File(uri!!.path)
-            Log.d("pdf", "PATH =  $action")
-        } else {
-            Log.d("pdf", "intent was something else: $action")
-        }
+        binding.pdfView.fromFile(File(pdfFile.dirName)).load()
 
     }
 }

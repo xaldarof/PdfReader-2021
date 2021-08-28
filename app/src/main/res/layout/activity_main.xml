@@ -5,6 +5,6 @@
     android:layout_height="match_parent"
     android:id="@+id/layout"
     android:background="@color/white"
-    tools:context=".MainActivity">
+    tools:context=".presentation.MainActivity">
 
 </RelativeLayout>

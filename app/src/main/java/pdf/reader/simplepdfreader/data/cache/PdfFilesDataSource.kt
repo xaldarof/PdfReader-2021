@@ -42,7 +42,8 @@ interface PdfFilesDataSource {
                                         isEverOpened = false,
                                         pageCount = 0,
                                         interesting = false,
-                                        size = getSize(fileList[i].length())
+                                        size = getSize(fileList[i].length()),
+                                        willRead = false
                                     )
                                 )
                             }
