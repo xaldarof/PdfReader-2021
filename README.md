@@ -1,1 +1,2 @@
-# SimplePdfReader
+# SimplePdfReader 
+@Author  Xoldarov Temur
