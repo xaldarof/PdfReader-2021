@@ -9,14 +9,26 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PdfFilesDao {
 
-    @Query("SELECT * FROM pdf")
-    fun fetchAllPdfFiles(): Flow<List<PdfFileDb>>
-
-    @Query("SELECT * FROM pdf WHERE favorite = 'true'")
-    fun fetchFavorites(): Flow<List<PdfFileDb>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertPdfFile(pdfFiles: List<PdfFileDb>)
+
+    @Query("SELECT * FROM pdf")
+    fun fetchAllPdfFiles(): Flow<List<PdfFileDb>>
+
+
+    @Query("SELECT * FROM pdf WHERE favorite = 1")
+    fun fetchFavorites(): Flow<List<PdfFileDb>>
+
+    @Query("SELECT * FROM pdf WHERE interesting = 1")
+    fun fetchInteresting(): Flow<List<PdfFileDb>>
+
+    @Query("SELECT * FROM pdf WHERE willRead = 1")
+    fun fetchWillRead(): Flow<List<PdfFileDb>>
+
+    @Query("SELECT * FROM pdf WHERE finished = 1")
+    fun fetchFinished(): Flow<List<PdfFileDb>>
+
 
 
     @Query("UPDATE pdf SET favorite = :favorite WHERE dirName = :dirName")

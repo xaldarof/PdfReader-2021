@@ -1,50 +1,74 @@
 package pdf.reader.simplepdfreader.data
 
+import android.util.Log
+import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import pdf.reader.simplepdfreader.data.cache.PdfFilesCacheDataSource
+import kotlinx.coroutines.flow.collect
+import pdf.reader.simplepdfreader.data.cache.PdfFilesDataSource
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
+import pdf.reader.simplepdfreader.data.room.PdfFilesDao
 import java.io.File
 
 interface PdfFilesRepository {
 
     fun fetchPdfFiles(): Flow<List<PdfFileDb>>
     fun fetchFavorites(): Flow<List<PdfFileDb>>
-    suspend fun findFilesAndInsert(dir:File)
+
+    fun fetchInteresting(): Flow<List<PdfFileDb>>
+    fun fetchWillRead(): Flow<List<PdfFileDb>>
+    fun fetchFinished(): Flow<List<PdfFileDb>>
+
+    suspend fun findFilesAndInsert(dir: File)
 
     suspend fun updateFavoriteState(dirName: String, favorite: Boolean)
-    suspend fun updateInterestingState(dirName: String,interesting:Boolean)
+    suspend fun updateInterestingState(dirName: String, interesting: Boolean)
     suspend fun updateWillReadState(dirName: String, willRead: Boolean)
     suspend fun updateFinishedState(dirName: String, finished: Boolean)
 
-    class Base(private val cacheDataSource: PdfFilesCacheDataSource) :
+    class Base(private val dataSource: PdfFilesDataSource, private val dao: PdfFilesDao) :
         PdfFilesRepository {
-
         override fun fetchPdfFiles(): Flow<List<PdfFileDb>> {
-            return cacheDataSource.fetchPdfFiles()
+            return dao.fetchAllPdfFiles()
         }
 
         override fun fetchFavorites(): Flow<List<PdfFileDb>> {
-            return cacheDataSource.fetchPdfFiles()
+            return dao.fetchFavorites()
         }
 
-        override suspend fun findFilesAndInsert(dir:File) {
-           cacheDataSource.findFilesAndInsert(dir)
+        override fun fetchInteresting(): Flow<List<PdfFileDb>> {
+           return dao.fetchInteresting()
+        }
+
+        override fun fetchWillRead(): Flow<List<PdfFileDb>> {
+            return dao.fetchWillRead()
+        }
+
+        override fun fetchFinished(): Flow<List<PdfFileDb>> {
+            return dao.fetchFinished()
+        }
+
+        override suspend fun findFilesAndInsert(dir: File) {
+            dataSource.findFilesAndFetch(dir).collect {
+                dao.insertPdfFile(it)
+                Log.d("pdf", "REP = $it")
+            }
         }
 
         override suspend fun updateFavoriteState(dirName: String, favorite: Boolean) {
-            cacheDataSource.updateFavoriteState(dirName, favorite)
+            dao.updateFavoriteState(dirName, favorite)
         }
 
         override suspend fun updateInterestingState(dirName: String, interesting: Boolean) {
-            cacheDataSource.updateInterestingState(dirName,interesting)
+            dao.updateInterestingState(dirName, interesting)
         }
 
         override suspend fun updateWillReadState(dirName: String, willRead: Boolean) {
-            cacheDataSource.updateWillReadState(dirName,willRead)
+            dao.updateWillReadState(dirName, willRead)
         }
 
         override suspend fun updateFinishedState(dirName: String, finished: Boolean) {
-            cacheDataSource.updateFinishedState(dirName,finished)
+            dao.updateFinishedState(dirName, finished)
         }
     }
+
 }

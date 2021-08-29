@@ -17,12 +17,12 @@ import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import java.io.*
 
 
-class ItemAdapter(
+class InterestingAdapter(
     private val onClickListener: OnClickListener,
     private val myPdfRenderer: MyPdfRenderer,
     private val recyclerView: RecyclerView,
     private val context: Context
-) : RecyclerView.Adapter<ItemAdapter.VH>() {
+) : RecyclerView.Adapter<InterestingAdapter.VH>() {
 
     private val list = ArrayList<PdfFileDb>()
 

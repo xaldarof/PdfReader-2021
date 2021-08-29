@@ -33,16 +33,19 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.7" />
 
-    <SeekBar
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:clickable="false"
         android:focusable="false"
+        android:progress="10"
+        android:secondaryProgress="100"
         android:progressBackgroundTint="@color/def_color"
         android:thumbTint="@color/def_color"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:layout_constraintWidth_percent="0.5" />
 
@@ -132,5 +135,6 @@
             android:src="@drawable/ic_baseline_done_all_24"
             app:tint="@color/def_color" />
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
