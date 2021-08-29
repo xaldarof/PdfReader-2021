@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="@string/common">
-        <menu>
-            <item
-                android:id="@+id/coreFragment"
-                android:title="@string/all_docs" />
-            <item
-                android:id="@+id/favoriteFragment"
-                android:title="@string/favs" />
+    <item
+        android:id="@+id/coreFragment"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="@string/all_docs" />
+    <item
+        android:id="@+id/favoriteFragment"
+        android:icon="@drawable/ic_baseline_turned_in_not_24"
+        android:title="@string/favs" />
 
-            <item
-                android:id="@+id/willReadFragment"
-                android:title="@string/will_read" />
-            <item
-                android:id="@+id/interestingFragment"
-                android:title="@string/interesting" />
-        </menu>
-    </item>
+    <item
+        android:id="@+id/willReadFragment"
+        android:icon="@drawable/ic_baseline_access_time_24"
+        android:title="@string/will_read" />
+    <item
+        android:id="@+id/interestingFragment"
+        android:icon="@drawable/ic_baseline_local_fire_department_24"
+        android:title="@string/interesting" />
+
 </menu>

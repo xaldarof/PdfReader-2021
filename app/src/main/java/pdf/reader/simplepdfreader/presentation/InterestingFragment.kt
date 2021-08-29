@@ -37,9 +37,6 @@ class InterestingFragment : Fragment(),ItemAdapter.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         val myPdfRenderer = MyPdfRenderer(requireContext())
         val itemAdapter = ItemAdapter(this,myPdfRenderer,binding.rv,requireContext())
-
-        val linearLayoutManager = LinearLayoutManager(requireContext(),VERTICAL,false)
-        binding.rv.layoutManager = linearLayoutManager
         binding.rv.itemAnimator = null
 
         viewModel.fetchInteresting().observe(viewLifecycleOwner,{
@@ -56,24 +53,20 @@ class InterestingFragment : Fragment(),ItemAdapter.OnClickListener {
     override fun onClickAddToFavorites(pdfFileDb: PdfFileDb, position: Int) {
         viewModel.updateFavoriteState(pdfFileDb)
         this.position = position
-        this.position = 0
     }
 
     override fun onClickAddTooInteresting(pdfFileDb: PdfFileDb, position: Int) {
         viewModel.updateInterestingState(pdfFileDb)
         this.position = position
-        this.position = 0
     }
 
     override fun onClickAddToWillRead(pdfFileDb: PdfFileDb, position: Int) {
         viewModel.updateWillReadState(pdfFileDb)
         this.position = position
-        this.position = 0
     }
 
     override fun onClickAddToFinished(pdfFileDb: PdfFileDb, position: Int) {
         viewModel.updateFinishedState(pdfFileDb)
         this.position = position
-        this.position = 0
     }
 }

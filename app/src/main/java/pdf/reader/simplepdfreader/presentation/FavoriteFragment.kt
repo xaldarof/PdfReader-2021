@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,6 +40,7 @@ class FavoriteFragment : Fragment(), ItemAdapter.OnClickListener, KoinComponent 
         super.onViewCreated(view, savedInstanceState)
         val myPdfRenderer = MyPdfRenderer(requireContext())
         val itemAdapter = ItemAdapter(this, myPdfRenderer, binding.rv, requireContext())
+        binding.rv.itemAnimator = null
 
         viewModel.fetchFavorites().observe(viewLifecycleOwner, {
             itemAdapter.update(it, position)

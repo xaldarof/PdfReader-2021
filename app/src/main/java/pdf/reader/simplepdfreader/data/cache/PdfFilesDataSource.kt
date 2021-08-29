@@ -60,12 +60,16 @@ interface PdfFilesDataSource {
             val sizeMb = sizeKb * sizeKb
             val sizeGb = sizeMb * sizeKb
             val sizeTerra = sizeGb * sizeKb
-            if (size < sizeMb) return df.format(size / sizeKb)
-                .toString() + " Kb" else if (size < sizeGb) return df.format(size / sizeMb)
-                .toString() + " Mb" else if (size < sizeTerra) return df.format(size / sizeGb)
-                .toString() + " Gb"
-            return ""
-        }
+           return when {
+               size < sizeMb -> df.format(size / sizeKb)
+                   .toString() + " КБ"
+               size < sizeGb -> df.format(size / sizeMb)
+                   .toString() + " МБ"
+               size < sizeTerra -> df.format(size / sizeGb)
+                   .toString() + " ГБ"
+               else -> ""
+           }
+       }
     }
 }
 
