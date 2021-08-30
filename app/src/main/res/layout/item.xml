@@ -87,53 +87,57 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2">
 
-        <ImageButton
+        <ImageView
             android:id="@+id/willReadState"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:padding="6dp"
-            android:focusable="true"
-            android:clickable="true"
             android:background="@drawable/icon_style"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="6dp"
             android:src="@drawable/ic_baseline_access_time_24"
-            app:tint="@color/def_color" />
+            app:tint="@color/def_color"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageView
             android:id="@+id/interestingState"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:focusable="true"
-            android:clickable="true"
-            android:background="@drawable/icon_style"
             android:layout_marginStart="24dp"
+            android:background="@drawable/icon_style"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="6dp"
             android:src="@drawable/ic_baseline_local_fire_department_24"
-            app:tint="@color/def_color" />
+            app:tint="@color/def_color"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageView
             android:id="@+id/favoriteState"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:focusable="true"
-            android:clickable="true"
-            android:background="@drawable/icon_style"
             android:layout_marginStart="24dp"
+            android:background="@drawable/icon_style"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="6dp"
             android:src="@drawable/ic_baseline_turned_in_not_24"
-            app:tint="@color/def_color" />
+            app:tint="@color/def_color"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <ImageView
             android:id="@+id/doneState"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:focusable="true"
-            android:clickable="true"
-            android:background="@drawable/icon_style"
             android:layout_marginStart="24dp"
+            android:background="@drawable/icon_style"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="6dp"
             android:src="@drawable/ic_baseline_done_all_24"
-            app:tint="@color/def_color" />
+            app:tint="@color/def_color"
+            tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
 

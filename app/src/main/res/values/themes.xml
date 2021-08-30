@@ -21,6 +21,10 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="CustomBackgroundPopup">
+        <item name="android:popupBackground">@drawable/rounded</item>
+    </style>
+
     <style name="Theme.SimplePdfReader.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.SimplePdfReader.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

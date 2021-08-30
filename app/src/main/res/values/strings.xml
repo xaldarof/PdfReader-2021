@@ -16,8 +16,8 @@
     <string name="open">Открыть</string>
     <string name="close">Закрыть</string>
     <string name="common">Основные</string>
-    <string name="all_docs">Все документы</string>
-    <string name="favs">Избранные</string>
+    <string name="scan_cd">Сканировать SD карту</string>
+    <string name="settings">Настройки</string>
     <string name="will_read">Буду читать</string>
     <string name="interesting">Интересные</string>
 </resources>

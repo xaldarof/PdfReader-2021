@@ -2,19 +2,18 @@ package pdf.reader.simplepdfreader.presentation
 
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentCoreBinding
 import pdf.reader.simplepdfreader.domain.CoreFragmentViewModel
 import pdf.reader.simplepdfreader.domain.CoreFragmentViewModelFactory
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
+import pdf.reader.simplepdfreader.presentation.adapter.FragmentController
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import pdf.reader.simplepdfreader.tools.NextActivity
@@ -31,24 +30,23 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        myPdfRenderer = MyPdfRenderer(requireContext())
-        binding = FragmentCoreBinding.inflate(inflater, container, false)
 
+        binding = FragmentCoreBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        myPdfRenderer = MyPdfRenderer(requireContext())
         itemAdapter = ItemAdapter(this, myPdfRenderer, binding.rv, requireContext())
         viewModel = ViewModelProvider(this, CoreFragmentViewModelFactory(requireContext()))
             .get(CoreFragmentViewModel::class.java)
         binding.rv.adapter = itemAdapter
 
         viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
-            itemAdapter.update(it, position)
+            itemAdapter.update(it)
+            itemAdapter.notifyDataSetChanged()
         })
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         viewModel.findPdfFilesAndInsert(Environment.getExternalStorageDirectory())
 
     }

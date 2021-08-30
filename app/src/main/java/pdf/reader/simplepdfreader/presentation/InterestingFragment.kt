@@ -36,11 +36,12 @@ class InterestingFragment : Fragment(),ItemAdapter.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val myPdfRenderer = MyPdfRenderer(requireContext())
-        val itemAdapter = ItemAdapter(this,myPdfRenderer,binding.rv,requireContext())
+        val itemAdapter = ItemAdapter(this,myPdfRenderer,binding.rv, requireContext())
         binding.rv.itemAnimator = null
 
         viewModel.fetchInteresting().observe(viewLifecycleOwner,{
-            itemAdapter.update(it,position)
+            itemAdapter.update(it)
+            itemAdapter.notifyItemChanged(position)
         })
         binding.rv.adapter = itemAdapter
     }

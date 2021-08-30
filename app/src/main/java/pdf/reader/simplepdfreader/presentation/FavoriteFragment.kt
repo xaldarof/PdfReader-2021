@@ -43,7 +43,8 @@ class FavoriteFragment : Fragment(), ItemAdapter.OnClickListener, KoinComponent 
         binding.rv.itemAnimator = null
 
         viewModel.fetchFavorites().observe(viewLifecycleOwner, {
-            itemAdapter.update(it, position)
+            itemAdapter.update(it)
+            itemAdapter.notifyItemChanged(position)
         })
         binding.rv.adapter = itemAdapter
 

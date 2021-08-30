@@ -2,21 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/coreFragment"
+        android:id="@+id/scan"
         android:icon="@drawable/ic_baseline_home_24"
-        android:title="@string/all_docs" />
+        android:title="@string/scan_cd" />
     <item
-        android:id="@+id/favoriteFragment"
+        android:id="@+id/setting"
         android:icon="@drawable/ic_baseline_turned_in_not_24"
-        android:title="@string/favs" />
+        android:title="@string/settings" />
 
-    <item
-        android:id="@+id/willReadFragment"
-        android:icon="@drawable/ic_baseline_access_time_24"
-        android:title="@string/will_read" />
-    <item
-        android:id="@+id/interestingFragment"
-        android:icon="@drawable/ic_baseline_local_fire_department_24"
-        android:title="@string/interesting" />
 
 </menu>

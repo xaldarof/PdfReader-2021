@@ -3,15 +3,14 @@ package pdf.reader.simplepdfreader.presentation.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.ItemBinding
 import kotlin.collections.ArrayList
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import java.io.*
@@ -26,11 +25,11 @@ class ItemAdapter(
 
     private val list = ArrayList<PdfFileDb>()
 
-    fun update(list: List<PdfFileDb>, position: Int) {
+    fun update(list: List<PdfFileDb>) {
         this.list.clear()
         this.list.addAll(list)
-        notifyItemChanged(position)
     }
+
 
     inner class VH(private val item: ItemBinding) : RecyclerView.ViewHolder(item.root) {
         fun onBind(pdfFile: PdfFileDb, position: Int) {
@@ -67,7 +66,6 @@ class ItemAdapter(
             } else {
                 item.doneState.setColorFilter(context.resources.getColor(R.color.def_color))
             }
-
 
             //CLICKS FAVORITES
             item.favoriteState.setOnClickListener {
@@ -141,5 +139,6 @@ class ItemAdapter(
         fun onClickAddToWillRead(pdfFileDb: PdfFileDb, position: Int)
 
         fun onClickAddToFinished(pdfFileDb: PdfFileDb, position: Int)
+
     }
 }

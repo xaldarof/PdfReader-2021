@@ -30,7 +30,6 @@ interface PdfFilesDao {
     fun fetchFinished(): Flow<List<PdfFileDb>>
 
 
-
     @Query("UPDATE pdf SET favorite = :favorite WHERE dirName = :dirName")
     suspend fun updateFavoriteState(dirName: String, favorite: Boolean)
 
@@ -42,5 +41,16 @@ interface PdfFilesDao {
 
     @Query("UPDATE pdf SET finished = :finished WHERE dirName = :dirName")
     suspend fun updateFinishedState(dirName: String, finished: Boolean)
+
+
+
+
+
+    @Query("UPDATE pdf SET lastPage = :lastPage WHERE dirName = :dirName")
+    suspend fun updateLastPage(dirName: String, lastPage:Int)
+
+    @Query("UPDATE pdf SET pageCount = :pageCount WHERE dirName = :dirName")
+    suspend fun updatePageCount(dirName: String, pageCount:Int)
+
 
 }
