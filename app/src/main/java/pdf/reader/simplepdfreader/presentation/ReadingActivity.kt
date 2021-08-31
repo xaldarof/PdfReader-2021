@@ -2,27 +2,34 @@ package pdf.reader.simplepdfreader.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import pdf.reader.simplepdfreader.databinding.ActivityReadingBinding
-import android.view.View
-import android.view.animation.TranslateAnimation
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
+import com.github.barteksc.pdfviewer.PDFView
+import com.github.barteksc.pdfviewer.util.FitPolicy
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.bind
-import pdf.reader.simplepdfreader.data.room.PdfFileDb
+import pdf.reader.simplepdfreader.R
+import pdf.reader.simplepdfreader.data.cache.AutoSpacingStateCache
+import pdf.reader.simplepdfreader.data.cache.AutoSpacingStateCacheImpl
+import pdf.reader.simplepdfreader.data.cache.DarkThemeCache
+import pdf.reader.simplepdfreader.data.cache.DarkThemeCacheImpl
 import pdf.reader.simplepdfreader.domain.CountModel
 import pdf.reader.simplepdfreader.domain.PdfFileModel
 import pdf.reader.simplepdfreader.domain.ReadingActivityViewModel
+import pdf.reader.simplepdfreader.tools.ReadingPopupManager
 import java.io.File
 
 class ReadingActivity : AppCompatActivity(), KoinComponent {
 
     private lateinit var binding: ActivityReadingBinding
     private val viewModel: ReadingActivityViewModel by viewModels()
+    private val counterLiveData = MutableLiveData<CountModel>()
     private var isOpen = true
+    private var page = 0
+    private var dirName = ""
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,54 +41,71 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         binding.seekBar.max = pdfFile.pageCount
         binding.seekBar.progress = pdfFile.lastPage
         binding.fileName.text = pdfFile.name
-        updateData(pdfFile.dirName,pdfFile.lastPage)
+        this.dirName = pdfFile.dirName
+        binding.counter.text = "${pdfFile.lastPage} из ${pdfFile.pageCount}"
 
-        pageObserve().observe(this,{
+        val sharedPreferences = getSharedPreferences("cache", MODE_PRIVATE)
+        val darkThemeCache = DarkThemeCache(DarkThemeCacheImpl(sharedPreferences))
+        val autoSpacingStateCache = AutoSpacingStateCache(AutoSpacingStateCacheImpl(sharedPreferences))
+        val readingPopupManager = ReadingPopupManager.Base(this, darkThemeCache,autoSpacingStateCache)
+
+        updateData(pdfFile.dirName, pdfFile.lastPage, darkThemeCache.read(),autoSpacingStateCache.read())
+
+        binding.menuBtn.setOnClickListener {
+            readingPopupManager.showPopupMenu()
+        }
+
+        pageObserve().observe(this, {
             binding.counter.text = "${it.page} из ${it.pageCount}"
+
         })
 
         binding.pdfView.setOnClickListener {
-            if (isOpen) {
+            isOpen = if (isOpen) {
                 binding.containerTop.animate().translationY(-200F)
                 binding.containerBottom.animate().translationY(200F)
-                isOpen = false
+                false
 
             } else {
                 binding.containerTop.animate().translationY(0F)
                 binding.containerBottom.animate().translationY(0F)
-                isOpen = true
+                true
 
             }
         }
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                updateData(pdfFile.dirName,p1)
-                counterLiveData.value = CountModel(p1,pdfFile.pageCount)
+                page = p1
+                counterLiveData.value = CountModel(p1, pdfFile.pageCount)
             }
 
-            override fun onStartTrackingTouch(p0: SeekBar?) {
-            }
-
+            override fun onStartTrackingTouch(p0: SeekBar?) {}
             override fun onStopTrackingTouch(p0: SeekBar?) {
+                updateData(pdfFile.dirName, page)
+                binding.seekBar.progress = page
             }
-
         })
     }
-    private val counterLiveData = MutableLiveData<CountModel>()
-    private fun pageObserve():MutableLiveData<CountModel>{
+
+    private fun pageObserve(): MutableLiveData<CountModel> {
         return counterLiveData
     }
 
-    fun updateData(dirName:String,lastPage:Int){
+    private fun updateData(dirName: String, lastPage: Int, nightMode: Boolean = false,pageSnap:Boolean=false) {
         binding.pdfView.fromFile(File(dirName))
             .defaultPage(lastPage)
+            .nightMode(nightMode)
+            .autoSpacing(pageSnap)
+            .pageSnap(pageSnap)
+            .autoSpacing(pageSnap)
+            .pageFling(pageSnap)
+            .pageFitPolicy(FitPolicy.WIDTH)
+            .enableAnnotationRendering(true)
             .onPageChange { page, pageCount ->
                 viewModel.updateLastPage(dirName, page)
                 viewModel.updatePageCount(dirName, pageCount)
-                binding.seekBar.max = pageCount
-                counterLiveData.value = CountModel(page,pageCount)
-            }
-            .load()
+                binding.seekBar.progress = page
+            }.load()
+        binding.pdfView.useBestQuality(true)
     }
-
 }

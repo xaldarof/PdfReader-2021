@@ -1,10 +1,9 @@
 package pdf.reader.simplepdfreader.data
 
 import android.util.Log
-import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import pdf.reader.simplepdfreader.data.cache.PdfFilesDataSource
+import pdf.reader.simplepdfreader.data.cache.PdfFilesDataSourceMobile
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.data.room.PdfFilesDao
 import java.io.File
@@ -25,7 +24,7 @@ interface PdfFilesRepository {
     suspend fun updateWillReadState(dirName: String, willRead: Boolean)
     suspend fun updateFinishedState(dirName: String, finished: Boolean)
 
-    class Base(private val dataSource: PdfFilesDataSource, private val dao: PdfFilesDao) :
+    class Base(private val dataSourceMobile: PdfFilesDataSourceMobile, private val dao: PdfFilesDao) :
         PdfFilesRepository {
         override fun fetchPdfFiles(): Flow<List<PdfFileDb>> {
             return dao.fetchAllPdfFiles()
@@ -48,7 +47,7 @@ interface PdfFilesRepository {
         }
 
         override suspend fun findFilesAndInsert(dir: File) {
-            dataSource.findFilesAndFetch(dir).collect {
+            dataSourceMobile.findFilesAndFetch(dir).collect {
                 dao.insertPdfFile(it)
                 Log.d("pdf", "REP = $it")
             }

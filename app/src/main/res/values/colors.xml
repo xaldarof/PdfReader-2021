@@ -13,4 +13,5 @@
     <color name="dark_light">#1e1e1e</color>
     <color name="def_color">#949494</color>
     <color name="colorRed">#C32323</color>
+    <color name="green">#4CAF50</color>
 </resources>

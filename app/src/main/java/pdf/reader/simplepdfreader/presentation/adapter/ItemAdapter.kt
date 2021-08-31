@@ -30,17 +30,14 @@ class ItemAdapter(
         this.list.addAll(list)
     }
 
-
     inner class VH(private val item: ItemBinding) : RecyclerView.ViewHolder(item.root) {
         fun onBind(pdfFile: PdfFileDb, position: Int) {
             item.fileName.text = pdfFile.name
             item.sizeTv.text = pdfFile.size
-            item.imageView.setImageBitmap(
-                myPdfRenderer.getBitmap(
-                    File(pdfFile.dirName),
-                    item.imageView
-                )
-            )
+            item.imageView.setImageBitmap(myPdfRenderer.getBitmap(File(pdfFile.dirName), item.imageView))
+            item.progress.max = pdfFile.pageCount
+            item.progress.progress = pdfFile.lastPage
+
             item.layout.setOnClickListener { onClickListener.onClick(pdfFile) }
 
             if (pdfFile.favorite) {

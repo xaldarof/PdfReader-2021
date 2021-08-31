@@ -7,15 +7,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.File
 import java.text.DecimalFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 
-interface PdfFilesDataSource {
+interface PdfFilesDataSourceMobile {
 
     suspend fun findFilesAndFetch(dir: File): Flow<List<PdfFileDb>>
 
-    class Base(private val context: Context) : PdfFilesDataSource {
+    class Base(private val context: Context) : PdfFilesDataSourceMobile {
 
         private val entities = ArrayList<PdfFileDb>()
 

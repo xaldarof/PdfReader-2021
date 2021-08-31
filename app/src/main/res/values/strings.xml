@@ -20,4 +20,7 @@
     <string name="settings">Настройки</string>
     <string name="will_read">Буду читать</string>
     <string name="interesting">Интересные</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="change">Изменить название файла</string>
+    <string name="auto_spacing">Автоскроллинг</string>
 </resources>

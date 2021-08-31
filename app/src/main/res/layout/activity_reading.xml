@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/main_container"
     tools:context=".presentation.ReadingActivity">
-
 
 
     <com.github.barteksc.pdfviewer.PDFView
@@ -21,6 +21,7 @@
         android:background="@color/dark_light">
 
         <ImageView
+            android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -30,6 +31,7 @@
             app:tint="@color/white" />
 
         <ImageView
+            android:id="@+id/menuBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -52,7 +54,6 @@
 
     </RelativeLayout>
 
-
     <RelativeLayout
         android:id="@+id/containerBottom"
         android:layout_width="match_parent"
@@ -67,21 +68,32 @@
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
             android:layout_marginTop="12dp"
-            android:text="55 из 329"
+            android:text="0 из 0"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <SeekBar
-            android:id="@+id/seekBar"
-            android:layout_width="300dp"
-            android:layout_marginBottom="14dp"
-            android:progressBackgroundTint="@color/def_color"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_alignParentBottom="true"
-            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </RelativeLayout>
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="0.8"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="12dp"
+                android:progressBackgroundTint="@color/def_color"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                 />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+     </RelativeLayout>
 
 </RelativeLayout>
