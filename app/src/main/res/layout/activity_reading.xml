@@ -8,6 +8,13 @@
     android:id="@+id/main_container"
     tools:context=".presentation.ReadingActivity">
 
+    <ProgressBar
+        android:id="@+id/renderingProgress"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/red"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <com.github.barteksc.pdfviewer.PDFView
         android:id="@+id/pdfView"

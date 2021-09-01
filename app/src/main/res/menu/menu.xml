@@ -6,9 +6,9 @@
         android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/scan_cd" />
     <item
-        android:id="@+id/setting"
+        android:id="@+id/open"
         android:icon="@drawable/ic_baseline_turned_in_not_24"
-        android:title="@string/settings" />
+        android:title="@string/open" />
 
 
 </menu>

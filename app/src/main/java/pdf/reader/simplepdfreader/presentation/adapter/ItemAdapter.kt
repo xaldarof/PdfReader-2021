@@ -14,6 +14,12 @@ import com.google.android.material.snackbar.Snackbar
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import java.io.*
+import android.graphics.BitmapFactory
+
+import android.graphics.Bitmap
+
+
+
 
 
 class ItemAdapter(

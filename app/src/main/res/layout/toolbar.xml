@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:id="@+id/container"
+    android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@color/dark">
 
@@ -15,25 +15,25 @@
         android:layout_gravity="center|start"
         android:layout_marginStart="8dp"
         android:background="@drawable/menu_click_style"
-        android:padding="6dp"
         android:clickable="true"
         android:focusable="true"
+        android:padding="6dp"
         android:src="@drawable/ic_baseline_search_24"
         app:tint="@color/white" />
 
     <ImageView
-        android:id="@+id/menuBtn"
+        android:id="@+id/open"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:clickable="true"
-        android:focusable="true"
         android:layout_centerInParent="true"
         android:layout_gravity="end|center"
         android:layout_marginEnd="8dp"
         android:background="@drawable/menu_click_style"
+        android:clickable="true"
+        android:focusable="true"
         android:padding="6dp"
-        android:src="@drawable/ic_baseline_menu_24"
+        android:src="@drawable/ic_baseline_folder_open_24"
         app:layout_constraintStart_toStartOf="parent"
         app:tint="@color/white" />
 

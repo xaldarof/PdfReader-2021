@@ -13,6 +13,7 @@ interface NextActivity {
         override fun startActivity(pdfFileModel: PdfFileModel) {
             val intent = Intent(context,ReadingActivity::class.java)
             intent.putExtra("pdf",pdfFileModel)
+
             context.startActivity(intent)
         }
 

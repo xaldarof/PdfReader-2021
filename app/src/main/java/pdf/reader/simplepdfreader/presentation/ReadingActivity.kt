@@ -2,14 +2,11 @@ package pdf.reader.simplepdfreader.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import pdf.reader.simplepdfreader.databinding.ActivityReadingBinding
 import android.widget.SeekBar
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
-import com.github.barteksc.pdfviewer.PDFView
-import com.github.barteksc.pdfviewer.util.FitPolicy
 import org.koin.core.component.KoinComponent
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.cache.*
@@ -18,6 +15,9 @@ import pdf.reader.simplepdfreader.domain.PdfFileModel
 import pdf.reader.simplepdfreader.domain.ReadingActivityViewModel
 import pdf.reader.simplepdfreader.tools.ReadingPopupManager
 import java.io.File
+import android.content.Intent
+import org.koin.core.component.KoinApiExtension
+
 
 class ReadingActivity : AppCompatActivity(), KoinComponent {
 
@@ -28,6 +28,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
     private var page = 0
     private var dirName = ""
 
+    @KoinApiExtension
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +46,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         val darkThemeCache = DarkThemeCache(DarkThemeCacheImpl(sharedPreferences))
         val autoSpacingStateCache = AutoSpacingStateCache(AutoSpacingStateCacheImpl(sharedPreferences))
         val horizontalScrollingCache = HorizontalScrollingCache(HorizontalScrollingCacheImpl(sharedPreferences))
-        val readingPopupManager = ReadingPopupManager.Base(this, darkThemeCache,autoSpacingStateCache,horizontalScrollingCache)
+        val readingPopupManager = ReadingPopupManager.Base(this, darkThemeCache,autoSpacingStateCache,horizontalScrollingCache,binding.pdfView)
 
         updateData(pdfFile.dirName, pdfFile.lastPage, darkThemeCache.read(),autoSpacingStateCache.read(),horizontalScrollingCache.read())
 
@@ -57,6 +58,13 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
             binding.counter.text = "${it.page} из ${it.pageCount}"
 
         })
+        binding.backBtn.setOnClickListener {
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            finish()
+
+        }
 
         binding.pdfView.setOnClickListener {
             isOpen = if (isOpen) {
@@ -93,18 +101,29 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         binding.pdfView.fromFile(File(dirName))
             .defaultPage(lastPage)
             .nightMode(nightMode)
+            .enableAntialiasing(true)
             .autoSpacing(pageSnap)
             .pageSnap(pageSnap)
             .autoSpacing(pageSnap)
             .pageFling(pageSnap)
             .swipeHorizontal(horizontalScroll)
-            .pageFitPolicy(FitPolicy.WIDTH)
             .enableAnnotationRendering(true)
             .onPageChange { page, pageCount ->
                 viewModel.updateLastPage(dirName, page)
                 viewModel.updatePageCount(dirName, pageCount)
                 binding.seekBar.progress = page
+                counterLiveData.value = CountModel(page,pageCount)
+                binding.seekBar.max = pageCount
             }.load()
         binding.pdfView.useBestQuality(true)
+    }
+
+    @KoinApiExtension
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this,MainActivity::class.java)
+        startActivity(intent)
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right)
+        finish()
     }
 }

@@ -3,8 +3,10 @@ package pdf.reader.simplepdfreader.tools
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.view.Gravity
 import android.view.Window
 import android.widget.*
+import com.github.barteksc.pdfviewer.PDFView
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.cache.AutoSpacingStateCache
 import pdf.reader.simplepdfreader.data.cache.DarkThemeCache
@@ -16,7 +18,8 @@ interface ReadingPopupManager {
 
     class Base(private val context: Context, private val darkThemeCache: DarkThemeCache,
                private val autoSpacingStateCache: AutoSpacingStateCache,
-               private val horizontalScrollingCache: HorizontalScrollingCache
+               private val horizontalScrollingCache: HorizontalScrollingCache,
+               private val pdfView: PDFView
                ) :
         ReadingPopupManager {
 
@@ -45,9 +48,11 @@ interface ReadingPopupManager {
             switch.setOnCheckedChangeListener { compoundButton, b ->
                 if (compoundButton.isChecked) {
                     darkThemeCache.save(true)
+                    pdfView.setNightMode(true)
 
                 } else {
                     darkThemeCache.save(false)
+                    pdfView.setNightMode(false)
                 }
             }
         }
@@ -55,9 +60,13 @@ interface ReadingPopupManager {
             switch.setOnCheckedChangeListener { compoundButton, b ->
                 if (compoundButton.isChecked) {
                     autoSpacingStateCache.save(true)
+                    pdfView.setPageSnap(true)
+                    pdfView.setPageFling(true)
 
                 } else {
                     autoSpacingStateCache.save(false)
+                    pdfView.setPageSnap(false)
+                    pdfView.setPageFling(false)
                 }
             }
         }
@@ -65,9 +74,11 @@ interface ReadingPopupManager {
             switch.setOnCheckedChangeListener { compoundButton, b ->
                 if (compoundButton.isChecked) {
                     horizontalScrollingCache.save(true)
+                    pdfView.isNestedScrollingEnabled = true
 
                 } else {
                     horizontalScrollingCache.save(false)
+                    pdfView.isNestedScrollingEnabled = false
                 }
             }
         }

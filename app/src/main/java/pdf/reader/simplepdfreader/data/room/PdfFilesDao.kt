@@ -13,6 +13,10 @@ interface PdfFilesDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertPdfFile(pdfFiles: List<PdfFileDb>)
 
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertSinglePdfFile(pdfFiles: PdfFileDb)
+
     @Query("SELECT * FROM pdf")
     fun fetchAllPdfFiles(): Flow<List<PdfFileDb>>
 
@@ -51,6 +55,10 @@ interface PdfFilesDao {
 
     @Query("UPDATE pdf SET pageCount = :pageCount WHERE dirName = :dirName")
     suspend fun updatePageCount(dirName: String, pageCount:Int)
+
+
+
+
 
 
 }
