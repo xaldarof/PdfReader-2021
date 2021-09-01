@@ -45,7 +45,6 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
 
         viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
             itemAdapter.update(it)
-            itemAdapter.notifyDataSetChanged()
         })
         viewModel.findPdfFilesAndInsert(Environment.getExternalStorageDirectory())
 

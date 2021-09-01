@@ -28,16 +28,24 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="12dp"
-                android:src="@drawable/ic_baseline_settings_24" />
+                android:src="@drawable/ic_baseline_switch_right_24" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:layout_toEndOf="@+id/settings"
-                android:text="@string/settings"
+                android:text="Горизонтальное пролистывание"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/horizontalScroll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
 
         </RelativeLayout>
 

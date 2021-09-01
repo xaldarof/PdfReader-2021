@@ -28,6 +28,7 @@ class ItemAdapter(
     fun update(list: List<PdfFileDb>) {
         this.list.clear()
         this.list.addAll(list)
+        notifyDataSetChanged()
     }
 
     inner class VH(private val item: ItemBinding) : RecyclerView.ViewHolder(item.root) {

@@ -12,10 +12,7 @@ import com.github.barteksc.pdfviewer.PDFView
 import com.github.barteksc.pdfviewer.util.FitPolicy
 import org.koin.core.component.KoinComponent
 import pdf.reader.simplepdfreader.R
-import pdf.reader.simplepdfreader.data.cache.AutoSpacingStateCache
-import pdf.reader.simplepdfreader.data.cache.AutoSpacingStateCacheImpl
-import pdf.reader.simplepdfreader.data.cache.DarkThemeCache
-import pdf.reader.simplepdfreader.data.cache.DarkThemeCacheImpl
+import pdf.reader.simplepdfreader.data.cache.*
 import pdf.reader.simplepdfreader.domain.CountModel
 import pdf.reader.simplepdfreader.domain.PdfFileModel
 import pdf.reader.simplepdfreader.domain.ReadingActivityViewModel
@@ -47,9 +44,10 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         val sharedPreferences = getSharedPreferences("cache", MODE_PRIVATE)
         val darkThemeCache = DarkThemeCache(DarkThemeCacheImpl(sharedPreferences))
         val autoSpacingStateCache = AutoSpacingStateCache(AutoSpacingStateCacheImpl(sharedPreferences))
-        val readingPopupManager = ReadingPopupManager.Base(this, darkThemeCache,autoSpacingStateCache)
+        val horizontalScrollingCache = HorizontalScrollingCache(HorizontalScrollingCacheImpl(sharedPreferences))
+        val readingPopupManager = ReadingPopupManager.Base(this, darkThemeCache,autoSpacingStateCache,horizontalScrollingCache)
 
-        updateData(pdfFile.dirName, pdfFile.lastPage, darkThemeCache.read(),autoSpacingStateCache.read())
+        updateData(pdfFile.dirName, pdfFile.lastPage, darkThemeCache.read(),autoSpacingStateCache.read(),horizontalScrollingCache.read())
 
         binding.menuBtn.setOnClickListener {
             readingPopupManager.showPopupMenu()
@@ -91,7 +89,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         return counterLiveData
     }
 
-    private fun updateData(dirName: String, lastPage: Int, nightMode: Boolean = false,pageSnap:Boolean=false) {
+    private fun updateData(dirName: String, lastPage: Int, nightMode: Boolean = false,pageSnap:Boolean=false,horizontalScroll:Boolean=false) {
         binding.pdfView.fromFile(File(dirName))
             .defaultPage(lastPage)
             .nightMode(nightMode)
@@ -99,6 +97,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
             .pageSnap(pageSnap)
             .autoSpacing(pageSnap)
             .pageFling(pageSnap)
+            .swipeHorizontal(horizontalScroll)
             .pageFitPolicy(FitPolicy.WIDTH)
             .enableAnnotationRendering(true)
             .onPageChange { page, pageCount ->
