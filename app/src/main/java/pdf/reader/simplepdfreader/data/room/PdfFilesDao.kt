@@ -17,7 +17,7 @@ interface PdfFilesDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertSinglePdfFile(pdfFiles: PdfFileDb)
 
-    @Query("SELECT * FROM pdf")
+    @Query("SELECT * FROM pdf ORDER BY lastReadTime DESC")
     fun fetchAllPdfFiles(): Flow<List<PdfFileDb>>
 
 
@@ -55,6 +55,9 @@ interface PdfFilesDao {
 
     @Query("UPDATE pdf SET pageCount = :pageCount WHERE dirName = :dirName")
     suspend fun updatePageCount(dirName: String, pageCount:Int)
+
+    @Query("UPDATE pdf SET lastReadTime = :lastReadTime WHERE dirName = :dirName")
+    suspend fun updateLastReadTime(dirName: String, lastReadTime:Long)
 
 
 

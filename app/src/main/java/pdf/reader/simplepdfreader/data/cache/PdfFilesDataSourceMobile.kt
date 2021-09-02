@@ -42,7 +42,8 @@ interface PdfFilesDataSourceMobile {
                                         pageCount = 0,
                                         interesting = false,
                                         size = getSize(fileList[i].length()),
-                                        willRead = false
+                                        willRead = false,
+                                        lastReadTime = 0
                                     )
                                 )
                             }

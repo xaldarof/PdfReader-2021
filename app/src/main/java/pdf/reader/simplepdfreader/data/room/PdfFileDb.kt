@@ -18,7 +18,8 @@ data class PdfFileDb(
     var pageCount: Int = 0,
     var interesting: Boolean = false,
     var size: String = "",
-    var willRead: Boolean = false
+    var willRead: Boolean = false,
+    var lastReadTime:Long = 0
 
 )
 

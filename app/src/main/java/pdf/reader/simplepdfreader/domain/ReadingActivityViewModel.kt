@@ -22,4 +22,8 @@ class ReadingActivityViewModel : ViewModel(),KoinComponent {
         readingFileRepository.updatePageCount(dirName,pageCount)
     }
 
+    fun updateLastReadTime(dirName: String,lastReadTime: Long) = CoroutineScope(Dispatchers.IO).launch {
+        readingFileRepository.updateLasReadTime(dirName,lastReadTime)
+    }
+
 }

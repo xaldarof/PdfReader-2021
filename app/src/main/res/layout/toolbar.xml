@@ -22,18 +22,18 @@
         app:tint="@color/white" />
 
     <ImageView
-        android:id="@+id/open"
+        android:id="@+id/scan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerInParent="true"
         android:layout_gravity="end|center"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/menu_click_style"
         android:clickable="true"
         android:focusable="true"
+        android:background="@drawable/menu_click_style"
         android:padding="6dp"
-        android:src="@drawable/ic_baseline_folder_open_24"
+        android:src="@drawable/ic_baseline_refresh_24"
         app:layout_constraintStart_toStartOf="parent"
         app:tint="@color/white" />
 

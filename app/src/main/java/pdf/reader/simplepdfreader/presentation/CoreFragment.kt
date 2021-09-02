@@ -11,13 +11,11 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import android.R
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
+import com.google.android.material.snackbar.Snackbar
 import pdf.reader.simplepdfreader.data.cache.RecyclerViewPosition
-import pdf.reader.simplepdfreader.data.cache.RecyclerViewPositionImpl
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentCoreBinding
 import pdf.reader.simplepdfreader.domain.CoreFragmentViewModel
@@ -47,19 +45,14 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myPdfRenderer = MyPdfRenderer(requireContext())
-        sharedPreferences = requireActivity().getSharedPreferences("cache",MODE_PRIVATE)
-        recyclerViewPosition = RecyclerViewPosition(RecyclerViewPositionImpl(sharedPreferences))
         linearLayoutManager = LinearLayoutManager(requireContext(),VERTICAL,false)
         binding.rv.layoutManager = linearLayoutManager
 
         itemAdapter = ItemAdapter(this, myPdfRenderer, binding.rv, requireContext())
         viewModel = ViewModelProvider(this, CoreFragmentViewModelFactory(requireContext()))
             .get(CoreFragmentViewModel::class.java)
-
         updateData()
-
         binding.rv.adapter = itemAdapter
-
         viewModel.findPdfFilesAndInsert(Environment.getExternalStorageDirectory())
         requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
 
@@ -73,13 +66,7 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        binding.rv.scrollToPosition(recyclerViewPosition.read())
         updateData()
-    }
-    override fun onPause() {
-        super.onPause()
-        val lastPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition()
-        recyclerViewPosition.save(lastPosition)
     }
 
     override fun onClick(pdfFileDb: PdfFileDb) {
@@ -87,7 +74,6 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
         intent.putExtra("pdf",PdfFileDbToPdfFileMapper.Base().map(pdfFileDb))
         startActivity(intent)
         requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
-        //requireActivity().finish()
 
     }
 

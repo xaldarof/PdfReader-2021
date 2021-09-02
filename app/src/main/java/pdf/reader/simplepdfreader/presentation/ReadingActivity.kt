@@ -17,6 +17,7 @@ import pdf.reader.simplepdfreader.tools.ReadingPopupManager
 import java.io.File
 import android.content.Intent
 import org.koin.core.component.KoinApiExtension
+import java.util.*
 
 
 class ReadingActivity : AppCompatActivity(), KoinComponent {
@@ -24,6 +25,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
     private lateinit var binding: ActivityReadingBinding
     private val viewModel: ReadingActivityViewModel by viewModels()
     private val counterLiveData = MutableLiveData<CountModel>()
+    private val date = Date().time
     private var isOpen = true
     private var page = 0
     private var dirName = ""
@@ -36,6 +38,8 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         setContentView(binding.root)
         val pdfFile = intent.getSerializableExtra("pdf") as PdfFileModel
         supportActionBar?.hide()
+
+        viewModel.updateLastReadTime(pdfFile.dirName,date)
         binding.seekBar.max = pdfFile.pageCount
         binding.seekBar.progress = pdfFile.lastPage
         binding.fileName.text = pdfFile.name
@@ -59,11 +63,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
 
         })
         binding.backBtn.setOnClickListener {
-            val intent = Intent(this,MainActivity::class.java)
-            startActivity(intent)
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             finish()
-
         }
 
         binding.pdfView.setOnClickListener {
@@ -121,9 +121,6 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
     @KoinApiExtension
     override fun onBackPressed() {
         super.onBackPressed()
-//        val intent = Intent(this,MainActivity::class.java)
-//        startActivity(intent)
-//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right)
-//        finish()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 }
