@@ -16,6 +16,10 @@ import pdf.reader.simplepdfreader.domain.ReadingActivityViewModel
 import pdf.reader.simplepdfreader.tools.ReadingPopupManager
 import java.io.File
 import android.content.Intent
+import android.graphics.pdf.PdfDocument
+import android.provider.DocumentsContract
+import android.util.Log
+import com.github.barteksc.pdfviewer.PDFView
 import org.koin.core.component.KoinApiExtension
 import java.util.*
 
@@ -39,6 +43,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         val pdfFile = intent.getSerializableExtra("pdf") as PdfFileModel
         supportActionBar?.hide()
 
+        viewModel.updateIsEverOpened(pdfFile.dirName,true)
         viewModel.updateLastReadTime(pdfFile.dirName,date)
         binding.seekBar.max = pdfFile.pageCount
         binding.seekBar.progress = pdfFile.lastPage
@@ -98,6 +103,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
     }
 
     private fun updateData(dirName: String, lastPage: Int, nightMode: Boolean = false,pageSnap:Boolean=false,horizontalScroll:Boolean=false) {
+        binding.pdfView.useBestQuality(true)
         binding.pdfView.fromFile(File(dirName))
             .defaultPage(lastPage)
             .nightMode(nightMode)
@@ -115,7 +121,6 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
                 counterLiveData.value = CountModel(page,pageCount)
                 binding.seekBar.max = pageCount
             }.load()
-        binding.pdfView.useBestQuality(true)
     }
 
     @KoinApiExtension

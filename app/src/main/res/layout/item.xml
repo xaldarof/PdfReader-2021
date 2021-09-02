@@ -93,7 +93,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="@drawable/icon_style"
             android:clickable="true"
             android:focusable="true"
             android:padding="6dp"
@@ -106,7 +105,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:background="@drawable/icon_style"
             android:clickable="true"
             android:focusable="true"
             android:padding="6dp"
@@ -119,7 +117,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:background="@drawable/icon_style"
             android:clickable="true"
             android:focusable="true"
             android:padding="6dp"
@@ -132,7 +129,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:background="@drawable/icon_style"
             android:clickable="true"
             android:focusable="true"
             android:padding="6dp"
@@ -140,6 +136,7 @@
             app:tint="@color/def_color"
             tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

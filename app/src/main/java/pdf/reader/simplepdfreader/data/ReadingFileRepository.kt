@@ -7,6 +7,7 @@ interface ReadingFileRepository {
     suspend fun updateLastPage(dirName:String,lastPage:Int)
     suspend fun updatePageCount(dirName:String,pageCount:Int)
     suspend fun updateLasReadTime(dirName: String,lastReadTime:Long)
+    suspend fun updateIsEveOpened(dirName: String,isEverOpened:Boolean)
 
     class Base(private val pdfFilesDao: PdfFilesDao) : ReadingFileRepository{
         override suspend fun updateLastPage(dirName:String,lastPage:Int) {
@@ -19,6 +20,10 @@ interface ReadingFileRepository {
 
         override suspend fun updateLasReadTime(dirName: String, lastReadTime: Long) {
             pdfFilesDao.updateLastReadTime(dirName,lastReadTime)
+        }
+
+        override suspend fun updateIsEveOpened(dirName: String, isEverOpened: Boolean) {
+            pdfFilesDao.updateIsEverOpened(dirName,isEverOpened)
         }
     }
 }

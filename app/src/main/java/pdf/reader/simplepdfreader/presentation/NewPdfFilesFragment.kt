@@ -7,24 +7,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
-import pdf.reader.simplepdfreader.databinding.FragmentWillReadBinding
+import pdf.reader.simplepdfreader.databinding.FragmentInterestingBinding
+import pdf.reader.simplepdfreader.domain.NewFragmentViewModel
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
-import pdf.reader.simplepdfreader.domain.WillReadFragmentViewModel
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import pdf.reader.simplepdfreader.tools.NextActivity
 
-class WillReadFragment : Fragment(), ItemAdapter.OnClickListener {
+class NewPdfFilesFragment : Fragment(),ItemAdapter.OnClickListener {
 
-    private lateinit var binding: FragmentWillReadBinding
-    private val viewModel: WillReadFragmentViewModel by viewModels()
+    private lateinit var binding: FragmentInterestingBinding
+    private val viewModel:NewFragmentViewModel by viewModels()
     private lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWillReadBinding.inflate(layoutInflater,container,false)
+        binding = FragmentInterestingBinding.inflate(layoutInflater,container,false)
         return binding.root
     }
 
@@ -33,11 +33,11 @@ class WillReadFragment : Fragment(), ItemAdapter.OnClickListener {
         val myPdfRenderer = MyPdfRenderer(requireContext())
         itemAdapter = ItemAdapter(this,myPdfRenderer,binding.rv, requireContext())
         binding.rv.itemAnimator = null
-        updateData()
         binding.rv.adapter = itemAdapter
+
     }
     private fun updateData(){
-        viewModel.fetchWillRead().observe(viewLifecycleOwner,{
+        viewModel.fetchNewPdfFiles().observe(viewLifecycleOwner,{
             itemAdapter.setData(it)
         })
     }
@@ -46,7 +46,6 @@ class WillReadFragment : Fragment(), ItemAdapter.OnClickListener {
         super.onResume()
         updateData()
     }
-
     override fun onClick(pdfFileDb: PdfFileDb) {
         NextActivity.Base(requireContext())
             .startActivity(PdfFileDbToPdfFileMapper.Base().map(pdfFileDb))

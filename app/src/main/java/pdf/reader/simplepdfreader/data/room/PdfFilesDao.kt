@@ -17,21 +17,30 @@ interface PdfFilesDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertSinglePdfFile(pdfFiles: PdfFileDb)
 
+
     @Query("SELECT * FROM pdf ORDER BY lastReadTime DESC")
     fun fetchAllPdfFiles(): Flow<List<PdfFileDb>>
+
+
+
+    @Query("SELECT * FROM pdf WHERE name =:name")
+    fun fetchSearchedPdfFiles(name:String): Flow<List<PdfFileDb>>
 
 
     @Query("SELECT * FROM pdf WHERE favorite = 1")
     fun fetchFavorites(): Flow<List<PdfFileDb>>
 
-    @Query("SELECT * FROM pdf WHERE interesting = 1")
-    fun fetchInteresting(): Flow<List<PdfFileDb>>
+    @Query("SELECT * FROM pdf WHERE isEverOpened = 0")
+    fun fetchNewPdfFiles(): Flow<List<PdfFileDb>>
 
     @Query("SELECT * FROM pdf WHERE willRead = 1")
     fun fetchWillRead(): Flow<List<PdfFileDb>>
 
     @Query("SELECT * FROM pdf WHERE finished = 1")
     fun fetchFinished(): Flow<List<PdfFileDb>>
+
+    @Query("SELECT * FROM pdf WHERE interesting = 1")
+    fun fetchInteresting(): Flow<List<PdfFileDb>>
 
 
     @Query("UPDATE pdf SET favorite = :favorite WHERE dirName = :dirName")
@@ -48,8 +57,6 @@ interface PdfFilesDao {
 
 
 
-
-
     @Query("UPDATE pdf SET lastPage = :lastPage WHERE dirName = :dirName")
     suspend fun updateLastPage(dirName: String, lastPage:Int)
 
@@ -59,9 +66,8 @@ interface PdfFilesDao {
     @Query("UPDATE pdf SET lastReadTime = :lastReadTime WHERE dirName = :dirName")
     suspend fun updateLastReadTime(dirName: String, lastReadTime:Long)
 
-
-
-
+    @Query("UPDATE pdf SET isEverOpened = :isEverOpened WHERE dirName = :dirName")
+    suspend fun updateIsEverOpened(dirName: String, isEverOpened:Boolean)
 
 
 }

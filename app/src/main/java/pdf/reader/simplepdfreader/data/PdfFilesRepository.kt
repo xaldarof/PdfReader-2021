@@ -13,9 +13,11 @@ interface PdfFilesRepository {
     fun fetchPdfFiles(): Flow<List<PdfFileDb>>
     fun fetchFavorites(): Flow<List<PdfFileDb>>
 
+    fun fetchNewPdfFiles(): Flow<List<PdfFileDb>>
     fun fetchInteresting(): Flow<List<PdfFileDb>>
     fun fetchWillRead(): Flow<List<PdfFileDb>>
     fun fetchFinished(): Flow<List<PdfFileDb>>
+    fun fetchSearchedPdfFiles(name:String):Flow<List<PdfFileDb>>
 
     suspend fun findFilesAndInsert(dir: File)
 
@@ -34,8 +36,12 @@ interface PdfFilesRepository {
             return dao.fetchFavorites()
         }
 
+        override fun fetchNewPdfFiles(): Flow<List<PdfFileDb>> {
+           return dao.fetchNewPdfFiles()
+        }
+
         override fun fetchInteresting(): Flow<List<PdfFileDb>> {
-           return dao.fetchInteresting()
+            return dao.fetchInteresting()
         }
 
         override fun fetchWillRead(): Flow<List<PdfFileDb>> {
@@ -44,6 +50,10 @@ interface PdfFilesRepository {
 
         override fun fetchFinished(): Flow<List<PdfFileDb>> {
             return dao.fetchFinished()
+        }
+
+        override fun fetchSearchedPdfFiles(name: String): Flow<List<PdfFileDb>> {
+            return dao.fetchSearchedPdfFiles(name)
         }
 
         override suspend fun findFilesAndInsert(dir: File) {

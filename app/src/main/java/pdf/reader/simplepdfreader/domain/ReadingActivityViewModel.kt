@@ -18,6 +18,10 @@ class ReadingActivityViewModel : ViewModel(),KoinComponent {
         readingFileRepository.updateLastPage(dirName,lastPage)
     }
 
+    fun updateIsEverOpened(dirName: String,isEverOpened:Boolean) = CoroutineScope(Dispatchers.IO).launch {
+        readingFileRepository.updateIsEveOpened(dirName,isEverOpened)
+    }
+
     fun updatePageCount(dirName:String,pageCount:Int) = CoroutineScope(Dispatchers.IO).launch {
         readingFileRepository.updatePageCount(dirName,pageCount)
     }

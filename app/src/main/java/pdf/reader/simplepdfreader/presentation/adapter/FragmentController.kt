@@ -22,14 +22,29 @@ class FragmentController(activity: AppCompatActivity) {
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             when (position) {
-                0 -> tab.icon = activity.resources.getDrawable(R.drawable.ic_baseline_home_24)
+                0 -> tab.icon =
+                    activity.resources.getDrawable(R.drawable.ic_baseline_home_24)
+
+
                 1 -> tab.icon =
                     activity.resources.getDrawable(R.drawable.ic_baseline_turned_in_not_24)
+
+
                 2 -> tab.icon =
-                    activity.resources.getDrawable(R.drawable.ic_baseline_local_fire_department_24)
+                    activity.resources.getDrawable(R.drawable.ic_baseline_fiber_new_24)
+
+
                 3 -> tab.icon =
+                    activity.resources.getDrawable(R.drawable.ic_baseline_local_fire_department_24)
+
+
+                4 -> tab.icon =
                     activity.resources.getDrawable(R.drawable.ic_baseline_access_time_24)
-                4 -> tab.icon = activity.resources.getDrawable(R.drawable.ic_baseline_done_all_24)
+
+
+                5 -> tab.icon =
+                    activity.resources.getDrawable(R.drawable.ic_baseline_done_all_24)
+
             }
         }.attach()
     }

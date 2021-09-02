@@ -9,11 +9,11 @@ import org.koin.core.component.inject
 import pdf.reader.simplepdfreader.data.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 
-class InterestingFragmentViewModel : ViewModel(),KoinComponent {
+class NewFragmentViewModel : ViewModel() , KoinComponent{
 
-    private val pdfFilesRepository: PdfFilesRepository by inject ()
+    private val pdfFilesRepository:PdfFilesRepository by inject ()
 
-    fun fetchInterestingPdfFiles() = pdfFilesRepository.fetchInteresting().asLiveData()
+    fun fetchNewPdfFiles() = pdfFilesRepository.fetchNewPdfFiles().asLiveData()
 
     fun updateFavoriteState(pdfFileDb: PdfFileDb) = viewModelScope.launch {
         pdfFilesRepository.updateFavoriteState(pdfFileDb.dirName,!pdfFileDb.favorite)

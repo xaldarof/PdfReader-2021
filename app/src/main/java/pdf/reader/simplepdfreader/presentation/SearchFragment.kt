@@ -1,43 +1,67 @@
 package pdf.reader.simplepdfreader.presentation
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
-import pdf.reader.simplepdfreader.databinding.FragmentWillReadBinding
+import pdf.reader.simplepdfreader.databinding.FragmentSearchBinding
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
-import pdf.reader.simplepdfreader.domain.WillReadFragmentViewModel
+import pdf.reader.simplepdfreader.domain.SearchFragmentViewModel
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import pdf.reader.simplepdfreader.tools.NextActivity
+import java.util.*
 
-class WillReadFragment : Fragment(), ItemAdapter.OnClickListener {
 
-    private lateinit var binding: FragmentWillReadBinding
-    private val viewModel: WillReadFragmentViewModel by viewModels()
+class SearchFragment : Fragment(), ItemAdapter.OnClickListener {
+
+    private lateinit var binding: FragmentSearchBinding
     private lateinit var itemAdapter: ItemAdapter
+    private val viewModel : SearchFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWillReadBinding.inflate(layoutInflater,container,false)
+        binding = FragmentSearchBinding.inflate(inflater,container,false)
+
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val myPdfRenderer = MyPdfRenderer(requireContext())
-        itemAdapter = ItemAdapter(this,myPdfRenderer,binding.rv, requireContext())
+        itemAdapter = ItemAdapter(this, myPdfRenderer, binding.rv, requireContext())
         binding.rv.itemAnimator = null
         updateData()
         binding.rv.adapter = itemAdapter
+
+        binding.searchEditText.addTextChangedListener(object :TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                viewModel.fetchSearchedPdfFiles(p0.toString()).observe(viewLifecycleOwner) {
+                    itemAdapter.setData(it)
+                    Log.d("pos","$it")
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
+
     }
     private fun updateData(){
-        viewModel.fetchWillRead().observe(viewLifecycleOwner,{
+        viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
             itemAdapter.setData(it)
         })
     }
