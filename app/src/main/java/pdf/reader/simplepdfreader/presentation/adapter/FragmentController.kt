@@ -1,23 +1,11 @@
 package pdf.reader.simplepdfreader.presentation.adapter
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.util.Log
-import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentTransaction
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.R
-import pdf.reader.simplepdfreader.data.room.PdfFileDb
-import pdf.reader.simplepdfreader.presentation.CoreFragment
-import pdf.reader.simplepdfreader.presentation.MainActivity
-import pdf.reader.simplepdfreader.tools.ItemAdapterWrapper
 
 @SuppressLint("UseCompatLoadingForDrawables")
 class FragmentController(activity: AppCompatActivity) {

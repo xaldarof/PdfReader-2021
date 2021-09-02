@@ -11,6 +11,13 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import android.R
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
+import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
+import pdf.reader.simplepdfreader.data.cache.RecyclerViewPosition
+import pdf.reader.simplepdfreader.data.cache.RecyclerViewPositionImpl
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentCoreBinding
 import pdf.reader.simplepdfreader.domain.CoreFragmentViewModel
@@ -18,20 +25,20 @@ import pdf.reader.simplepdfreader.domain.CoreFragmentViewModelFactory
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
-
 class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
 
     private lateinit var binding: FragmentCoreBinding
     private lateinit var viewModel: CoreFragmentViewModel
     private lateinit var myPdfRenderer: MyPdfRenderer
     private lateinit var itemAdapter: ItemAdapter
-    private var position = 0
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var recyclerViewPosition: RecyclerViewPosition
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentCoreBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -40,20 +47,39 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myPdfRenderer = MyPdfRenderer(requireContext())
+        sharedPreferences = requireActivity().getSharedPreferences("cache",MODE_PRIVATE)
+        recyclerViewPosition = RecyclerViewPosition(RecyclerViewPositionImpl(sharedPreferences))
+        linearLayoutManager = LinearLayoutManager(requireContext(),VERTICAL,false)
+        binding.rv.layoutManager = linearLayoutManager
+
         itemAdapter = ItemAdapter(this, myPdfRenderer, binding.rv, requireContext())
         viewModel = ViewModelProvider(this, CoreFragmentViewModelFactory(requireContext()))
             .get(CoreFragmentViewModel::class.java)
+
+        updateData()
+
         binding.rv.adapter = itemAdapter
 
-        viewModel.fetchPdfFiles().observe(viewLifecycleOwner, { it ->
-            it.sortedBy { it.name
-            }
-            itemAdapter.update(it)
-
-        })
         viewModel.findPdfFilesAndInsert(Environment.getExternalStorageDirectory())
         requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
 
+    }
+
+    private fun updateData(){
+        viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
+            itemAdapter.setData(it)
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.rv.scrollToPosition(recyclerViewPosition.read())
+        updateData()
+    }
+    override fun onPause() {
+        super.onPause()
+        val lastPosition = linearLayoutManager.findLastCompletelyVisibleItemPosition()
+        recyclerViewPosition.save(lastPosition)
     }
 
     override fun onClick(pdfFileDb: PdfFileDb) {
@@ -61,27 +87,23 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
         intent.putExtra("pdf",PdfFileDbToPdfFileMapper.Base().map(pdfFileDb))
         startActivity(intent)
         requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
-        requireActivity().finish()
+        //requireActivity().finish()
 
     }
 
-    override fun onClickAddToFavorites(pdfFileDb: PdfFileDb, position: Int) {
+    override fun onClickAddToFavorites(pdfFileDb: PdfFileDb) {
         viewModel.updateFavoriteState(pdfFileDb)
-        this.position = position
     }
 
-    override fun onClickAddTooInteresting(pdfFileDb: PdfFileDb, position: Int) {
+    override fun onClickAddTooInteresting(pdfFileDb: PdfFileDb) {
         viewModel.updateInterestingState(pdfFileDb)
-        this.position = position
     }
 
-    override fun onClickAddToWillRead(pdfFileDb: PdfFileDb, position: Int) {
+    override fun onClickAddToWillRead(pdfFileDb: PdfFileDb) {
         viewModel.updateWillReadState(pdfFileDb)
-        this.position = position
     }
 
-    override fun onClickAddToFinished(pdfFileDb: PdfFileDb, position: Int) {
+    override fun onClickAddToFinished(pdfFileDb: PdfFileDb) {
         viewModel.updateFinishedState(pdfFileDb)
-        this.position = position
     }
 }

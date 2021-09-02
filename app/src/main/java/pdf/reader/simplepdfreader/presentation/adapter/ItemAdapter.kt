@@ -1,11 +1,10 @@
 package pdf.reader.simplepdfreader.presentation.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.ItemBinding
@@ -14,13 +13,6 @@ import com.google.android.material.snackbar.Snackbar
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import java.io.*
-import android.graphics.BitmapFactory
-
-import android.graphics.Bitmap
-
-
-
-
 
 class ItemAdapter(
     private val onClickListener: OnClickListener,
@@ -29,16 +21,18 @@ class ItemAdapter(
     private val context: Context
 ) : RecyclerView.Adapter<ItemAdapter.VH>() {
 
-    private val list = ArrayList<PdfFileDb>()
+    private var list = ArrayList<PdfFileDb>()
 
-    fun update(list: List<PdfFileDb>) {
-        this.list.clear()
-        this.list.addAll(list)
-        notifyDataSetChanged()
+    fun setData(newList: List<PdfFileDb>){
+        val itemDiffUtilCallBack = ItemDiffUtilCallBack(list,newList)
+        val diffUtil = DiffUtil.calculateDiff(itemDiffUtilCallBack,true)
+        list.clear()
+        list.addAll(newList)
+        diffUtil.dispatchUpdatesTo(this)
     }
 
     inner class VH(private val item: ItemBinding) : RecyclerView.ViewHolder(item.root) {
-        fun onBind(pdfFile: PdfFileDb, position: Int) {
+        fun onBind(pdfFile: PdfFileDb) {
             item.fileName.text = pdfFile.name
             item.sizeTv.text = pdfFile.size
             item.imageView.setImageBitmap(myPdfRenderer.getBitmap(File(pdfFile.dirName), item.imageView))
@@ -80,7 +74,7 @@ class ItemAdapter(
                     Snackbar.make(recyclerView, "Добавлено в 'Избранные'", Snackbar.LENGTH_SHORT)
                         .show()
                 }
-                onClickListener.onClickAddToFavorites(pdfFile, position)
+                onClickListener.onClickAddToFavorites(pdfFile)
             }
 
             //CLICKS INTERESTING
@@ -92,7 +86,7 @@ class ItemAdapter(
                     Snackbar.make(recyclerView, "Добавлено в 'Интересные'", Snackbar.LENGTH_SHORT)
                         .show()
                 }
-                onClickListener.onClickAddTooInteresting(pdfFile, position)
+                onClickListener.onClickAddTooInteresting(pdfFile)
             }
 
             //CLICKS WILL READ
@@ -104,7 +98,7 @@ class ItemAdapter(
                     Snackbar.make(recyclerView, "Добавлено в 'Буду читать'", Snackbar.LENGTH_SHORT)
                         .show()
                 }
-                onClickListener.onClickAddToWillRead(pdfFile, position)
+                onClickListener.onClickAddToWillRead(pdfFile)
             }
 
             //CLICKS FINISHED
@@ -116,7 +110,7 @@ class ItemAdapter(
                     Snackbar.make(recyclerView, "Добавлено в 'Прочитанные'", Snackbar.LENGTH_SHORT)
                         .show()
                 }
-                onClickListener.onClickAddToFinished(pdfFile, position)
+                onClickListener.onClickAddToFinished(pdfFile)
             }
         }
     }
@@ -126,7 +120,7 @@ class ItemAdapter(
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.onBind(this.list[position], position)
+        holder.onBind(list[position])
     }
 
     override fun getItemCount(): Int {
@@ -136,13 +130,13 @@ class ItemAdapter(
     interface OnClickListener {
         fun onClick(pdfFileDb: PdfFileDb)
 
-        fun onClickAddToFavorites(pdfFileDb: PdfFileDb, position: Int)
+        fun onClickAddToFavorites(pdfFileDb: PdfFileDb)
 
-        fun onClickAddTooInteresting(pdfFileDb: PdfFileDb, position: Int)
+        fun onClickAddTooInteresting(pdfFileDb: PdfFileDb)
 
-        fun onClickAddToWillRead(pdfFileDb: PdfFileDb, position: Int)
+        fun onClickAddToWillRead(pdfFileDb: PdfFileDb)
 
-        fun onClickAddToFinished(pdfFileDb: PdfFileDb, position: Int)
+        fun onClickAddToFinished(pdfFileDb: PdfFileDb)
 
     }
 }

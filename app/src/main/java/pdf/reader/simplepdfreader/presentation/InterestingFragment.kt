@@ -23,7 +23,7 @@ class InterestingFragment : Fragment(),ItemAdapter.OnClickListener {
 
     private lateinit var binding: FragmentInterestingBinding
     private val viewModel:InterestingFragmentViewModel by viewModels()
-    private var position = 0
+    private lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,38 +36,39 @@ class InterestingFragment : Fragment(),ItemAdapter.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val myPdfRenderer = MyPdfRenderer(requireContext())
-        val itemAdapter = ItemAdapter(this,myPdfRenderer,binding.rv, requireContext())
+        itemAdapter = ItemAdapter(this,myPdfRenderer,binding.rv, requireContext())
         binding.rv.itemAnimator = null
-
-        viewModel.fetchInteresting().observe(viewLifecycleOwner,{
-            itemAdapter.update(it)
-            itemAdapter.notifyItemChanged(position)
-        })
         binding.rv.adapter = itemAdapter
+
+    }
+    private fun updateData(){
+        viewModel.fetchInteresting().observe(viewLifecycleOwner,{
+            itemAdapter.setData(it)
+        })
     }
 
+    override fun onResume() {
+        super.onResume()
+        updateData()
+    }
     override fun onClick(pdfFileDb: PdfFileDb) {
         NextActivity.Base(requireContext())
             .startActivity(PdfFileDbToPdfFileMapper.Base().map(pdfFileDb))
     }
 
-    override fun onClickAddToFavorites(pdfFileDb: PdfFileDb, position: Int) {
+    override fun onClickAddToFavorites(pdfFileDb: PdfFileDb) {
         viewModel.updateFavoriteState(pdfFileDb)
-        this.position = position
     }
 
-    override fun onClickAddTooInteresting(pdfFileDb: PdfFileDb, position: Int) {
+    override fun onClickAddTooInteresting(pdfFileDb: PdfFileDb) {
         viewModel.updateInterestingState(pdfFileDb)
-        this.position = position
     }
 
-    override fun onClickAddToWillRead(pdfFileDb: PdfFileDb, position: Int) {
+    override fun onClickAddToWillRead(pdfFileDb: PdfFileDb) {
         viewModel.updateWillReadState(pdfFileDb)
-        this.position = position
     }
 
-    override fun onClickAddToFinished(pdfFileDb: PdfFileDb, position: Int) {
+    override fun onClickAddToFinished(pdfFileDb: PdfFileDb) {
         viewModel.updateFinishedState(pdfFileDb)
-        this.position = position
     }
 }

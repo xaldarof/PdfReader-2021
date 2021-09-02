@@ -121,9 +121,9 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
     @KoinApiExtension
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this,MainActivity::class.java)
-        startActivity(intent)
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right)
-        finish()
+//        val intent = Intent(this,MainActivity::class.java)
+//        startActivity(intent)
+//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.slide_out_right)
+//        finish()
     }
 }
