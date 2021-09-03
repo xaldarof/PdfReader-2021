@@ -23,4 +23,6 @@
     <string name="change">Изменить название файла</string>
     <string name="auto_spacing">Автоскроллинг</string>
     <string name="open">Открыть</string>
+    <string name="title_activity_updating">UpdatingActivity</string>
+    <string name="scanning">Сканирование...</string>
 </resources>

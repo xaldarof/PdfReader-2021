@@ -14,7 +14,7 @@ import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import java.io.*
 
-class ItemAdapter(
+class ItemAdapter (
     private val onClickListener: OnClickListener,
     private val myPdfRenderer: MyPdfRenderer,
     private val recyclerView: RecyclerView,

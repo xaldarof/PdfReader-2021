@@ -1,6 +1,7 @@
 package pdf.reader.simplepdfreader.data
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import pdf.reader.simplepdfreader.data.cache.PdfFilesDataSourceMobile
@@ -11,6 +12,8 @@ import java.io.File
 interface PdfFilesRepository {
 
     fun fetchPdfFiles(): Flow<List<PdfFileDb>>
+    fun fetchLiveDataPdfFiles():LiveData<List<PdfFileDb>>
+
     fun fetchFavorites(): Flow<List<PdfFileDb>>
 
     fun fetchNewPdfFiles(): Flow<List<PdfFileDb>>
@@ -26,10 +29,14 @@ interface PdfFilesRepository {
     suspend fun updateWillReadState(dirName: String, willRead: Boolean)
     suspend fun updateFinishedState(dirName: String, finished: Boolean)
 
-    class Base(private val dataSourceMobile: PdfFilesDataSourceMobile, private val dao: PdfFilesDao) :
-        PdfFilesRepository {
+    class Base(private val dataSourceMobile: PdfFilesDataSourceMobile, private val dao: PdfFilesDao) : PdfFilesRepository {
+
         override fun fetchPdfFiles(): Flow<List<PdfFileDb>> {
             return dao.fetchAllPdfFiles()
+        }
+
+        override fun fetchLiveDataPdfFiles(): LiveData<List<PdfFileDb>> {
+            return dao.fetchLiveDataPdfFiles()
         }
 
         override fun fetchFavorites(): Flow<List<PdfFileDb>> {

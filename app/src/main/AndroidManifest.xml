@@ -4,7 +4,8 @@
     package="pdf.reader.simplepdfreader">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
     <application
@@ -15,12 +16,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SimplePdfReader">
-
+        <activity
+            android:name=".presentation.UpdatingActivity"
+            android:exported="true"
+            android:label="@string/title_activity_updating"
+            android:theme="@style/Theme.SimplePdfReader.NoActionBar" />
         <activity
             android:name=".presentation.ReadingActivity"
             android:exported="true"
             android:label="@string/title_activity_reading">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -30,11 +34,8 @@
                 <data android:scheme="file" />
                 <data android:mimeType="*/*" />
                 <data android:pathPattern=".*\\.pdf" />
-
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true">

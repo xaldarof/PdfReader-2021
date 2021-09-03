@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.File
 import java.text.DecimalFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -26,6 +27,7 @@ interface PdfFilesDataSourceMobile {
 
                 if (fileList != null) {
                     for (i in fileList.indices) {
+                        val date = Date().time
                         if (fileList[i].isDirectory) {
                             findFilesAndFetch(fileList[i])
                         } else {
@@ -43,7 +45,8 @@ interface PdfFilesDataSourceMobile {
                                         interesting = false,
                                         size = getSize(fileList[i].length()),
                                         willRead = false,
-                                        lastReadTime = 0
+                                        lastReadTime = 0,
+                                        addedTime = date
                                     )
                                 )
                             }

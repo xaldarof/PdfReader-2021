@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark"
+    tools:context=".presentation.UpdatingActivity">
+
+
+    <com.dinuscxj.progressbar.CircleProgressBar
+        android:id="@+id/progress"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:padding="12dp"
+        app:drawBackgroundOutsideProgress="true"
+        app:line_count="30"
+        app:line_width="4dp"
+        app:progress_background_color="@color/dark_light"
+        app:progress_blur_radius="15dp"
+        app:progress_blur_style="solid"
+        app:progress_end_color="@color/red"
+        app:progress_shader="sweep"
+        app:progress_start_color="@color/green"
+        app:progress_start_degree="-90"
+        app:progress_stroke_cap="round"
+        app:progress_stroke_width="10dp"
+        app:progress_style="line"
+        app:progress_text_color="@color/white"
+        app:progress_text_size="30dp" />
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progress"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="12dp"
+        android:text="@string/scanning"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+
+</RelativeLayout>

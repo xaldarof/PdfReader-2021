@@ -4,39 +4,35 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import pdf.reader.simplepdfreader.presentation.*
 
-class FragmentAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
+class FragmentAdapter(
+    fragmentManager: FragmentManager,
+    lifecycle: Lifecycle,
+    private val fragments: List<Fragment>
+) :
     FragmentStateAdapter(fragmentManager, lifecycle) {
+
     override fun getItemCount(): Int {
-        return 6
+        return fragments.size
     }
-
     override fun createFragment(position: Int): Fragment {
-        val coreFragment = CoreFragment()
-        val favoriteFragment = FavoriteFragment()
-        val newPdfFilesFragment = NewPdfFilesFragment()
-        val willReadFragment = WillReadFragment()
-        val doneFragment = DoneFragment()
-        val interestingFragment = InterestingFragment()
-
         if (position == 0) {
-            return coreFragment
+            return fragments[0]
         }
         if (position == 1) {
-            return favoriteFragment
+            return fragments[1]
         }
         if (position == 2) {
-            return newPdfFilesFragment
+            return fragments[2]
         }
         if (position == 3) {
-            return interestingFragment
+            return fragments[3]
         }
         if (position == 4) {
-            return willReadFragment
+            return fragments[4]
         }
-        if (position == 5){
-            return doneFragment
+        if (position == 5) {
+            return fragments[5]
         }
 
         return null!!

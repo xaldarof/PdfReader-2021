@@ -1,5 +1,6 @@
 package pdf.reader.simplepdfreader.data.room
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -19,9 +20,11 @@ interface PdfFilesDao {
 
 
 
+    @Query("SELECT * FROM pdf ORDER BY addedTime DESC")
+    fun fetchAllPdfFiles(): Flow<List<PdfFileDb>>
 
     @Query("SELECT * FROM pdf ORDER BY lastReadTime DESC")
-    fun fetchAllPdfFiles(): Flow<List<PdfFileDb>>
+    fun fetchLiveDataPdfFiles(): LiveData<List<PdfFileDb>>
 
 
 
@@ -30,20 +33,19 @@ interface PdfFilesDao {
 
 
 
-
-    @Query("SELECT * FROM pdf WHERE favorite = 1")
+    @Query("SELECT * FROM pdf WHERE favorite = 1 ORDER BY lastReadTime DESC")
     fun fetchFavorites(): Flow<List<PdfFileDb>>
 
-    @Query("SELECT * FROM pdf WHERE isEverOpened = 0")
+    @Query("SELECT * FROM pdf WHERE isEverOpened = 0 ORDER BY addedTime DESC")
     fun fetchNewPdfFiles(): Flow<List<PdfFileDb>>
 
-    @Query("SELECT * FROM pdf WHERE willRead = 1")
+    @Query("SELECT * FROM pdf WHERE willRead = 1 ORDER BY lastReadTime DESC")
     fun fetchWillRead(): Flow<List<PdfFileDb>>
 
-    @Query("SELECT * FROM pdf WHERE finished = 1")
+    @Query("SELECT * FROM pdf WHERE finished = 1 ORDER BY lastReadTime DESC")
     fun fetchFinished(): Flow<List<PdfFileDb>>
 
-    @Query("SELECT * FROM pdf WHERE interesting = 1")
+    @Query("SELECT * FROM pdf WHERE interesting = 1 ORDER BY lastReadTime DESC")
     fun fetchInteresting(): Flow<List<PdfFileDb>>
 
 

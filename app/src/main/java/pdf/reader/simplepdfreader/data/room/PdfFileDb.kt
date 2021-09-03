@@ -19,7 +19,8 @@ data class PdfFileDb(
     var interesting: Boolean = false,
     var size: String = "",
     var willRead: Boolean = false,
-    var lastReadTime:Long = 0
+    var lastReadTime:Long = 0,
+    var addedTime:Long = 0
 
 )
 
