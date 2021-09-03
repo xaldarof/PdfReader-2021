@@ -1,5 +1,6 @@
 package pdf.reader.simplepdfreader.presentation
 
+import android.app.PendingIntent.getActivity
 import android.content.pm.PackageManager
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
@@ -14,11 +15,15 @@ import pdf.reader.simplepdfreader.presentation.adapter.FragmentController
 import pdf.reader.simplepdfreader.tools.PermissionManager
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.snackbar.Snackbar
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.domain.MainActivityViewModel
 import pdf.reader.simplepdfreader.tools.Animator
+import pdf.reader.simplepdfreader.tools.FragmentChanger
 import java.lang.ref.WeakReference
 
 //            val intent = Intent(Intent.ACTION_GET_CONTENT)
@@ -39,19 +44,15 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        FragmentController(this)
+        FragmentController(WeakReference(this),pdfFilesRepository)
         val permissionManager = PermissionManager.Base(WeakReference(this))
 
         permissionManager.requestPermission()
 
         val searchFragment = SearchFragment()
-
         binding.toolBarMain.searchBtn.setOnClickListener {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.layout,searchFragment)
-                .addToBackStack(null)
-                .commit()
+            val fragmentChanger = FragmentChanger.Base(WeakReference(this))
+            fragmentChanger.replace(searchFragment)
         }
 
         binding.toolBarMain.scan.setOnClickListener {
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
 
     private fun startScanning(){
         CoroutineScope(Dispatchers.IO).launch {
-            pdfFilesRepository.findFilesAndInsert(Environment.getExternalStorageDirectory())
+            pdfFilesRepository.findFilesAndInsert(Environment.getDataDirectory())
         }
         animator.animate(binding.toolBarMain.scan)
         Snackbar.make(binding.layout,"Сканирование...",Snackbar.LENGTH_LONG).show()

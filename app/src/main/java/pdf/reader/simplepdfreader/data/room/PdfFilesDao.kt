@@ -18,13 +18,17 @@ interface PdfFilesDao {
     suspend fun insertSinglePdfFile(pdfFiles: PdfFileDb)
 
 
+
+
     @Query("SELECT * FROM pdf ORDER BY lastReadTime DESC")
     fun fetchAllPdfFiles(): Flow<List<PdfFileDb>>
 
 
 
-    @Query("SELECT * FROM pdf WHERE name =:name")
-    fun fetchSearchedPdfFiles(name:String): Flow<List<PdfFileDb>>
+    @Query("SELECT * FROM pdf WHERE name LIKE :searchedName")
+    fun fetchSearchedPdfFiles(searchedName:String): Flow<List<PdfFileDb>>
+
+
 
 
     @Query("SELECT * FROM pdf WHERE favorite = 1")
@@ -43,6 +47,8 @@ interface PdfFilesDao {
     fun fetchInteresting(): Flow<List<PdfFileDb>>
 
 
+
+
     @Query("UPDATE pdf SET favorite = :favorite WHERE dirName = :dirName")
     suspend fun updateFavoriteState(dirName: String, favorite: Boolean)
 
@@ -54,6 +60,7 @@ interface PdfFilesDao {
 
     @Query("UPDATE pdf SET finished = :finished WHERE dirName = :dirName")
     suspend fun updateFinishedState(dirName: String, finished: Boolean)
+
 
 
 

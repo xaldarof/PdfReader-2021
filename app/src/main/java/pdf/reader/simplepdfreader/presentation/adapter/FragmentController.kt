@@ -1,49 +1,73 @@
 package pdf.reader.simplepdfreader.presentation.adapter
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.launch
 import pdf.reader.simplepdfreader.R
+import pdf.reader.simplepdfreader.data.PdfFilesRepository
+import java.lang.ref.WeakReference
 
 @SuppressLint("UseCompatLoadingForDrawables")
-class FragmentController(activity: AppCompatActivity) {
+class FragmentController(
+    weakReference: WeakReference<AppCompatActivity>,
+    private val pdfFilesRepository: PdfFilesRepository
+) {
 
-    private var viewPager2: ViewPager2 = activity.findViewById(R.id.pager)
+    private var viewPager2: ViewPager2 = weakReference.get()!!.findViewById(R.id.pager)
     private var tabLayout: TabLayout
     private var fragmentAdapter: FragmentAdapter =
-        FragmentAdapter(activity.supportFragmentManager, activity.lifecycle)
+        FragmentAdapter(
+            weakReference.get()!!.supportFragmentManager,
+            weakReference.get()!!.lifecycle
+        )
 
     init {
         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        tabLayout = activity.findViewById(R.id.tab_layout)
+        tabLayout = weakReference.get()!!.findViewById(R.id.tab_layout)
         viewPager2.adapter = fragmentAdapter
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             when (position) {
-                0 -> tab.icon =
-                    activity.resources.getDrawable(R.drawable.ic_baseline_home_24)
-
+                0 -> {
+                    tab.icon =
+                        weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_home_24)
+                    val badgeDrawable = tab.orCreateBadge
+                    badgeDrawable.backgroundColor = Color.GRAY
+                    badgeDrawable.isVisible = true
+                    CoroutineScope(Dispatchers.Main).launch {
+                        pdfFilesRepository.fetchPdfFiles().collect {
+                            badgeDrawable.number = it.size
+                        }
+                    }
+                }
 
                 1 -> tab.icon =
-                    activity.resources.getDrawable(R.drawable.ic_baseline_turned_in_not_24)
+                    weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_turned_in_not_24)
 
 
                 2 -> tab.icon =
-                    activity.resources.getDrawable(R.drawable.ic_baseline_fiber_new_24)
+                    weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_fiber_new_24)
 
 
                 3 -> tab.icon =
-                    activity.resources.getDrawable(R.drawable.ic_baseline_local_fire_department_24)
+                    weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_local_fire_department_24)
 
 
                 4 -> tab.icon =
-                    activity.resources.getDrawable(R.drawable.ic_baseline_access_time_24)
+                    weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_access_time_24)
 
 
                 5 -> tab.icon =
-                    activity.resources.getDrawable(R.drawable.ic_baseline_done_all_24)
+                    weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_done_all_24)
 
             }
         }.attach()

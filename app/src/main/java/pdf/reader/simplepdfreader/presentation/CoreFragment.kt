@@ -29,9 +29,7 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
     private lateinit var viewModel: CoreFragmentViewModel
     private lateinit var myPdfRenderer: MyPdfRenderer
     private lateinit var itemAdapter: ItemAdapter
-    private lateinit var sharedPreferences: SharedPreferences
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var recyclerViewPosition: RecyclerViewPosition
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

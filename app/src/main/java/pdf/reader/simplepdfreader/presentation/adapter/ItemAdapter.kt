@@ -23,19 +23,33 @@ class ItemAdapter(
 
     private var list = ArrayList<PdfFileDb>()
 
-    fun setData(newList: List<PdfFileDb>){
-        val itemDiffUtilCallBack = ItemDiffUtilCallBack(list,newList)
-        val diffUtil = DiffUtil.calculateDiff(itemDiffUtilCallBack,true)
+    fun setData(newList: List<PdfFileDb>) {
+        val itemDiffUtilCallBack = ItemDiffUtilCallBack(list, newList)
+        val diffUtil = DiffUtil.calculateDiff(itemDiffUtilCallBack, true)
         list.clear()
         list.addAll(newList)
         diffUtil.dispatchUpdatesTo(this)
+    }
+
+    fun updateListForSearch(filteredList: List<PdfFileDb>) {
+        list.clear()
+        list.addAll(filteredList)
+        val itemDiffUtilCallBack = ItemDiffUtilCallBack(list, filteredList)
+        val diffUtil = DiffUtil.calculateDiff(itemDiffUtilCallBack, true)
+        diffUtil.dispatchUpdatesTo(this)
+        notifyDataSetChanged()
     }
 
     inner class VH(private val item: ItemBinding) : RecyclerView.ViewHolder(item.root) {
         fun onBind(pdfFile: PdfFileDb) {
             item.fileName.text = pdfFile.name
             item.sizeTv.text = pdfFile.size
-            item.imageView.setImageBitmap(myPdfRenderer.getBitmap(File(pdfFile.dirName), item.imageView))
+            item.imageView.setImageBitmap(
+                myPdfRenderer.getBitmap(
+                    File(pdfFile.dirName),
+                    item.imageView
+                )
+            )
             item.progress.max = pdfFile.pageCount
             item.progress.progress = pdfFile.lastPage
 
@@ -126,6 +140,7 @@ class ItemAdapter(
     override fun getItemCount(): Int {
         return list.size
     }
+
 
     interface OnClickListener {
         fun onClick(pdfFileDb: PdfFileDb)
