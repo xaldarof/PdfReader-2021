@@ -27,11 +27,9 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     private lateinit var binding: ActivityMainBinding
     private val pdfFilesRepository: PdfFilesRepository by inject()
     private val viewModel: MainActivityViewModel by viewModels()
-    private lateinit var listForIntent : ArrayList<PdfFileDb>
     private val fragments = arrayListOf<Fragment>(
         CoreFragment(), FavoriteFragment(),
-        NewPdfFilesFragment(), WillReadFragment(), DoneFragment(), InterestingFragment()
-    )
+        NewPdfFilesFragment(), InterestingFragment(), WillReadFragment(), DoneFragment())
 
     @DelicateCoroutinesApi
     @RequiresApi(Build.VERSION_CODES.M)
@@ -44,17 +42,14 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         val permissionManager = PermissionManager.Base(WeakReference(this))
         permissionManager.requestPermission()
 
-        listForIntent = ArrayList()
-        CoroutineScope(Dispatchers.IO).launch {
-            pdfFilesRepository.fetchPdfFiles().collect {
-                listForIntent.addAll(it)
-            }
-        }
-
         val searchFragment = SearchFragment()
         binding.toolBarMain.searchBtn.setOnClickListener {
             val fragmentChanger = FragmentChanger.Base(WeakReference(this))
             fragmentChanger.replace(searchFragment)
+        }
+
+        binding.toolBarMain.openConverter.setOnClickListener {
+            startActivity(Intent(this,ConverterActivity::class.java))
         }
 
         binding.toolBarMain.scan.setOnClickListener {
@@ -71,7 +66,6 @@ class MainActivity : AppCompatActivity(), KoinComponent {
             pdfFilesRepository.findFilesAndInsert(Environment.getDataDirectory())
         }
         val intent = Intent(this, UpdatingActivity::class.java)
-        intent.putExtra("size", listForIntent.size.toString())
         startActivity(intent)
     }
 

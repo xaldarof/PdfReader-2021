@@ -22,8 +22,8 @@ interface PdfFilesDataSourceMobile {
         override suspend fun findFilesAndFetch(dir: File) : Flow<List<PdfFileDb>> {
             val list = ArrayList<PdfFileDb>()
             coroutineScope {
-                val pdfPattern = ".pdf";
-                val fileList = dir.listFiles();
+                val pdfPattern = ".pdf"
+                val fileList = dir.listFiles()
 
                 if (fileList != null) {
                     for (i in fileList.indices) {
@@ -34,7 +34,7 @@ interface PdfFilesDataSourceMobile {
                             if (fileList[i].name.endsWith(pdfPattern)) {
                                 list.add(
                                     PdfFileDb(
-                                        fileList[i].absolutePath.toString(),
+                                        fileList[i].toString(),
                                         fileList[i].name.toString(),
                                         favorite = false,
                                         reading = false,

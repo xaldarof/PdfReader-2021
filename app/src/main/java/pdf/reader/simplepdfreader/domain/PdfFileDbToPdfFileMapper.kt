@@ -10,7 +10,5 @@ interface PdfFileDbToPdfFileMapper<T,M> {
         override fun map(data: PdfFileDb): PdfFileModel {
             return PdfFileModel(data.dirName,data.name,data.lastPage,data.pageCount,data.size)
         }
-
     }
-
 }

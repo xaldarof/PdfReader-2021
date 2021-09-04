@@ -20,8 +20,10 @@ class UpdatingActivity : AppCompatActivity(), KoinComponent {
         super.onCreate(savedInstanceState)
         binding = ActivityUpdatingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
+
+
+
         CoroutineScope(Dispatchers.Main).launch {
             for (i in 0 until 100) {
                 binding.progress.progress = i

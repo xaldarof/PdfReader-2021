@@ -8,22 +8,18 @@ import android.widget.SeekBar
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
 import org.koin.core.component.KoinComponent
-import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.cache.*
 import pdf.reader.simplepdfreader.domain.CountModel
 import pdf.reader.simplepdfreader.domain.PdfFileModel
 import pdf.reader.simplepdfreader.domain.ReadingActivityViewModel
 import pdf.reader.simplepdfreader.tools.ReadingPopupManager
 import java.io.File
-import android.content.Intent
-import android.graphics.pdf.PdfDocument
-import android.provider.DocumentsContract
-import android.util.Log
-import com.github.barteksc.pdfviewer.PDFView
 import org.koin.core.component.KoinApiExtension
+import pdf.reader.simplepdfreader.tools.ErrorShower
+import java.lang.ref.WeakReference
 import java.util.*
 
-
+@KoinApiExtension
 class ReadingActivity : AppCompatActivity(), KoinComponent {
 
     private lateinit var binding: ActivityReadingBinding
@@ -31,8 +27,8 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
     private val counterLiveData = MutableLiveData<CountModel>()
     private val date = Date().time
     private var isOpen = true
-    private var page = 0
     private var dirName = ""
+    private lateinit var pdfFile: PdfFileModel
 
     @KoinApiExtension
     @SuppressLint("SetTextI18n")
@@ -40,8 +36,9 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         super.onCreate(savedInstanceState)
         binding = ActivityReadingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val pdfFile = intent.getSerializableExtra("pdf") as PdfFileModel
+        pdfFile = intent.getSerializableExtra("pdf") as PdfFileModel
         supportActionBar?.hide()
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 
         viewModel.updateIsEverOpened(pdfFile.dirName,true)
         viewModel.updateLastReadTime(pdfFile.dirName,date)
@@ -55,7 +52,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         val darkThemeCache = DarkThemeCache(DarkThemeCacheImpl(sharedPreferences))
         val autoSpacingStateCache = AutoSpacingStateCache(AutoSpacingStateCacheImpl(sharedPreferences))
         val horizontalScrollingCache = HorizontalScrollingCache(HorizontalScrollingCacheImpl(sharedPreferences))
-        val readingPopupManager = ReadingPopupManager.Base(this, darkThemeCache,autoSpacingStateCache,horizontalScrollingCache,binding.pdfView)
+        val readingPopupManager = ReadingPopupManager.Base(this, darkThemeCache,autoSpacingStateCache,horizontalScrollingCache,binding.pdfView,dirName)
 
         updateData(pdfFile.dirName, pdfFile.lastPage, darkThemeCache.read(),autoSpacingStateCache.read(),horizontalScrollingCache.read())
 
@@ -81,21 +78,25 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
                 binding.containerTop.animate().translationY(0F)
                 binding.containerBottom.animate().translationY(0F)
                 true
-
             }
         }
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                page = p1
+                viewModel.updatePage(p1)
                 counterLiveData.value = CountModel(p1, pdfFile.pageCount)
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {}
             override fun onStopTrackingTouch(p0: SeekBar?) {
-                updateData(pdfFile.dirName, page)
-                binding.seekBar.progress = page
+                updateData(pdfFile.dirName, viewModel.getPage())
+                binding.seekBar.progress = viewModel.getPage()
             }
         })
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        updateData(dirName,viewModel.getPage())
     }
 
     private fun pageObserve(): MutableLiveData<CountModel> {
@@ -120,10 +121,13 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
                 binding.seekBar.progress = page
                 counterLiveData.value = CountModel(page,pageCount)
                 binding.seekBar.max = pageCount
-            }.load()
+            }
+            .onError {
+                ErrorShower.Base(WeakReference(this),dirName).show()
+            }
+            .load()
     }
 
-    @KoinApiExtension
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)

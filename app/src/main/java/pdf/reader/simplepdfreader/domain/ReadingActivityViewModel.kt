@@ -4,15 +4,16 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import pdf.reader.simplepdfreader.data.ReadingFileRepository
-import pdf.reader.simplepdfreader.data.room.PdfFilesDao
 
+@KoinApiExtension
 class ReadingActivityViewModel : ViewModel(),KoinComponent {
 
-    private val pdfFilesDao:PdfFilesDao by inject()
-    private val readingFileRepository = ReadingFileRepository.Base(pdfFilesDao)
+    private val readingFileRepository : ReadingFileRepository by inject()
+    private var page = 0
 
     fun updateLastPage(dirName:String,lastPage:Int) = CoroutineScope(Dispatchers.IO).launch {
         readingFileRepository.updateLastPage(dirName,lastPage)
@@ -28,6 +29,13 @@ class ReadingActivityViewModel : ViewModel(),KoinComponent {
 
     fun updateLastReadTime(dirName: String,lastReadTime: Long) = CoroutineScope(Dispatchers.IO).launch {
         readingFileRepository.updateLasReadTime(dirName,lastReadTime)
+    }
+
+    fun updatePage(page:Int) {
+        this.page = page
+    }
+    fun getPage():Int {
+        return page
     }
 
 }

@@ -25,4 +25,8 @@
     <string name="open">Открыть</string>
     <string name="title_activity_updating">UpdatingActivity</string>
     <string name="scanning">Сканирование...</string>
+    <string name="error_message">Этот документ не найден \nПричина может быть документ удален. Пожалуйста пересканируйте данные и попробуйте снова</string>
+    <string name="open_gallery">Открыть галерею</string>
+    <string name="open_camera">Открыть камеру</string>
+    <string name="share">Поделиться</string>
 </resources>

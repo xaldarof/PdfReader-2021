@@ -1,16 +1,15 @@
 package pdf.reader.simplepdfreader.tools
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.view.Gravity
 import android.view.Window
-import android.widget.*
+import android.widget.Switch
 import com.github.barteksc.pdfviewer.PDFView
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.cache.AutoSpacingStateCache
 import pdf.reader.simplepdfreader.data.cache.DarkThemeCache
 import pdf.reader.simplepdfreader.data.cache.HorizontalScrollingCache
+import pdf.reader.simplepdfreader.databinding.ReadingSettingsBinding
 
 interface ReadingPopupManager {
 
@@ -19,30 +18,30 @@ interface ReadingPopupManager {
     class Base(private val context: Context, private val darkThemeCache: DarkThemeCache,
                private val autoSpacingStateCache: AutoSpacingStateCache,
                private val horizontalScrollingCache: HorizontalScrollingCache,
-               private val pdfView: PDFView
-               ) :
-        ReadingPopupManager {
+               private val pdfView: PDFView,
+               private val path:String) : ReadingPopupManager {
 
-        @SuppressLint("UseSwitchCompatOrMaterialCode")
+        private val dataShare = DataShare.Base(context)
+
         override fun showPopupMenu() {
-            val dialog = Dialog(context,R.style.BottomSheetDialogTheme)
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setCancelable(true)
-            dialog.setContentView(R.layout.reading_settings)
+            val dialogMain = Dialog(context,R.style.BottomSheetDialogTheme)
+            val dialog = ReadingSettingsBinding.inflate(dialogMain.layoutInflater)
+            dialogMain.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialogMain.setCancelable(true)
+            dialogMain.setContentView(dialog.root)
 
-            val switchTheme = dialog.findViewById<Switch>(R.id.darkTheme)
-            val switchAutoSpacing = dialog.findViewById<Switch>(R.id.AutoSpacing)
-            val switchScrolling = dialog.findViewById<Switch>(R.id.horizontalScroll)
+            dialog.darkTheme.isChecked = darkThemeCache.read()
+            dialog.AutoSpacing.isChecked = autoSpacingStateCache.read()
+            dialog.horizontalScroll.isChecked = horizontalScrollingCache.read()
 
-            switchTheme.isChecked = darkThemeCache.read()
-            switchAutoSpacing.isChecked = autoSpacingStateCache.read()
-            switchScrolling.isChecked = horizontalScrollingCache.read()
+            themeControl(dialog.darkTheme)
+            spacingControl(dialog.AutoSpacing)
+            scrollingControl(dialog.horizontalScroll)
+            dialog.shareBtn.setOnClickListener {
+                dataShare.share(path)
+            }
 
-            themeControl(switchTheme)
-            spacingControl(switchAutoSpacing)
-            scrollingControl(switchScrolling)
-
-            dialog.show()
+            dialogMain.show()
         }
         private fun themeControl(switch: Switch){
             switch.setOnCheckedChangeListener { compoundButton, b ->

@@ -68,9 +68,12 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
+        android:maxLines="2"
+        android:maxLength="70"
+        android:ellipsize="end"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        tools:text="Python Book" />
+        tools:text="PythonaaPythonaaPythonaaPythonaaPythonaaPythonaaPythonaaPythonaaPythonaaPythonaa" />
 
     <TextView
         android:id="@+id/sizeTv"

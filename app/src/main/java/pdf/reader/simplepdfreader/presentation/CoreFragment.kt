@@ -15,6 +15,7 @@ import android.content.SharedPreferences
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import com.google.android.material.snackbar.Snackbar
+import com.shockwave.pdfium.PdfDocument
 import pdf.reader.simplepdfreader.data.cache.RecyclerViewPosition
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentCoreBinding
@@ -23,6 +24,8 @@ import pdf.reader.simplepdfreader.domain.CoreFragmentViewModelFactory
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
+import java.io.File
+
 class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
 
     private lateinit var binding: FragmentCoreBinding
@@ -53,6 +56,7 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
         binding.rv.adapter = itemAdapter
         viewModel.findPdfFilesAndInsert(Environment.getExternalStorageDirectory())
         requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
+
 
     }
 

@@ -1,10 +1,7 @@
 package pdf.reader.simplepdfreader.data.room
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -14,10 +11,12 @@ interface PdfFilesDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertPdfFile(pdfFiles: List<PdfFileDb>)
 
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertSinglePdfFile(pdfFiles: PdfFileDb)
 
+
+    @Query("DELETE FROM pdf WHERE dirName =:dirName")
+    suspend fun deletePdfFile(dirName: String)
 
 
     @Query("SELECT * FROM pdf ORDER BY addedTime DESC")
