@@ -29,4 +29,6 @@
     <string name="open_gallery">Открыть галерею</string>
     <string name="open_camera">Открыть камеру</string>
     <string name="share">Поделиться</string>
+    <string name="get_text">Извлечь текст из данной страницы</string>
+    <string name="horizontal_scroll">Горизонтальное пролистывание</string>
 </resources>

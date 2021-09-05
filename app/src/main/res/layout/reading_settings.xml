@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
+    android:layout_height="300dp"
     android:layout_gravity="center"
     android:background="@drawable/dialog_style"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:orientation="vertical"
-        android:paddingTop="4dp">
+        android:layout_height="300dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginTop="4dp"
             android:orientation="horizontal"
             android:paddingStart="12dp"
@@ -28,14 +29,17 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="12dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:src="@drawable/ic_baseline_switch_right_24" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
+                android:layout_centerInParent="true"
                 android:layout_toEndOf="@+id/settings"
-                android:text="Горизонтальное пролистывание"
+                android:text="@string/horizontal_scroll"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -47,20 +51,20 @@
                 android:layout_centerInParent="true"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:background="#C6C2C2" />
         </RelativeLayout>
-
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="12dp"
-            android:background="#C6C2C2" />
-
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_height="50dp"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal"
             android:paddingStart="12dp"
             android:paddingEnd="12dp">
@@ -77,6 +81,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_marginStart="0dp"
                 android:layout_toEndOf="@+id/iconTheme"
                 android:text="@string/dark_theme"
@@ -93,20 +98,17 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="12dp"
-            android:background="#C6C2C2" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:layout_height="50dp"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal"
             android:paddingStart="12dp"
             android:paddingEnd="12dp">
+
 
             <ImageView
                 android:id="@+id/SpacingIcon"
@@ -120,6 +122,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_marginStart="0dp"
                 android:layout_toEndOf="@+id/SpacingIcon"
                 android:text="@string/auto_spacing"
@@ -134,20 +137,23 @@
                 android:layout_centerInParent="true"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="1dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:background="#C6C2C2" />
+
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="300dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="12dp"
-            android:background="#C6C2C2" />
 
         <RelativeLayout
             android:id="@+id/shareBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_height="50dp"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal"
             android:paddingStart="12dp"
             android:paddingEnd="12dp">
@@ -164,12 +170,131 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_marginStart="0dp"
                 android:layout_toEndOf="@+id/iconShare"
                 android:text="@string/share"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+
+            <ImageView
+                android:id="@+id/iconNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_baseline_navigate_next_24" />
+
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="1dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:background="#C6C2C2" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/getTextBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <ImageView
+                android:id="@+id/iconText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_baseline_text_snippet_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="0dp"
+                android:layout_toEndOf="@+id/iconText"
+                android:text="@string/get_text"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iconGetText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_baseline_navigate_next_24" />
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="1dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:background="#C6C2C2" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/getScreenBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="horizontal"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <ImageView
+                android:id="@+id/iconScreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_baseline_fullscreen_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="0dp"
+                android:layout_toEndOf="@+id/iconScreen"
+                android:text="@string/get_text"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iconGetScreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_baseline_navigate_next_24" />
+
+            <TextView
+                android:layout_width="300dp"
+                android:layout_height="1dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:background="#C6C2C2" />
         </RelativeLayout>
     </LinearLayout>
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="100dp"
+        android:src="@drawable/ic_baseline_text_snippet_24"
+        android:layout_centerInParent="true"
+        android:layout_height="100dp"/>
 </RelativeLayout>

@@ -37,8 +37,8 @@ class MyPdfRenderer(private val context: Context) {
                     )
                     pdfiumCore.renderPageBitmap(
                         pdfDocument, bitmap, pageNum, 0, 0,
-                        width, height
-                    )
+                        width, height)
+
                     pdfiumCore.closeDocument(pdfDocument)
 
                     setImage(bitmap, imageView)

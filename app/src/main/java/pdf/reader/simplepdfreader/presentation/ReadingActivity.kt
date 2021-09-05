@@ -114,6 +114,8 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
             .autoSpacing(pageSnap)
             .pageFling(pageSnap)
             .swipeHorizontal(horizontalScroll)
+            .enableAntialiasing(true)
+            .spacing(100)
             .enableAnnotationRendering(true)
             .onPageChange { page, pageCount ->
                 viewModel.updateLastPage(dirName, page)
