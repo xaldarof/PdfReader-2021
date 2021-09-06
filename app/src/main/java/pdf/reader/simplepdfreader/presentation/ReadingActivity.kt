@@ -30,7 +30,6 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
     private val viewModel: ReadingActivityViewModel by viewModels()
     private val counterLiveData = MutableLiveData<CountModel>()
     private val date = Date().time
-    private var isOpen = true
     private var dirName = ""
     private lateinit var pdfFile: PdfFileModel
     private lateinit var barAnimator: BarAnimator
@@ -72,7 +71,6 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         val readingPopupManager = ReadingPopupManager.Base(this, darkThemeCache, autoSpacingStateCache,
             horizontalScrollingCache, binding.pdfView, dirName)
 
-        val screenController = ScreenController.Base(WeakReference(this))
         barAnimator = BarAnimator.Base(binding.containerBottom,binding.containerTop)
 
         updateData(

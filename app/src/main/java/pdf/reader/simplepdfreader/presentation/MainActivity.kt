@@ -1,5 +1,6 @@
 package pdf.reader.simplepdfreader.presentation
 
+import android.R
 import android.content.pm.PackageManager
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
@@ -54,6 +55,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
 
         binding.toolBarMain.openConverter.setOnClickListener {
             startActivity(Intent(this,ConverterActivity::class.java))
+            finish()
         }
 
         binding.toolBarMain.scan.setOnClickListener {

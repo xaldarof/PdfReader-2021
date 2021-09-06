@@ -3,7 +3,6 @@ package pdf.reader.simplepdfreader.presentation
 import android.app.Dialog
 import android.content.Context
 import android.os.Build
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
