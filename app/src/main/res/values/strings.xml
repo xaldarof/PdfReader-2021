@@ -30,5 +30,12 @@
     <string name="open_camera">Открыть камеру</string>
     <string name="share">Поделиться</string>
     <string name="get_text">Извлечь текст из данной страницы</string>
+    <string name="get_img">Извлечь фото из данной страницы</string>
     <string name="horizontal_scroll">Горизонтальное пролистывание</string>
+    <string name="save">Сохранить</string>
+    <string name="content_desc_spacing">Функция для включения авто скроллинга страниц</string>
+    <string name="content_desc_dark_theme">Темная тема</string>
+    <string name="content_desc_horisontal_paging">Функия для включения горизонтального листинга</string>
+    <string name="content_desc_share">Функция \'Поделиться\'</string>
+    <string name="Ю" />
 </resources>

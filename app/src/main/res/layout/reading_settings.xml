@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,13 +25,14 @@
 
             <ImageView
                 android:id="@+id/settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="12dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
+                android:contentDescription="@string/content_desc_horisontal_paging"
                 android:focusable="true"
                 android:src="@drawable/ic_baseline_switch_right_24" />
 
@@ -41,7 +43,8 @@
                 android:layout_toEndOf="@+id/settings"
                 android:text="@string/horizontal_scroll"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
 
             <Switch
                 android:id="@+id/horizontalScroll"
@@ -71,11 +74,12 @@
 
             <ImageView
                 android:id="@+id/iconTheme"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="12dp"
+                android:contentDescription="@string/content_desc_dark_theme"
                 android:src="@drawable/ic_baseline_brightness_6_24" />
 
             <TextView
@@ -86,7 +90,8 @@
                 android:layout_toEndOf="@+id/iconTheme"
                 android:text="@string/dark_theme"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
 
             <Switch
                 android:id="@+id/darkTheme"
@@ -112,11 +117,12 @@
 
             <ImageView
                 android:id="@+id/SpacingIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="12dp"
+                android:contentDescription="@string/content_desc_spacing"
                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
             <TextView
@@ -127,7 +133,8 @@
                 android:layout_toEndOf="@+id/SpacingIcon"
                 android:text="@string/auto_spacing"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
 
             <Switch
                 android:id="@+id/AutoSpacing"
@@ -160,11 +167,12 @@
 
             <ImageView
                 android:id="@+id/iconShare"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="12dp"
+                android:contentDescription="@string/content_desc_share"
                 android:src="@drawable/ic_baseline_share_24" />
 
             <TextView
@@ -175,7 +183,8 @@
                 android:layout_toEndOf="@+id/iconShare"
                 android:text="@string/share"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap" />
 
 
             <ImageView
@@ -185,6 +194,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerInParent="true"
                 android:layout_marginEnd="12dp"
+                android:contentDescription="@string/Ю"
                 android:src="@drawable/ic_baseline_navigate_next_24" />
 
 
@@ -270,7 +280,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="0dp"
                 android:layout_toEndOf="@+id/iconScreen"
-                android:text="@string/get_text"
+                android:text="@string/get_img"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -291,10 +301,5 @@
                 android:background="#C6C2C2" />
         </RelativeLayout>
     </LinearLayout>
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="100dp"
-        android:src="@drawable/ic_baseline_text_snippet_24"
-        android:layout_centerInParent="true"
-        android:layout_height="100dp"/>
+
 </RelativeLayout>

@@ -50,6 +50,8 @@ dependencies {
     implementation 'com.google.firebase:protolite-well-known-types:18.0.0'
     kapt "androidx.room:room-compiler:2.3.0"
 
+    implementation 'com.google.android.gms:play-services-ads:20.3.0'
+
     implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
     implementation "io.insert-koin:koin-android:2.2.3"
 

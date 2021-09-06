@@ -1,35 +1,21 @@
-package pdf.reader.simplepdfreader.tools
+package pdf.reader.simplepdfreader.presentation
 
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Color
-import android.os.Environment
-import android.util.Log
+import android.os.Build
 import android.view.Window
 import android.widget.Switch
-import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.github.barteksc.pdfviewer.PDFView
-import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.cache.AutoSpacingStateCache
 import pdf.reader.simplepdfreader.data.cache.DarkThemeCache
 import pdf.reader.simplepdfreader.data.cache.HorizontalScrollingCache
 import pdf.reader.simplepdfreader.databinding.ReadingSettingsBinding
-import com.itextpdf.text.pdf.parser.PdfTextExtractor
-
-import com.itextpdf.text.pdf.PdfReader
-import java.io.*
-import java.lang.Exception
-import java.net.URL
-import android.graphics.RectF
-import android.os.ParcelFileDescriptor
-import com.google.api.Page
-
-import com.itextpdf.text.pdf.PdfPage
-
-
-
+import pdf.reader.simplepdfreader.tools.*
 
 
 interface ReadingPopupManager {
@@ -42,13 +28,13 @@ interface ReadingPopupManager {
                private val pdfView: PDFView,
                private val path:String) : ReadingPopupManager {
 
-        private val dataShare = DataShare.Base(context)
+        private val dataShare = FileDataShare.Base(context)
         private val textExtractor = TextExtracter.Base()
         private val textCopyManager = TextCopyManager.Base(context)
+        private val imageSaver = ImageSaver.Base(context)
         private val pdfRenderer = PdfRenderer.Base()
-        private val screenShot = ScreenShot.Base(pdfRenderer)
-        private val imageSaver = Saver.Base()
 
+        @RequiresApi(Build.VERSION_CODES.M)
         override fun showPopupMenu() {
             val dialogMain = Dialog(context,R.style.BottomSheetDialogTheme)
             val dialog = ReadingSettingsBinding.inflate(dialogMain.layoutInflater)
@@ -68,14 +54,14 @@ interface ReadingPopupManager {
             }
 
             dialog.getTextBtn.setOnClickListener {
-                textCopyManager.copyToClipboard(textExtractor.extractText(path,pdfView.currentPage+1))
-                Snackbar.make(dialog.container,"Текст скопирован в буфер обмена",Snackbar.LENGTH_SHORT)
-                    .show()
+                CoroutineScope(Dispatchers.Main).launch {
+                    textCopyManager.copyToClipboard(textExtractor.extractText(path, pdfView.currentPage + 1))
+                }
+                dialogMain.dismiss()
             }
 
             dialog.getScreenBtn.setOnClickListener {
-                dialog.image.setImageBitmap(screenShot.makeScreenShot(path,10))
-                imageSaver.saveBitmap(screenShot.makeScreenShot(path,10),"PHOTO2")
+                ImageSaveDialog.Base(pdfRenderer,imageSaver,context).show(path,pdfView.currentPage)
             }
 
             dialogMain.show()

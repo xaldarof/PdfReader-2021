@@ -33,6 +33,16 @@
         <item name="android:background">@drawable/bottom_layout_style</item>
     </style>
 
+
+    <style name="SaveDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/SaveDialogThemeStyle</item>
+    </style>
+
+    <style name="SaveDialogThemeStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/style_image</item>
+    </style>
+
+
     <style name="WindowAnimationStyle">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>

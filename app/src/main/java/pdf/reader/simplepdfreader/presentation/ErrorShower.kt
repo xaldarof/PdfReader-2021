@@ -1,4 +1,4 @@
-package pdf.reader.simplepdfreader.tools
+package pdf.reader.simplepdfreader.presentation
 
 import android.app.Activity
 import android.app.Dialog
@@ -12,10 +12,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import pdf.reader.simplepdfreader.R
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.ReadingFileRepository
-import pdf.reader.simplepdfreader.data.room.PdfFileDb
-import pdf.reader.simplepdfreader.presentation.UpdatingActivity
 import java.io.File
 import java.lang.ref.WeakReference
 

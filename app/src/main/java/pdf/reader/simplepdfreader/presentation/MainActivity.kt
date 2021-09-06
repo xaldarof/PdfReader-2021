@@ -15,9 +15,11 @@ import pdf.reader.simplepdfreader.tools.PermissionManager
 import android.content.Intent
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import com.google.android.gms.ads.MobileAds
 import kotlinx.coroutines.flow.collect
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.domain.MainActivityViewModel
+import pdf.reader.simplepdfreader.tools.AddManager
 import pdf.reader.simplepdfreader.tools.FragmentChanger
 import java.lang.ref.WeakReference
 
@@ -38,6 +40,8 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        AddManager.Base(this,binding.adView).init()
+
         FragmentController(WeakReference(this), pdfFilesRepository, fragments)
         val permissionManager = PermissionManager.Base(WeakReference(this))
         permissionManager.requestPermission()

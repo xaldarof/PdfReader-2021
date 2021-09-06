@@ -3,22 +3,23 @@ package pdf.reader.simplepdfreader.tools
 import android.util.Log
 import com.itextpdf.text.pdf.PdfReader
 import com.itextpdf.text.pdf.parser.PdfTextExtractor
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 interface TextExtracter {
 
-    fun extractText(path: String, page: Int):String
+    suspend fun extractText(path: String, page: Int):String
 
     class Base : TextExtracter {
 
         private lateinit var parsedText: String
 
-        override fun extractText(path: String, page: Int): String {
+        override suspend fun extractText(path: String, page: Int): String = withContext(Dispatchers.IO) {
             try {
                 val reader = PdfReader(path)
                 parsedText = PdfTextExtractor.getTextFromPage(reader, page)
 
-                Log.d("pos", parsedText)
                 parsedText = parsedText + PdfTextExtractor.getTextFromPage(reader,page)
                             .trim { it <= ' ' } + "\n"
 
@@ -27,7 +28,7 @@ interface TextExtracter {
             } catch (e: Exception) {
                 println(e)
             }
-            return parsedText
+            return@withContext parsedText
         }
     }
 }

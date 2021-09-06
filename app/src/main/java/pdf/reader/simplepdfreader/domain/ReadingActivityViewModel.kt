@@ -1,5 +1,7 @@
 package pdf.reader.simplepdfreader.domain
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +16,7 @@ class ReadingActivityViewModel : ViewModel(),KoinComponent {
 
     private val readingFileRepository : ReadingFileRepository by inject()
     private var page = 0
+    private val liveData = MutableLiveData<Int>()
 
     fun updateLastPage(dirName:String,lastPage:Int) = CoroutineScope(Dispatchers.IO).launch {
         readingFileRepository.updateLastPage(dirName,lastPage)
@@ -31,11 +34,18 @@ class ReadingActivityViewModel : ViewModel(),KoinComponent {
         readingFileRepository.updateLasReadTime(dirName,lastReadTime)
     }
 
-    fun updatePage(page:Int) {
+    fun setPage(page:Int) {
         this.page = page
     }
     fun getPage():Int {
         return page
     }
 
+    fun getPageState() : LiveData<Int> {
+        return liveData
+    }
+
+    fun setPageState(page: Int){
+        liveData.value = page
+    }
 }
