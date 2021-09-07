@@ -42,7 +42,7 @@ interface ImageSaver {
 
             bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
 
-            Toast.makeText(context, "Сохранено в :$file", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Сохранено в :$file", Toast.LENGTH_LONG).show()
             Log.d("pos", "SAVED IN ${file.absolutePath}")
 
             fileOutputStream.flush()

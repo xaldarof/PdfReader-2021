@@ -1,16 +1,9 @@
 package pdf.reader.simplepdfreader.domain
 
-import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import java.lang.IllegalArgumentException
+/**
+ *  not necessary now  [07.09.2021]
+ */
 
-class CoreFragmentViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(CoreFragmentViewModel::class.java)){
-            return CoreFragmentViewModel(context) as T
-        }
-        throw IllegalArgumentException("error")
-    }
+class CoreFragmentViewModelFactory {
 
 }

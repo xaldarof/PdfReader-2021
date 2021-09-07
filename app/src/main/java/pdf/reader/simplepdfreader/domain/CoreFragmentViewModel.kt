@@ -5,13 +5,15 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import pdf.reader.simplepdfreader.data.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import java.io.File
 
-class CoreFragmentViewModel(context: Context) : ViewModel(), KoinComponent {
+@KoinApiExtension
+class CoreFragmentViewModel : ViewModel(), KoinComponent {
 
 
     private val pdfFilesRepository:PdfFilesRepository by inject()

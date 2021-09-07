@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        AddManager.Base(this,binding.adView).init()
+        //AddManager.Base(this,binding.adView).init()
 
         FragmentController(WeakReference(this), pdfFilesRepository, fragments)
         val permissionManager = PermissionManager.Base(WeakReference(this))
@@ -50,6 +50,10 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         binding.toolBarMain.searchBtn.setOnClickListener {
             val fragmentChanger = FragmentChanger.Base(WeakReference(this))
             fragmentChanger.replace(searchFragment)
+        }
+
+        binding.toolBarMain.openReporter.setOnClickListener {
+            startActivity(Intent(this,ReportActivity::class.java))
         }
 
         binding.toolBarMain.openConverter.setOnClickListener {
@@ -66,9 +70,6 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     }
 
     private fun startScanning() {
-        CoroutineScope(Dispatchers.IO).launch {
-            pdfFilesRepository.findFilesAndInsert(Environment.getDataDirectory())
-        }
         val intent = Intent(this, UpdatingActivity::class.java)
         startActivity(intent)
     }

@@ -22,8 +22,6 @@ class UpdatingActivity : AppCompatActivity(), KoinComponent {
         setContentView(binding.root)
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
 
-
-
         CoroutineScope(Dispatchers.Main).launch {
             for (i in 0 until 100) {
                 binding.progress.progress = i
@@ -38,7 +36,6 @@ class UpdatingActivity : AppCompatActivity(), KoinComponent {
                 if (i == 99) {
                     binding.tv.text = "Сканирование завершено !"
                     finish()
-                    startActivity(Intent(this@UpdatingActivity, MainActivity::class.java))
                 }
             }
         }

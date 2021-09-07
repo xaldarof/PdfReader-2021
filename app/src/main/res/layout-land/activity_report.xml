@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark"
+    tools:context=".presentation.ReportActivity">
+
+    <include
+        android:id="@+id/toolBarMain"
+        layout="@layout/converting_toolbar" />
+
+
+    <EditText
+        android:id="@+id/reportBody"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/toolBarMain"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/style_eddittext"
+        android:gravity="top"
+        android:hint="@string/write_here"
+        android:inputType="textMultiLine"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/def_color"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/addressEditText"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/reportBody"
+        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/style_eddittext"
+        android:hint="@string/address_how"
+        android:inputType="textPersonName"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/def_color"
+        android:textSize="18sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sendBtn"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/reportBody"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/icon_style"
+        android:text="@string/send"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</RelativeLayout>

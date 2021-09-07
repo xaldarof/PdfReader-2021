@@ -22,7 +22,7 @@ interface PermissionManager {
                return true
             } else {
                 weakReference.get()!!.requestPermissions(
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), 20)
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA), 20)
                 false
             }
         }
@@ -32,7 +32,12 @@ interface PermissionManager {
                 ContextCompat.checkSelfPermission(weakReference.get()!!.applicationContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             val readPerm =
                 ContextCompat.checkSelfPermission(weakReference.get()!!.applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE)
-            return writePerm == PackageManager.PERMISSION_GRANTED && readPerm == PackageManager.PERMISSION_GRANTED
+            val cameraPerm =
+                ContextCompat.checkSelfPermission(weakReference.get()!!.applicationContext, Manifest.permission.CAMERA)
+
+            return writePerm == PackageManager.PERMISSION_GRANTED &&
+                    readPerm == PackageManager.PERMISSION_GRANTED &&
+                    cameraPerm == PackageManager.PERMISSION_GRANTED
         }
     }
 }

@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -48,6 +49,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
     implementation 'com.google.firebase:protolite-well-known-types:18.0.0'
+    implementation 'com.google.firebase:firebase-database:19.2.1'
     kapt "androidx.room:room-compiler:2.3.0"
 
     implementation 'com.google.android.gms:play-services-ads:20.3.0'

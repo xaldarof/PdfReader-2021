@@ -23,7 +23,7 @@ import java.lang.ref.WeakReference
 class FragmentController(
     weakReference: WeakReference<AppCompatActivity>,
     private val pdfFilesRepository: PdfFilesRepository,
-    private val fragments:List<Fragment>
+    private val fragments: List<Fragment>
 ) {
 
     private var viewPager2: ViewPager2 = weakReference.get()!!.findViewById(R.id.pager)
@@ -31,7 +31,8 @@ class FragmentController(
     private var fragmentAdapter: FragmentAdapter =
         FragmentAdapter(
             weakReference.get()!!.supportFragmentManager,
-            weakReference.get()!!.lifecycle,fragments)
+            weakReference.get()!!.lifecycle, fragments
+        )
     private var badgeDrawable: BadgeDrawable
 
     init {
@@ -73,7 +74,7 @@ class FragmentController(
         badgeDrawable.backgroundColor = Color.GRAY
         badgeDrawable.isVisible = true
 
-            CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.Main).launch {
             pdfFilesRepository.fetchLiveDataPdfFiles().observe(weakReference.get()!!, {
                 badgeDrawable.number = it.size
             })

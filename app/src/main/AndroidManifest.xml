@@ -8,50 +8,51 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".core.SimplePdfReader"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.SimplePdfReader">
+        <activity
+            android:name=".presentation.ReportActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="pdf.reader.simplepdfreader"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths">
-            </meta-data>
+                android:resource="@xml/file_paths"/>
 
         </provider>
+
         <activity
             android:name=".presentation.ConverterActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
-
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.UpdatingActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_updating"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.SimplePdfReader.NoActionBar" />
         <activity
             android:name=".presentation.ReadingActivity"
             android:exported="true"
-            android:label="@string/title_activity_reading">
-        </activity>
+            android:label="@string/title_activity_reading"/>
         <activity
             android:name=".presentation.MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,7 +62,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-6592657632288197~7708502110"/>
+            android:value="ca-app-pub-6592657632288197~7708502110" />
 
     </application>
 

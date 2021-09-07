@@ -2,8 +2,11 @@ package pdf.reader.simplepdfreader.data
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import pdf.reader.simplepdfreader.data.cache.PdfFilesDataSourceMobile
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.data.room.PdfFilesDao
@@ -12,7 +15,7 @@ import java.io.File
 interface PdfFilesRepository {
 
     fun fetchPdfFiles(): Flow<List<PdfFileDb>>
-    fun fetchLiveDataPdfFiles():LiveData<List<PdfFileDb>>
+    fun fetchLiveDataPdfFiles(): LiveData<List<PdfFileDb>>
 
     fun fetchFavorites(): Flow<List<PdfFileDb>>
 
@@ -20,7 +23,7 @@ interface PdfFilesRepository {
     fun fetchInteresting(): Flow<List<PdfFileDb>>
     fun fetchWillRead(): Flow<List<PdfFileDb>>
     fun fetchFinished(): Flow<List<PdfFileDb>>
-    fun fetchSearchedPdfFiles(name:String):Flow<List<PdfFileDb>>
+    fun fetchSearchedPdfFiles(name: String): Flow<List<PdfFileDb>>
 
     suspend fun findFilesAndInsert(dir: File)
 
@@ -29,7 +32,10 @@ interface PdfFilesRepository {
     suspend fun updateWillReadState(dirName: String, willRead: Boolean)
     suspend fun updateFinishedState(dirName: String, finished: Boolean)
 
-    class Base(private val dataSourceMobile: PdfFilesDataSourceMobile, private val dao: PdfFilesDao) : PdfFilesRepository {
+    class Base(
+        private val dataSourceMobile: PdfFilesDataSourceMobile,
+        private val dao: PdfFilesDao
+    ) : PdfFilesRepository {
 
         override fun fetchPdfFiles(): Flow<List<PdfFileDb>> {
             return dao.fetchAllPdfFiles()
@@ -44,7 +50,7 @@ interface PdfFilesRepository {
         }
 
         override fun fetchNewPdfFiles(): Flow<List<PdfFileDb>> {
-           return dao.fetchNewPdfFiles()
+            return dao.fetchNewPdfFiles()
         }
 
         override fun fetchInteresting(): Flow<List<PdfFileDb>> {
@@ -64,9 +70,12 @@ interface PdfFilesRepository {
         }
 
         override suspend fun findFilesAndInsert(dir: File) {
-            dataSourceMobile.findFilesAndFetch(dir).collect {
-                dao.insertPdfFile(it)
-                Log.d("pdf", "REP = $it")
+            CoroutineScope(Dispatchers.IO).launch {
+                dataSourceMobile.findFilesAndFetch(dir).collect {
+                    val newList = ArrayList<PdfFileDb>()
+                    newList.addAll(it)
+                    dao.insertPdfFile(newList)
+                }
             }
         }
 

@@ -1,55 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".presentation.ConverterActivity">
+
 
     <include
         android:id="@+id/toolBarMain"
-        layout="@layout/conerting_toolbar"
+        layout="@layout/converting_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:layout_centerInParent="true" />
+        android:layout_centerHorizontal="true"
+         />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/openGallery"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/cardView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/scan_button_style"
+        android:text="@string/open_gallery"
+        android:textColor="@color/def_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 
-    <LinearLayout
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/openCamera"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/cardView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/scan_button_style"
+        android:text="@string/open_camera"
+        android:textColor="@color/def_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/saveBtn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/openGallery"
+        android:layout_alignStart="@+id/openGallery"
+        android:layout_alignEnd="@+id/openCamera"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="0dp"
+        android:background="@drawable/scan_button_style"
+        android:text="@string/save"
+        android:textColor="@color/def_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="320dp"
+        android:layout_below="@+id/toolBarMain"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/dark_light"
+        app:cardCornerRadius="20dp">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="150dp"
-            android:id="@+id/openGallery"
-            android:layout_height="50dp"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/scan_button_style"
-            android:text="@string/open_gallery"
-            android:textColor="@color/def_color" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_file"
+            />
 
+    </androidx.cardview.widget.CardView>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="150dp"
-            android:id="@+id/openCamera"
-            android:layout_height="50dp"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/scan_button_style"
-            android:text="@string/open_camera"
-            android:textColor="@color/def_color" />
-
-    </LinearLayout>
-
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolBarMain"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:text="@string/convert_jpg_to_pdf"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

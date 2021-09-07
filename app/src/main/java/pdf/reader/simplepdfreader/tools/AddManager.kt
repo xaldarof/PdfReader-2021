@@ -7,13 +7,13 @@ import com.google.android.gms.ads.MobileAds
 
 interface AddManager {
 
-    fun init()
-
-    class Base(private val context: Context,private val addView: AdView) : AddManager {
-        override fun init() {
-            MobileAds.initialize(context)
-            val addBuilder = AdRequest.Builder().build()
-            addView.loadAd(addBuilder)
-        }
-    }
+//    fun init()
+//
+//    class Base(private val context: Context,private val addView: AdView) : AddManager {
+//        override fun init() {
+//            MobileAds.initialize(context)
+//            val addBuilder = AdRequest.Builder().build()
+//            addView.loadAd(addBuilder)
+//        }
+//    }
 }

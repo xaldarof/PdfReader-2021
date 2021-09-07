@@ -53,6 +53,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:tint="@color/white" />
 
+    <ImageView
+        android:id="@+id/openReporter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="end|center"
+        android:layout_marginEnd="4dp"
+        android:layout_toStartOf="@+id/openConverter"
+        android:background="@drawable/menu_click_style"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="6dp"
+        android:src="@drawable/ic_baseline_bug_report_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@color/white" />
+
+
+
 
 
 </RelativeLayout>

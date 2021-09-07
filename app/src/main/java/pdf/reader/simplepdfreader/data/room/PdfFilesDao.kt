@@ -11,9 +11,6 @@ interface PdfFilesDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertPdfFile(pdfFiles: List<PdfFileDb>)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertSinglePdfFile(pdfFiles: PdfFileDb)
-
 
     @Query("DELETE FROM pdf WHERE dirName =:dirName")
     suspend fun deletePdfFile(dirName: String)

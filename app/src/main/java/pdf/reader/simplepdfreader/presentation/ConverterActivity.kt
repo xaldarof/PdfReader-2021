@@ -11,6 +11,7 @@ import pdf.reader.simplepdfreader.tools.ImageSaver
 import android.content.ContentValues
 import android.R
 import android.graphics.BitmapFactory
+import android.view.View
 import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.tools.ImageToPdfConverter
 import pdf.reader.simplepdfreader.tools.NameGenerator
@@ -28,6 +29,7 @@ class ConverterActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        binding.saveBtn.visibility = View.INVISIBLE
 
         binding.toolBarMain.backBtn.setOnClickListener {
             finish()
@@ -54,18 +56,30 @@ class ConverterActivity : AppCompatActivity() {
         if (requestCode == CAMERA_REQUEST_CODE  && resultCode == RESULT_OK) {
             val bitmap = Images.Media.getBitmap(contentResolver, imageUri)
             binding.imageView.setImageBitmap(bitmap)
-            ImageToPdfConverter.Base(nameGenerator)
-                .convert(ImageSaver.Base(this)
-                    .saveBitmap(binding.imageView))
+            binding.saveBtn.visibility = View.VISIBLE
+
+            binding.saveBtn.setOnClickListener {
+                ImageToPdfConverter.Base(nameGenerator)
+                    .convert(
+                        ImageSaver.Base(this)
+                            .saveBitmap(binding.imageView)
+                    )
+            }
         }
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK) {
             val imgUri = data!!.data
             val inputStream = contentResolver.openInputStream(imgUri!!)
             val bitmap = BitmapFactory.decodeStream(inputStream)
             binding.imageView.setImageBitmap(bitmap)
-            ImageToPdfConverter.Base(nameGenerator)
-                .convert(ImageSaver.Base(this)
-                    .saveBitmap(binding.imageView))
+            binding.saveBtn.visibility = View.VISIBLE
+
+            binding.saveBtn.setOnClickListener {
+                ImageToPdfConverter.Base(nameGenerator)
+                    .convert(
+                        ImageSaver.Base(this)
+                            .saveBitmap(binding.imageView)
+                    )
+            }
         }
     }
     private companion object {
