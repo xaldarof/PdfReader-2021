@@ -16,7 +16,6 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import android.R
 
-
 class MyPdfRenderer(private val context: Context) {
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -28,8 +27,8 @@ class MyPdfRenderer(private val context: Context) {
                 try {
                     val pdfDocument: PdfDocument = pdfiumCore.newDocument(openFile(file))
                     pdfiumCore.openPage(pdfDocument, pageNum)
-                    val width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNum)
-                    val height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNum)
+                    val width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNum)/2
+                    val height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNum)/2
 
                     val bitmap = Bitmap.createBitmap(
                         width, height,

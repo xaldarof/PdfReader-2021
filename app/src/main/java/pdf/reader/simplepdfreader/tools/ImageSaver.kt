@@ -1,11 +1,8 @@
 package pdf.reader.simplepdfreader.tools
 
-import android.R.attr
 import android.content.Context
 import android.os.Environment
 import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.util.Log
 import android.widget.ImageView
@@ -13,19 +10,22 @@ import android.widget.Toast
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
-import android.R.attr.path
-
-import android.graphics.BitmapFactory
-import org.koin.core.definition.Options
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import pdf.reader.simplepdfreader.data.PdfFilesRepository
 
 
 interface ImageSaver {
 
     fun saveBitmap(image: ImageView) : File
 
-    class Base(private val context: Context) : ImageSaver {
+    class Base(private val context: Context) : ImageSaver,KoinComponent {
 
         private lateinit var fileOutputStream: FileOutputStream
+        private val pdfFilesRepository : PdfFilesRepository by inject()
 
         override fun saveBitmap(image: ImageView) : File{
             val bitmapDrawable = image.drawable as BitmapDrawable

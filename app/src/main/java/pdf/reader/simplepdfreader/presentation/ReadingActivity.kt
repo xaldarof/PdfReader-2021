@@ -1,6 +1,7 @@
 package pdf.reader.simplepdfreader.presentation
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
@@ -122,13 +123,8 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         return counterLiveData
     }
 
-    private fun updateData(
-        dirName: String,
-        lastPage: Int,
-        nightMode: Boolean = false,
-        pageSnap: Boolean = false,
-        horizontalScroll: Boolean = false
-    ) {
+    private fun updateData(dirName: String, lastPage: Int, nightMode: Boolean = false,
+                           pageSnap: Boolean = false, horizontalScroll: Boolean = false) {
         binding.pdfView.useBestQuality(true)
         binding.pdfView.fromFile(File(dirName))
             .defaultPage(lastPage)
@@ -153,10 +149,5 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
                 ErrorShower.Base(WeakReference(this), dirName).show()
             }
             .load()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 }

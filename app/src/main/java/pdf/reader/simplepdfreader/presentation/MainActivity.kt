@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity(), KoinComponent {
 
     private lateinit var binding: ActivityMainBinding
     private val pdfFilesRepository: PdfFilesRepository by inject()
-    private val viewModel: MainActivityViewModel by viewModels()
     private val fragments = arrayListOf<Fragment>(
         CoreFragment(), FavoriteFragment(),
         NewPdfFilesFragment(), InterestingFragment(), WillReadFragment(), DoneFragment())
@@ -55,7 +54,6 @@ class MainActivity : AppCompatActivity(), KoinComponent {
 
         binding.toolBarMain.openConverter.setOnClickListener {
             startActivity(Intent(this,ConverterActivity::class.java))
-            finish()
         }
 
         binding.toolBarMain.scan.setOnClickListener {
@@ -76,11 +74,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     }
 
     @DelicateCoroutinesApi
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 20) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
@@ -90,32 +84,6 @@ class MainActivity : AppCompatActivity(), KoinComponent {
             }
 
         } else {
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 15) {
-            if (resultCode == RESULT_OK) {
-                if (data != null) {
-                    val dirName = data.data!!
-                    viewModel.insertSinglePdfFile(
-                        PdfFileDb(
-                            dirName.path.toString(),
-                            "file.name",
-                            favorite = false,
-                            reading = false,
-                            finished = false,
-                            lastPage = 0,
-                            isEverOpened = false,
-                            pageCount = 0,
-                            interesting = false,
-                            size = "",
-                            willRead = false
-                        )
-                    )
-                }
-            }
         }
     }
 }

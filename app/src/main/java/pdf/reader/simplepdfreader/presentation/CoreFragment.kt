@@ -1,9 +1,6 @@
 package pdf.reader.simplepdfreader.presentation
 
 import android.content.Intent
-import android.os.Build
-import android.os.Bundle
-import android.os.Environment
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +8,15 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import android.R
-import android.content.SharedPreferences
+import android.os.*
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
-import com.google.android.material.snackbar.Snackbar
-import com.shockwave.pdfium.PdfDocument
-import pdf.reader.simplepdfreader.data.cache.RecyclerViewPosition
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentCoreBinding
 import pdf.reader.simplepdfreader.domain.CoreFragmentViewModel
@@ -24,7 +24,6 @@ import pdf.reader.simplepdfreader.domain.CoreFragmentViewModelFactory
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
-import java.io.File
 
 class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
 
@@ -52,31 +51,38 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener {
         itemAdapter = ItemAdapter(this, myPdfRenderer, binding.rv, requireContext())
         viewModel = ViewModelProvider(this, CoreFragmentViewModelFactory(requireContext()))
             .get(CoreFragmentViewModel::class.java)
-        updateData()
+
+        CoroutineScope(Dispatchers.Main).launch {
+            updateData()
+        }
+
         binding.rv.adapter = itemAdapter
         viewModel.findPdfFilesAndInsert(Environment.getExternalStorageDirectory())
-        requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
-
 
     }
 
-    private fun updateData(){
-        viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
-            itemAdapter.setData(it)
-        })
+    private suspend fun updateData(){
+        while (true) {
+            delay(2500)
+            viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
+                itemAdapter.setData(it)
+            })
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        updateData()
+        viewModel.findPdfFilesAndInsert(Environment.getExternalStorageDirectory())
+        CoroutineScope(Dispatchers.Main).launch {
+            updateData()
+        }
     }
 
+    @KoinApiExtension
     override fun onClick(pdfFileDb: PdfFileDb) {
         val intent = Intent(context,ReadingActivity::class.java)
         intent.putExtra("pdf",PdfFileDbToPdfFileMapper.Base().map(pdfFileDb))
         startActivity(intent)
-        requireActivity().overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
-
     }
 
     override fun onClickAddToFavorites(pdfFileDb: PdfFileDb) {
