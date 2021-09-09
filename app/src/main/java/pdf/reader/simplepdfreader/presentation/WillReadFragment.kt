@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
+import pdf.reader.simplepdfreader.core.Status
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentWillReadBinding
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
@@ -37,9 +39,13 @@ class WillReadFragment : Fragment(), ItemAdapter.OnClickListener {
         binding.rv.adapter = itemAdapter
     }
     private fun updateData(){
-        viewModel.fetchWillRead().observe(viewLifecycleOwner,{
-            itemAdapter.setData(it)
-        })
+        when(viewModel.fetchWillRead().status){
+            Status.SUCCESS -> {
+                viewModel.fetchWillRead().data!!.asLiveData().observe(viewLifecycleOwner, {
+                    itemAdapter.setData(it)
+                })
+            }
+        }
     }
 
     override fun onResume() {

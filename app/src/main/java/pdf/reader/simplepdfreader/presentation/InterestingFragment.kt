@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import pdf.reader.simplepdfreader.R
+import pdf.reader.simplepdfreader.core.Status
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentInterestingBinding
 import pdf.reader.simplepdfreader.domain.InterestingFragmentViewModel
@@ -37,9 +39,13 @@ class InterestingFragment : Fragment() , ItemAdapter.OnClickListener{
 
     }
     private fun updateData(){
-        viewModel.fetchInterestingPdfFiles().observe(viewLifecycleOwner,{
-            itemAdapter.setData(it)
-        })
+        when(viewModel.fetchInterestingPdfFiles().status){
+            Status.SUCCESS -> {
+                viewModel.fetchInterestingPdfFiles().data!!.asLiveData().observe(viewLifecycleOwner, {
+                    itemAdapter.setData(it)
+                })
+            }
+        }
     }
 
     override fun onResume() {

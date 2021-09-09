@@ -12,6 +12,7 @@ import android.content.ContentValues
 import android.R
 import android.graphics.BitmapFactory
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.tools.ImageToPdfConverter
 import pdf.reader.simplepdfreader.tools.NameGenerator
@@ -27,6 +28,8 @@ class ConverterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityConverterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
         supportActionBar?.hide()
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         binding.saveBtn.visibility = View.INVISIBLE

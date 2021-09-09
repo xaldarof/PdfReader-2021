@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import pdf.reader.simplepdfreader.core.Status
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentInterestingBinding
 import pdf.reader.simplepdfreader.domain.NewFragmentViewModel
@@ -44,9 +46,13 @@ class NewPdfFilesFragment : Fragment(),ItemAdapter.OnClickListener {
 
     }
     private fun updateData(){
-        viewModel.fetchNewPdfFiles().observe(viewLifecycleOwner,{
-            itemAdapter.setData(it)
-        })
+        when(viewModel.fetchNewPdfFiles().status){
+            Status.SUCCESS -> {
+                viewModel.fetchNewPdfFiles().data!!.asLiveData().observe(viewLifecycleOwner, {
+                    itemAdapter.setData(it)
+                })
+            }
+        }
     }
 
     override fun onResume() {

@@ -15,7 +15,7 @@ class SearchFragmentViewModel: ViewModel(),KoinComponent {
 
     private val pdfFilesRepository: PdfFilesRepository by inject()
 
-    fun fetchPdfFiles() = pdfFilesRepository.fetchPdfFiles().asLiveData()
+    fun fetchPdfFiles() = pdfFilesRepository.fetchPdfFiles()
 
     fun fetchSearchedPdfFiles(name:String) = pdfFilesRepository.fetchSearchedPdfFiles(name).asLiveData()
 

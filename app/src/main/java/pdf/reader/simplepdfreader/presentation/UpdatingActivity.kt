@@ -10,6 +10,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import android.R
+import androidx.appcompat.app.AppCompatDelegate
 import pdf.reader.simplepdfreader.databinding.ActivityUpdatingBinding
 
 class UpdatingActivity : AppCompatActivity(), KoinComponent {
@@ -21,6 +22,7 @@ class UpdatingActivity : AppCompatActivity(), KoinComponent {
         binding = ActivityUpdatingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         CoroutineScope(Dispatchers.Main).launch {
             for (i in 0 until 100) {

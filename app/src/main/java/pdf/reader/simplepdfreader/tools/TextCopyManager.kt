@@ -18,6 +18,5 @@ interface TextCopyManager {
             Toast.makeText(context,"Текст скопирован в буфер обмена",Toast.LENGTH_LONG)
                 .show()
         }
-
     }
 }

@@ -16,17 +16,19 @@ interface TextExtracter {
         private lateinit var parsedText: String
 
         override suspend fun extractText(path: String, page: Int): String = withContext(Dispatchers.IO) {
-            try {
-                val reader = PdfReader(path)
-                parsedText = PdfTextExtractor.getTextFromPage(reader, page)
+            kotlin.runCatching {
+                try {
+                    val reader = PdfReader(path)
+                    parsedText = PdfTextExtractor.getTextFromPage(reader, page)
 
-                parsedText = parsedText + PdfTextExtractor.getTextFromPage(reader,page)
-                            .trim { it <= ' ' } + "\n"
+                    parsedText = parsedText + PdfTextExtractor.getTextFromPage(reader, page)
+                        .trim { it <= ' ' } + "\n"
 
-                reader.close()
+                    reader.close()
 
-            } catch (e: Exception) {
-                println(e)
+                } catch (e: Exception) {
+                    println(e)
+                }
             }
             return@withContext parsedText
         }

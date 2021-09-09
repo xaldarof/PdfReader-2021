@@ -11,6 +11,7 @@ import pdf.reader.simplepdfreader.databinding.ActivityReadingBinding
 import android.widget.SeekBar
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
 import org.koin.core.component.KoinComponent
 import pdf.reader.simplepdfreader.data.cache.*
@@ -45,6 +46,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         pdfFile = intent.getSerializableExtra("pdf") as PdfFileModel
         supportActionBar?.hide()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         viewModel.updateIsEverOpened(pdfFile.dirName, true)
         viewModel.updateLastReadTime(pdfFile.dirName, date)

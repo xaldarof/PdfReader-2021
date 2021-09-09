@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import android.R
 import android.os.*
+import android.util.Log
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import kotlinx.coroutines.CoroutineScope
@@ -18,12 +20,14 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import pdf.reader.simplepdfreader.core.Status
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentCoreBinding
 import pdf.reader.simplepdfreader.domain.CoreFragmentViewModel
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
+import kotlin.math.log
 
 @KoinApiExtension
 class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {
@@ -61,9 +65,16 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {
         while (true) {
             viewModel.findPdfFilesAndInsert(Environment.getExternalStorageDirectory())
             delay(2000)
-            viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
-                itemAdapter.setData(it)
-            })
+//            viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
+//                itemAdapter.setData(it)
+//            })
+            when(viewModel.fetchPdfFiles().status){
+                Status.SUCCESS -> {
+                    viewModel.fetchPdfFiles().data!!.asLiveData().observe(viewLifecycleOwner,{
+                        itemAdapter.setData(it)
+                    })
+                }
+            }
         }
 }
 

@@ -29,9 +29,9 @@
         android:layout_centerInParent="true"
         android:layout_gravity="end|center"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/menu_click_style"
         android:clickable="true"
         android:focusable="true"
-        android:background="@drawable/menu_click_style"
         android:padding="6dp"
         android:src="@drawable/ic_baseline_refresh_24"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,9 +68,5 @@
         android:src="@drawable/ic_baseline_bug_report_24"
         app:layout_constraintStart_toStartOf="parent"
         app:tint="@color/white" />
-
-
-
-
 
 </RelativeLayout>

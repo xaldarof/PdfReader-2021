@@ -6,16 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import androidx.lifecycle.asLiveData
 import org.koin.core.component.KoinComponent
+import pdf.reader.simplepdfreader.core.Status
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentFavoriteBinding
 import pdf.reader.simplepdfreader.domain.FavoriteFragmentViewModel
-import pdf.reader.simplepdfreader.domain.FavoriteFragmentViewModelFactory
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
@@ -46,9 +42,14 @@ class FavoriteFragment : Fragment(), ItemAdapter.OnClickListener, KoinComponent 
 
     }
     private fun updateData(){
-        viewModel.fetchFavorites().observe(viewLifecycleOwner, {
-            itemAdapter.setData(it)
-        })
+        when(viewModel.fetchFavorites().status){
+            Status.SUCCESS -> {
+                viewModel.fetchFavorites().data!!.asLiveData().observe(viewLifecycleOwner, {
+                    itemAdapter.setData(it)
+                })
+            }
+        }
+
     }
 
     override fun onResume() {

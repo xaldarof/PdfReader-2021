@@ -14,13 +14,14 @@ import pdf.reader.simplepdfreader.databinding.ActivityMainBinding
 import pdf.reader.simplepdfreader.presentation.adapter.FragmentController
 import pdf.reader.simplepdfreader.tools.PermissionManager
 import android.content.Intent
-import androidx.activity.viewModels
+import android.content.SharedPreferences
+import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import com.google.android.gms.ads.MobileAds
-import kotlinx.coroutines.flow.collect
-import pdf.reader.simplepdfreader.data.room.PdfFileDb
-import pdf.reader.simplepdfreader.domain.MainActivityViewModel
-import pdf.reader.simplepdfreader.tools.AddManager
+import pdf.reader.simplepdfreader.data.cache.WarningStateCache
+import pdf.reader.simplepdfreader.data.cache.WarningStateCacheImpl
+import pdf.reader.simplepdfreader.other.Politics
 import pdf.reader.simplepdfreader.tools.FragmentChanger
 import java.lang.ref.WeakReference
 
@@ -40,7 +41,9 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         //AddManager.Base(this,binding.adView).init()
+
 
         FragmentController(WeakReference(this), pdfFilesRepository, fragments)
         val permissionManager = PermissionManager.Base(WeakReference(this))
@@ -78,8 +81,8 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 20) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                && grantResults[1] == PackageManager.PERMISSION_GRANTED
+            if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED
+                && grantResults[1] == PERMISSION_GRANTED && grantResults[2] == PERMISSION_GRANTED
             ) {
                 startScanning()
             }
