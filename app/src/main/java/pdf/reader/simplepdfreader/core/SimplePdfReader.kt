@@ -4,6 +4,7 @@ import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import pdf.reader.simplepdfreader.di.appModule
+import pdf.reader.simplepdfreader.di.testAppModule
 
 class SimplePdfReader : Application() {
 
@@ -12,7 +13,7 @@ class SimplePdfReader : Application() {
 
         startKoin {
             androidContext(this@SimplePdfReader)
-            modules(appModule)
+            modules(appModule, testAppModule)
         }
     }
 }

@@ -42,6 +42,7 @@ class PdfFilesRepositoryTest {
     @Test
     fun check_is_database_saves_data() = runBlocking {
         val list = repository.fetchTestPdfFiles()
+        Log.d("pos","$list")
         assertNotNull(list)
     }
 

@@ -1,6 +1,5 @@
 package pdf.reader.simplepdfreader.tools
 
-import android.util.Log
 import com.itextpdf.text.pdf.PdfReader
 import com.itextpdf.text.pdf.parser.PdfTextExtractor
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +12,7 @@ interface TextExtracter {
 
     class Base : TextExtracter {
 
-        private lateinit var parsedText: String
+        private var parsedText = ""
 
         override suspend fun extractText(path: String, page: Int): String = withContext(Dispatchers.IO) {
             kotlin.runCatching {
