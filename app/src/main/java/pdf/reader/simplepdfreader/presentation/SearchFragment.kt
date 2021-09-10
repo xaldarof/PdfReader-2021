@@ -1,14 +1,11 @@
 package pdf.reader.simplepdfreader.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
-import pdf.reader.simplepdfreader.core.Status
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentSearchBinding
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
@@ -48,20 +45,16 @@ class SearchFragment : Fragment(), ItemAdapter.OnClickListener {
 
         binding.searchEditText.addTextChangedListener(TextWatcher(object : TextWatcherWrapper {
             override fun onTextChange(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                when (viewModel.fetchPdfFiles().status) {
-                    Status.SUCCESS -> {
-                        viewModel.fetchPdfFiles().data!!.asLiveData().observe(viewLifecycleOwner, {
-                            val searchFilterManager = SearchFilterManager.Base(it, itemAdapter)
-                            searchFilterManager.filter(p0.toString())
-                        })
-                    }
-                }
+                viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
+                    val searchFilterManager = SearchFilterManager.Base(it, itemAdapter)
+                    searchFilterManager.filter(p0.toString())
+                })
             }
         }))
     }
 
     private fun updateData() {
-        viewModel.fetchPdfFiles().data!!.asLiveData().observe(viewLifecycleOwner, {
+        viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
             itemAdapter.setData(it)
         })
     }

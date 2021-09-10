@@ -15,9 +15,7 @@ class SearchFragmentViewModel: ViewModel(),KoinComponent {
 
     private val pdfFilesRepository: PdfFilesRepository by inject()
 
-    fun fetchPdfFiles() = pdfFilesRepository.fetchPdfFiles()
-
-    fun fetchSearchedPdfFiles(name:String) = pdfFilesRepository.fetchSearchedPdfFiles(name).asLiveData()
+    fun fetchPdfFiles() = pdfFilesRepository.fetchPdfFiles().asLiveData()
 
     fun updateFavoriteState(pdfFileDb: PdfFileDb) = viewModelScope.launch {
         pdfFilesRepository.updateFavoriteState(pdfFileDb.dirName, !pdfFileDb.favorite)

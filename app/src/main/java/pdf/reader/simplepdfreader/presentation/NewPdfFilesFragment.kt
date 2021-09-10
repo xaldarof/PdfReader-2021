@@ -21,10 +21,10 @@ import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import pdf.reader.simplepdfreader.tools.NextActivity
 
-class NewPdfFilesFragment : Fragment(),ItemAdapter.OnClickListener {
+class NewPdfFilesFragment : Fragment(), ItemAdapter.OnClickListener {
 
     private lateinit var binding: FragmentInterestingBinding
-    private val viewModel:NewFragmentViewModel by viewModels()
+    private val viewModel: NewFragmentViewModel by viewModels()
     private lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(
@@ -33,32 +33,29 @@ class NewPdfFilesFragment : Fragment(),ItemAdapter.OnClickListener {
     ): View {
         updateData()
 
-        binding = FragmentInterestingBinding.inflate(layoutInflater,container,false)
+        binding = FragmentInterestingBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val myPdfRenderer = MyPdfRenderer(requireContext())
-        itemAdapter = ItemAdapter(this,myPdfRenderer,binding.rv, requireContext())
+        itemAdapter = ItemAdapter(this, myPdfRenderer, binding.rv, requireContext())
         binding.rv.itemAnimator = null
         binding.rv.adapter = itemAdapter
 
     }
-    private fun updateData(){
-        when(viewModel.fetchNewPdfFiles().status){
-            Status.SUCCESS -> {
-                viewModel.fetchNewPdfFiles().data!!.asLiveData().observe(viewLifecycleOwner, {
-                    itemAdapter.setData(it)
-                })
-            }
-        }
+
+    private fun updateData() {
+        viewModel.fetchNewPdfFiles().observe(viewLifecycleOwner, {
+            itemAdapter.setData(it)
+        })
     }
 
     override fun onResume() {
         super.onResume()
         updateData()
-        Log.d("pos","RESUME")
+        Log.d("pos", "RESUME")
     }
 
     override fun onClick(pdfFileDb: PdfFileDb) {

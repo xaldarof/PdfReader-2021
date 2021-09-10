@@ -6,9 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
-import pdf.reader.simplepdfreader.R
-import pdf.reader.simplepdfreader.core.Status
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentInterestingBinding
 import pdf.reader.simplepdfreader.domain.InterestingFragmentViewModel
@@ -17,41 +14,40 @@ import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import pdf.reader.simplepdfreader.tools.NextActivity
 
-class InterestingFragment : Fragment() , ItemAdapter.OnClickListener{
+class InterestingFragment : Fragment(), ItemAdapter.OnClickListener {
 
     private lateinit var binding: FragmentInterestingBinding
     private lateinit var itemAdapter: ItemAdapter
-    private val viewModel : InterestingFragmentViewModel by viewModels()
+    private val viewModel: InterestingFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentInterestingBinding.inflate(inflater,container,false)
+        binding = FragmentInterestingBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val myPdfRenderer = MyPdfRenderer(requireContext())
-        itemAdapter = ItemAdapter(this,myPdfRenderer,binding.rv, requireContext())
+        itemAdapter = ItemAdapter(this, myPdfRenderer, binding.rv, requireContext())
         binding.rv.itemAnimator = null
         binding.rv.adapter = itemAdapter
 
     }
-    private fun updateData(){
-        when(viewModel.fetchInterestingPdfFiles().status){
-            Status.SUCCESS -> {
-                viewModel.fetchInterestingPdfFiles().data!!.asLiveData().observe(viewLifecycleOwner, {
-                    itemAdapter.setData(it)
-                })
-            }
-        }
+
+    private fun updateData() {
+        viewModel.fetchInterestingPdfFiles().observe(viewLifecycleOwner, {
+            itemAdapter.setData(it)
+        })
     }
 
     override fun onResume() {
         super.onResume()
         updateData()
     }
+
     override fun onClick(pdfFileDb: PdfFileDb) {
         NextActivity.Base(requireContext())
             .startActivity(PdfFileDbToPdfFileMapper.Base().map(pdfFileDb))

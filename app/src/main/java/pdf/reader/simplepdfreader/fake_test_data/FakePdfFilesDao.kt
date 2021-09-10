@@ -7,7 +7,7 @@ import androidx.room.Query
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 
 @Dao
-interface PdfFilesDaoForTest {
+interface FakePdfFilesDao {
 
     @Insert
     suspend fun insert(pdfFileDb: PdfFileDb)

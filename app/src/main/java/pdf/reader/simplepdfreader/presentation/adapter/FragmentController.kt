@@ -75,7 +75,7 @@ class FragmentController(
         badgeDrawable.isVisible = true
 
         CoroutineScope(Dispatchers.Main).launch {
-            pdfFilesRepository.fetchLiveDataPdfFiles().observe(weakReference.get()!!, {
+            pdfFilesRepository.fetchDataForCount().observe(weakReference.get()!!, {
                 badgeDrawable.number = it.size
             })
         }

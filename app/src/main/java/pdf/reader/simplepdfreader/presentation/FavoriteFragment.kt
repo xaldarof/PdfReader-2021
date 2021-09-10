@@ -21,7 +21,7 @@ class FavoriteFragment : Fragment(), ItemAdapter.OnClickListener, KoinComponent 
 
     private lateinit var binding: FragmentFavoriteBinding
     private val viewModel: FavoriteFragmentViewModel by viewModels()
-    private lateinit var itemAdapter : ItemAdapter
+    private lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,15 +41,11 @@ class FavoriteFragment : Fragment(), ItemAdapter.OnClickListener, KoinComponent 
         binding.rv.adapter = itemAdapter
 
     }
-    private fun updateData(){
-        when(viewModel.fetchFavorites().status){
-            Status.SUCCESS -> {
-                viewModel.fetchFavorites().data!!.asLiveData().observe(viewLifecycleOwner, {
-                    itemAdapter.setData(it)
-                })
-            }
-        }
 
+    private fun updateData() {
+        viewModel.fetchFavorites().observe(viewLifecycleOwner, {
+            itemAdapter.setData(it)
+        })
     }
 
     override fun onResume() {

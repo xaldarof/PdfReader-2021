@@ -26,26 +26,23 @@ class WillReadFragment : Fragment(), ItemAdapter.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWillReadBinding.inflate(layoutInflater,container,false)
+        binding = FragmentWillReadBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val myPdfRenderer = MyPdfRenderer(requireContext())
-        itemAdapter = ItemAdapter(this,myPdfRenderer,binding.rv, requireContext())
+        itemAdapter = ItemAdapter(this, myPdfRenderer, binding.rv, requireContext())
         binding.rv.itemAnimator = null
         updateData()
         binding.rv.adapter = itemAdapter
     }
-    private fun updateData(){
-        when(viewModel.fetchWillRead().status){
-            Status.SUCCESS -> {
-                viewModel.fetchWillRead().data!!.asLiveData().observe(viewLifecycleOwner, {
-                    itemAdapter.setData(it)
-                })
-            }
-        }
+
+    private fun updateData() {
+        viewModel.fetchWillRead().observe(viewLifecycleOwner, {
+            itemAdapter.setData(it)
+        })
     }
 
     override fun onResume() {

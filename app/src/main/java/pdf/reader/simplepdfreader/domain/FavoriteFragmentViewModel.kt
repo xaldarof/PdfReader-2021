@@ -11,7 +11,7 @@ class FavoriteFragmentViewModel : ViewModel(), KoinComponent {
 
     private val pdfFilesRepository : PdfFilesRepository by inject()
 
-    fun fetchFavorites() = pdfFilesRepository.fetchFavorites()
+    fun fetchFavorites() = pdfFilesRepository.fetchFavorites().asLiveData()
 
     fun updateFavoriteState(pdfFileDb: PdfFileDb) = viewModelScope.launch {
         pdfFilesRepository.updateFavoriteState(pdfFileDb.dirName,!pdfFileDb.favorite)

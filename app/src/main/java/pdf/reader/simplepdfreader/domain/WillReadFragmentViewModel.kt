@@ -13,7 +13,7 @@ class WillReadFragmentViewModel: ViewModel(),KoinComponent{
 
     private val pdfFilesRepository : PdfFilesRepository by inject()
 
-    fun fetchWillRead() = pdfFilesRepository.fetchWillRead()
+    fun fetchWillRead() = pdfFilesRepository.fetchWillRead().asLiveData()
 
     fun updateFavoriteState(pdfFileDb: PdfFileDb) = viewModelScope.launch {
         pdfFilesRepository.updateFavoriteState(pdfFileDb.dirName,!pdfFileDb.favorite)

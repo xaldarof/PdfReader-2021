@@ -13,15 +13,15 @@ import pdf.reader.simplepdfreader.data.room.AppDatabase
 import org.junit.Assert.*
 import org.junit.Before
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
-import pdf.reader.simplepdfreader.fake_test_data.PdfFilesDaoForTest
-import pdf.reader.simplepdfreader.fake_test_data.PdfFilesRepositoryForTest
+import pdf.reader.simplepdfreader.fake_test_data.FakePdfFilesDao
+import pdf.reader.simplepdfreader.fake_test_data.FakePdfFilesRepository
 
 @RunWith(AndroidJUnit4::class)
 @ExperimentalCoroutinesApi
 class PdfFilesRepositoryTest {
 
-    private lateinit var dao: PdfFilesDaoForTest
-    private lateinit var repository: PdfFilesRepositoryForTest
+    private lateinit var daoFake: FakePdfFilesDao
+    private lateinit var repositoryFake: FakePdfFilesRepository
     private lateinit var appDatabase: AppDatabase
     private lateinit var context: Context
 
@@ -34,21 +34,21 @@ class PdfFilesRepositoryTest {
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
         appDatabase = AppDatabase.getInstance(context)
-        dao = appDatabase.testPdfFilesDao()
-        repository = PdfFilesRepositoryForTest.Base(dao)
+        daoFake = appDatabase.testPdfFilesDao()
+        repositoryFake = FakePdfFilesRepository.Base(daoFake)
     }
 
 
     @Test
     fun check_is_database_saves_data() = runBlocking {
-        val list = repository.fetchTestPdfFiles()
+        val list = repositoryFake.fetchTestPdfFiles()
         Log.d("pos","$list")
         assertNotNull(list)
     }
 
     @Test
     fun check_is_all_data_from_favorites_is_true_state() = runBlocking {
-        val list = repository.fetchTestFavorites()
+        val list = repositoryFake.fetchTestFavorites()
 
         for (i in list.indices) {
             assertEquals(true, list[i].favorite)
@@ -57,7 +57,7 @@ class PdfFilesRepositoryTest {
 
     @Test
     fun check_is_all_data_from_interesting_is_true_state() = runBlocking {
-        val list = repository.fetchTestInteresting()
+        val list = repositoryFake.fetchTestInteresting()
         for (i in list.indices) {
             assertEquals(true, list[i].favorite)
         }
@@ -65,7 +65,7 @@ class PdfFilesRepositoryTest {
 
     @Test
     fun check_is_all_data_from_willRead_is_true_state() = runBlocking {
-        val list = repository.fetchTestWillRead()
+        val list = repositoryFake.fetchTestWillRead()
         for (i in list.indices) {
             assertEquals(true, list[i].favorite)
         }
@@ -73,7 +73,7 @@ class PdfFilesRepositoryTest {
 
     @Test
     fun check_is_all_data_from_finished_is_true_state() = runBlocking {
-        val list = repository.fetchTestFinished()
+        val list = repositoryFake.fetchTestFinished()
         for (i in list.indices) {
             assertEquals(true, list[i].favorite)
         }
@@ -81,7 +81,7 @@ class PdfFilesRepositoryTest {
 
     @Test
     fun check_is_all_data_from_newPdfFiles_is_true_state() = runBlocking {
-        val list = repository.fetchTestNewPdfFiles()
+        val list = repositoryFake.fetchTestNewPdfFiles()
         for (i in list.indices) {
             assertEquals(true, list[i].favorite)
         }
@@ -89,8 +89,8 @@ class PdfFilesRepositoryTest {
 
     @Test
     fun check_is_data_inserted_to_database() = runBlocking {
-        repository.insert(testObject)
-        val list = repository.fetchTestNewPdfFiles()
+        repositoryFake.insert(testObject)
+        val list = repositoryFake.fetchTestNewPdfFiles()
 
         val actual = list.contains(testObject)
         assertEquals(true, actual)
@@ -98,8 +98,8 @@ class PdfFilesRepositoryTest {
 
     @Test
     fun check_is_data_that_was_inserted_to_database_is_in_true_state() = runBlocking {
-        repository.insert(testObject)
-        val listFinishedFiles = repository.fetchTestFinished()
+        repositoryFake.insert(testObject)
+        val listFinishedFiles = repositoryFake.fetchTestFinished()
         val actual = listFinishedFiles.contains(testObject)
         assertEquals(true,actual)
     }

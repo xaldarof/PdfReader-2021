@@ -65,16 +65,9 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {
         while (true) {
             viewModel.findPdfFilesAndInsert(Environment.getExternalStorageDirectory())
             delay(2000)
-//            viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
-//                itemAdapter.setData(it)
-//            })
-            when(viewModel.fetchPdfFiles().status){
-                Status.SUCCESS -> {
-                    viewModel.fetchPdfFiles().data!!.asLiveData().observe(viewLifecycleOwner,{
-                        itemAdapter.setData(it)
-                    })
-                }
-            }
+            viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
+                itemAdapter.setData(it)
+            })
         }
 }
 

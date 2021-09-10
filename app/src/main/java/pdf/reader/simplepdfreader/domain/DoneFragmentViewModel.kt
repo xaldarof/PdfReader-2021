@@ -13,7 +13,7 @@ class DoneFragmentViewModel:ViewModel(),KoinComponent {
 
     private val pdfFilesRepository : PdfFilesRepository by inject()
 
-    fun fetchFinished() = pdfFilesRepository.fetchFinished()
+    fun fetchFinished() = pdfFilesRepository.fetchFinished().asLiveData()
 
     fun updateFavoriteState(pdfFileDb: PdfFileDb) = viewModelScope.launch {
         pdfFilesRepository.updateFavoriteState(pdfFileDb.dirName,!pdfFileDb.favorite)

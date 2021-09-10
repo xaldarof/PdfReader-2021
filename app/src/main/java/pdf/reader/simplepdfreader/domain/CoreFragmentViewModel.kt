@@ -17,7 +17,7 @@ class CoreFragmentViewModel : ViewModel(), KoinComponent {
 
     private val pdfFilesRepository:PdfFilesRepository by inject()
 
-    fun fetchPdfFiles() = pdfFilesRepository.fetchPdfFiles()
+    fun fetchPdfFiles() = pdfFilesRepository.fetchPdfFiles().asLiveData()
 
     fun findPdfFilesAndInsert(dir: File) = CoroutineScope(Dispatchers.IO).launch {
         pdfFilesRepository.findFilesAndInsert(dir)

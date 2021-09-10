@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
-import pdf.reader.simplepdfreader.core.Status
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentDoneBinding
 import pdf.reader.simplepdfreader.domain.DoneFragmentViewModel
@@ -38,14 +36,11 @@ class DoneFragment : Fragment(), ItemAdapter.OnClickListener {
         binding.rv.adapter = itemAdapter
 
     }
-    private fun updateData(){
-        when(viewModel.fetchFinished().status){
-            Status.SUCCESS -> {
-                viewModel.fetchFinished().data!!.asLiveData().observe(viewLifecycleOwner, {
-                    itemAdapter.setData(it)
-                })
-            }
-        }
+
+    private fun updateData() {
+        viewModel.fetchFinished().observe(viewLifecycleOwner, {
+            itemAdapter.setData(it)
+        })
     }
 
     override fun onResume() {
