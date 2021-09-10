@@ -15,7 +15,7 @@ interface PdfFilesDataSourceMobile {
 
     suspend fun findFilesAndFetch(dir: File): Flow<List<PdfFileDb>>
 
-    class Base(private val context: Context) : PdfFilesDataSourceMobile {
+    class Base : PdfFilesDataSourceMobile {
 
         private val entities = ArrayList<PdfFileDb>()
 

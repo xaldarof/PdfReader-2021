@@ -3,12 +3,14 @@ package pdf.reader.simplepdfreader.presentation
 import android.app.Dialog
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.view.Window
 import android.widget.Switch
 import androidx.annotation.RequiresApi
 import com.github.barteksc.pdfviewer.PDFView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.cache.AutoSpacingStateCache
@@ -33,6 +35,7 @@ interface ReadingPopupManager {
         private val textCopyManager = TextCopyManager.Base(context)
         private val imageSaver = ImageSaver.Base(context)
         private val pdfRenderer = PdfRenderer.Base()
+        private val dialogShower = WaitingDialogShower.Base(context)
 
         @RequiresApi(Build.VERSION_CODES.M)
         override fun showPopupMenu() {
@@ -54,8 +57,11 @@ interface ReadingPopupManager {
             }
 
             dialog.getTextBtn.setOnClickListener {
+                dialogShower.show()
                 CoroutineScope(Dispatchers.Main).launch {
-                    textCopyManager.copyToClipboard(textExtractor.extractText(path, pdfView.currentPage + 1))
+                    if (textCopyManager.copyToClipboard(textExtractor.extractText(path, pdfView.currentPage + 1))){
+                        dialogShower.dismiss()
+                    }
                 }
                 dialogMain.dismiss()
             }

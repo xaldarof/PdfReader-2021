@@ -25,6 +25,7 @@ interface ImageSaveDialog {
         private val dataShare = ImageDataShare.Base(context)
         private val textExtracter = TextExtracter.Base()
         private val textCopyManager = TextCopyManager.Base(context)
+        private val waitingDialogShower = WaitingDialogShower.Base(context)
 
         @RequiresApi(Build.VERSION_CODES.M)
         override fun show(path: String, page: Int) {
@@ -46,8 +47,11 @@ interface ImageSaveDialog {
             }
 
             binding.textBtn.setOnClickListener {
+                waitingDialogShower.show()
                 CoroutineScope(Dispatchers.Main).launch {
-                    textCopyManager.copyToClipboard(textExtracter.extractText(path, page + 1))
+                    if (textCopyManager.copyToClipboard(textExtracter.extractText(path, page + 1))){
+                        waitingDialogShower.dismiss()
+                    }
                 }
             }
 

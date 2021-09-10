@@ -16,7 +16,7 @@ fun providePdfFilesDao(context:Context):PdfFilesDao{
 }
 
 fun provideRepository(context: Context):PdfFilesRepository {
-    val dataSource = PdfFilesDataSourceMobile.Base(context)
+    val dataSource = PdfFilesDataSourceMobile.Base()
     return PdfFilesRepository.Base(dataSource, providePdfFilesDao(context))
 }
 

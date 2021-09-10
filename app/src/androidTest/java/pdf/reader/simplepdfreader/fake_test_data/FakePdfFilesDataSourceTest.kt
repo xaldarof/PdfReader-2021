@@ -18,7 +18,7 @@ class FakePdfFilesDataSourceTest {
     @Before
     fun setUp() {
         val context = ApplicationProvider.getApplicationContext<Context>()
-        pdfFilesDataSourceMobile = PdfFilesDataSourceMobile.Base(context)
+        pdfFilesDataSourceMobile = PdfFilesDataSourceMobile.Base()
         fakePdfFilesDataSource = FakePdfFilesDataSource(pdfFilesDataSourceMobile)
     }
 
