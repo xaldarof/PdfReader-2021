@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import pdf.reader.simplepdfreader.databinding.ActivityReadingBinding
@@ -35,6 +37,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
     private var dirName = ""
     private lateinit var pdfFile: PdfFileModel
     private lateinit var barAnimator: BarAnimator
+    private lateinit var waitingDialogShower: WaitingDialogShower.Base
 
     @RequiresApi(Build.VERSION_CODES.M)
     @KoinApiExtension
@@ -46,7 +49,8 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         pdfFile = intent.getSerializableExtra("pdf") as PdfFileModel
         supportActionBar?.hide()
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        waitingDialogShower = WaitingDialogShower.Base(this)
 
         viewModel.updateIsEverOpened(pdfFile.dirName, true)
         viewModel.updateLastReadTime(pdfFile.dirName, date)
@@ -71,14 +75,17 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         val horizontalScrollingCache =
             HorizontalScrollingCache(HorizontalScrollingCacheImpl(sharedPreferences))
 
-        val readingPopupManager = ReadingPopupManager.Base(this, darkThemeCache, autoSpacingStateCache,
-            horizontalScrollingCache, binding.pdfView, dirName)
+        val readingPopupManager = ReadingPopupManager.Base(
+            this, darkThemeCache, autoSpacingStateCache,
+            horizontalScrollingCache, binding.pdfView, dirName
+        )
 
-        barAnimator = BarAnimator.Base(binding.containerBottom,binding.containerTop)
+        barAnimator = BarAnimator.Base(binding.containerBottom, binding.containerTop)
 
         updateData(
             pdfFile.dirName, pdfFile.lastPage, darkThemeCache.read(), autoSpacingStateCache.read(),
-            horizontalScrollingCache.read())
+            horizontalScrollingCache.read()
+        )
 
         binding.menuBtn.setOnClickListener {
             readingPopupManager.showPopupMenu()
@@ -125,8 +132,10 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         return counterLiveData
     }
 
-    private fun updateData(dirName: String, lastPage: Int, nightMode: Boolean = false,
-                           pageSnap: Boolean = false, horizontalScroll: Boolean = false) {
+    private fun updateData(
+        dirName: String, lastPage: Int, nightMode: Boolean = false,
+        pageSnap: Boolean = false, horizontalScroll: Boolean = false
+    ) {
         binding.pdfView.useBestQuality(true)
         binding.pdfView.fromFile(File(dirName))
             .defaultPage(lastPage)
@@ -136,6 +145,15 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
             .pageSnap(pageSnap)
             .autoSpacing(pageSnap)
             .pageFling(pageSnap)
+            .onLoad {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    waitingDialogShower.dismiss()
+                }, 500)
+            }
+            .onRender {
+                waitingDialogShower.show()
+            }
+
             .swipeHorizontal(horizontalScroll)
             .enableAntialiasing(true)
             .enableAnnotationRendering(true)

@@ -16,9 +16,5 @@ interface WaitingDialogShower {
             setCancelable(false)
             binding.waiting.setIndeterminateDrawable(Wave())
         }
-
-        override fun onBackPressed() {
-            super.onBackPressed()
-        }
     }
 }
