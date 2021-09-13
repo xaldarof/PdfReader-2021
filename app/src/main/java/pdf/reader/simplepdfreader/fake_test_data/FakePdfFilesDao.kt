@@ -34,4 +34,8 @@ interface FakePdfFilesDao {
     suspend fun testFetchInteresting(): List<PdfFileDb>
 
 
+    @Query("UPDATE pdf SET name = :name WHERE dirName = :dirName")
+    suspend fun updateName(dirName: String, name:String)
+
+
 }

@@ -11,6 +11,8 @@ interface FakePdfFilesRepository {
     suspend fun fetchTestWillRead(): List<PdfFileDb>
     suspend fun fetchTestFinished(): List<PdfFileDb>
 
+    suspend fun updateName(dirName:String,name:String)
+
     suspend fun insert(pdfFileDb: PdfFileDb)
 
     class Base(private val daoFake: FakePdfFilesDao): FakePdfFilesRepository {
@@ -36,6 +38,10 @@ interface FakePdfFilesRepository {
 
         override suspend fun fetchTestFinished(): List<PdfFileDb> {
             return daoFake.testFetchFinished()
+        }
+
+        override suspend fun updateName(dirName: String, name: String) {
+            daoFake.updateName(dirName,name)
         }
 
         override suspend fun insert(pdfFileDb: PdfFileDb) {

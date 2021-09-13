@@ -30,6 +30,7 @@ interface PdfFilesRepository {
     suspend fun updateInterestingState(dirName: String, interesting: Boolean)
     suspend fun updateWillReadState(dirName: String, willRead: Boolean)
     suspend fun updateFinishedState(dirName: String, finished: Boolean)
+    suspend fun updatePath(dirName: String,name:String)
 
     class Base(private val dataSourceMobile: PdfFilesDataSourceMobile,
                private val dao: PdfFilesDao) : PdfFilesRepository {
@@ -85,6 +86,10 @@ interface PdfFilesRepository {
 
         override suspend fun updateFinishedState(dirName: String, finished: Boolean) {
             dao.updateFinishedState(dirName, finished)
+        }
+
+        override suspend fun updatePath(dirName: String, name: String) {
+            dao.updateName(dirName,name)
         }
     }
 

@@ -10,7 +10,9 @@ import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.ItemBinding
 import kotlin.collections.ArrayList
 import com.google.android.material.snackbar.Snackbar
+import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.R
+import pdf.reader.simplepdfreader.presentation.EditDialog
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import java.io.*
 
@@ -41,17 +43,17 @@ class ItemAdapter (
     }
 
     inner class VH(private val item: ItemBinding) : RecyclerView.ViewHolder(item.root) {
+        @KoinApiExtension
         fun onBind(pdfFile: PdfFileDb) {
             item.fileName.text = pdfFile.name
             item.sizeTv.text = pdfFile.size
-            item.imageView.setImageBitmap(
-                myPdfRenderer.getBitmap(
-                    File(pdfFile.dirName),
-                    item.imageView
-                )
-            )
+            item.imageView.setImageBitmap(myPdfRenderer.getBitmap(File(pdfFile.dirName), item.imageView))
             item.progress.max = pdfFile.pageCount
             item.progress.progress = pdfFile.lastPage
+
+            item.editBtn.setOnClickListener {
+                EditDialog.Base(context,pdfFile.dirName,pdfFile.name).showDialog()
+            }
 
             item.layout.setOnClickListener { onClickListener.onClick(pdfFile) }
 

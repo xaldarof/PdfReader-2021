@@ -66,9 +66,11 @@
 
         </activity>
 
+                <!--ADMOB-->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-6592657632288197~7708502110" />
+            android:value="ca-app-pub-6592657632288197~6637627867" />
+
     </application>
 
 </manifest>

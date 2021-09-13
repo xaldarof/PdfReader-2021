@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@drawable/bottom_style"
+    android:layout_gravity="bottom|center"
+    android:layout_height="200dp">
+
+    <EditText
+        android:id="@+id/newNameEditText"
+        android:background="@drawable/edit_edittext_style"
+        android:layout_width="match_parent"
+        android:textColor="@color/white"
+        android:text="Xoldarov Temur"
+        android:inputType="textPersonName"
+        android:padding="12dp"
+        android:layout_height="60dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/saveBtn"
+        android:layout_width="wrap_content"
+        android:layout_gravity="end"
+        android:padding="12dp"
+        android:layout_margin="12dp"
+        android:textColor="@color/white"
+        android:text="@string/save"
+        android:backgroundTint="@color/dark_light"
+        android:background="@drawable/scan_button_style"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

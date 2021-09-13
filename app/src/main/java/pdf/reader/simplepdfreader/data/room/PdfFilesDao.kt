@@ -23,12 +23,6 @@ interface PdfFilesDao {
     fun fetchLiveDataPdfFiles(): LiveData<List<PdfFileDb>>
 
 
-
-    @Query("SELECT * FROM pdf WHERE name LIKE :searchedName")
-    fun fetchSearchedPdfFiles(searchedName:String): Flow<List<PdfFileDb>>
-
-
-
     @Query("SELECT * FROM pdf WHERE favorite = 1 ORDER BY lastReadTime DESC")
     fun fetchFavorites(): Flow<List<PdfFileDb>>
 
@@ -73,6 +67,9 @@ interface PdfFilesDao {
 
     @Query("UPDATE pdf SET isEverOpened = :isEverOpened WHERE dirName = :dirName")
     suspend fun updateIsEverOpened(dirName: String, isEverOpened:Boolean)
+
+    @Query("UPDATE pdf SET name = :name WHERE dirName = :dirName")
+    suspend fun updateName(dirName: String, name:String)
 
 
 }

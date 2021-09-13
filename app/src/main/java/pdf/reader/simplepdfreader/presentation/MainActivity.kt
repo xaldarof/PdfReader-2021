@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import pdf.reader.simplepdfreader.data.cache.WarningStateCache
 import pdf.reader.simplepdfreader.data.cache.WarningStateCacheImpl
 import pdf.reader.simplepdfreader.other.Politics
+import pdf.reader.simplepdfreader.tools.AddManager
 import pdf.reader.simplepdfreader.tools.FragmentChanger
 import java.lang.ref.WeakReference
 
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         setContentView(binding.root)
         supportActionBar?.hide()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        //AddManager.Base(this,binding.adView).init()
+        AddManager.Base(this,binding.adView).init()
 
 
         FragmentController(WeakReference(this), pdfFilesRepository, fragments)

@@ -140,6 +140,14 @@
             tools:ignore="SpeakableTextPresentCheck" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/editBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_mode_edit_outline_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/def_color" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

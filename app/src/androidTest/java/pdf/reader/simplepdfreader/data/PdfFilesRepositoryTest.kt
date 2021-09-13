@@ -25,11 +25,6 @@ class PdfFilesRepositoryTest {
     private lateinit var appDatabase: AppDatabase
     private lateinit var context: Context
 
-    private val testObject = PdfFileDb(
-        "/storage", "test", favorite = false, reading = false, finished = true,
-        lastPage = 0, isEverOpened = false, pageCount = 100, interesting = false, size = "10MB",
-        willRead = false, lastReadTime = 0, addedTime = 0)
-
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext()
@@ -75,7 +70,7 @@ class PdfFilesRepositoryTest {
     fun check_is_all_data_from_finished_is_true_state() = runBlocking {
         val list = repositoryFake.fetchTestFinished()
         for (i in list.indices) {
-            assertEquals(true, list[i].favorite)
+            assertEquals(true, list[i].finished)
         }
     }
 
@@ -83,26 +78,25 @@ class PdfFilesRepositoryTest {
     fun check_is_all_data_from_newPdfFiles_is_true_state() = runBlocking {
         val list = repositoryFake.fetchTestNewPdfFiles()
         for (i in list.indices) {
-            assertEquals(true, list[i].favorite)
+            assertEquals(true, list[i].isEverOpened)
         }
     }
 
     @Test
-    fun check_is_data_inserted_to_database() = runBlocking {
-        repositoryFake.insert(testObject)
-        val list = repositoryFake.fetchTestNewPdfFiles()
+    fun check_is_data_name_changed() = runBlocking {
+        val TEST_NAME = "UNIT TEST DATA"
+        val TEST_PATH = "/storage/emulated/0/Download/cryptography_with_python_tutorial.pdf"
+        repositoryFake.updateName(TEST_PATH,TEST_NAME)
+        val list = repositoryFake.fetchTestPdfFiles()
 
-        val actual = list.contains(testObject)
-        assertEquals(true, actual)
-    }
-
-    @Test
-    fun check_is_data_that_was_inserted_to_database_is_in_true_state() = runBlocking {
-        repositoryFake.insert(testObject)
-        val listFinishedFiles = repositoryFake.fetchTestFinished()
-        val actual = listFinishedFiles.contains(testObject)
+        var actual = false
+        list.forEach {
+            if (it.name==TEST_NAME) actual = true
+        }
         assertEquals(true,actual)
+
     }
+
 
     @After
     fun cancelAll() {
