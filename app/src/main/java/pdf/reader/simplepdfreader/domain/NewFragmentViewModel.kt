@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import pdf.reader.simplepdfreader.data.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 
+@KoinApiExtension
 class NewFragmentViewModel : ViewModel() , KoinComponent{
 
     private val pdfFilesRepository:PdfFilesRepository by inject ()
@@ -28,5 +30,9 @@ class NewFragmentViewModel : ViewModel() , KoinComponent{
     }
     fun updateFinishedState(pdfFileDb: PdfFileDb) = viewModelScope.launch {
         pdfFilesRepository.updateFinishedState(pdfFileDb.dirName,!pdfFileDb.finished)
+    }
+
+    fun delete(pdfFileDb: PdfFileDb) = viewModelScope.launch {
+        pdfFilesRepository.deletePdfFile(pdfFileDb)
     }
 }

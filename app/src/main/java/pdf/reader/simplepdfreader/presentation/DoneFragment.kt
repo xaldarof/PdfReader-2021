@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentDoneBinding
 import pdf.reader.simplepdfreader.domain.DoneFragmentViewModel
@@ -14,6 +15,7 @@ import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import pdf.reader.simplepdfreader.tools.NextActivity
 
+@KoinApiExtension
 class DoneFragment : Fragment(), ItemAdapter.OnClickListener {
     private lateinit var binding: FragmentDoneBinding
     private val viewModel: DoneFragmentViewModel by viewModels()

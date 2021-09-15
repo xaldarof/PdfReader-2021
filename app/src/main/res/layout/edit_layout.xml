@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:padding="12dp"
@@ -12,7 +12,9 @@
         android:background="@drawable/edit_edittext_style"
         android:layout_width="match_parent"
         android:textColor="@color/white"
-        android:text="Xoldarov Temur"
+        android:text="Documents.pdf"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
         android:inputType="textPersonName"
         android:padding="12dp"
         android:layout_height="60dp"/>
@@ -20,12 +22,26 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/saveBtn"
         android:layout_width="wrap_content"
-        android:layout_gravity="end"
-        android:padding="12dp"
-        android:layout_margin="12dp"
-        android:textColor="@color/white"
-        android:text="@string/save"
-        android:backgroundTint="@color/dark_light"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newNameEditText"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="14dp"
         android:background="@drawable/scan_button_style"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+        android:backgroundTint="@color/dark_light"
+        android:padding="12dp"
+        android:text="@string/save"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/deleteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newNameEditText"
+        android:layout_alignParentStart="true"
+        android:layout_margin="12dp"
+        android:background="@drawable/scan_button_style"
+        android:backgroundTint="@color/dark_light"
+        android:padding="14dp"
+        android:text="@string/delete_file"
+        android:textColor="@color/white" />
+</RelativeLayout>

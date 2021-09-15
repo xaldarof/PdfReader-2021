@@ -1,5 +1,6 @@
 package pdf.reader.simplepdfreader.data
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,8 @@ interface PdfFilesRepository {
     suspend fun updateWillReadState(dirName: String, willRead: Boolean)
     suspend fun updateFinishedState(dirName: String, finished: Boolean)
     suspend fun updatePath(dirName: String,name:String)
+
+    suspend fun deletePdfFile(pdfFileDb: PdfFileDb)
 
     class Base(private val dataSourceMobile: PdfFilesDataSourceMobile,
                private val dao: PdfFilesDao) : PdfFilesRepository {
@@ -65,9 +68,7 @@ interface PdfFilesRepository {
         override suspend fun findFilesAndInsert(dir: File) {
             CoroutineScope(Dispatchers.IO).launch {
                 dataSourceMobile.findFilesAndFetch(dir).collect {
-                    val newList = ArrayList<PdfFileDb>()
-                    newList.addAll(it)
-                    dao.insertPdfFile(newList)
+                    dao.insertPdfFile(it)
                 }
             }
         }
@@ -91,6 +92,10 @@ interface PdfFilesRepository {
         override suspend fun updatePath(dirName: String, name: String) {
             dao.updateName(dirName,name)
         }
-    }
 
+        override suspend fun deletePdfFile(pdfFileDb: PdfFileDb) {
+            File(pdfFileDb.dirName).delete()
+            dao.deletePdfFile(pdfFileDb)
+        }
+    }
 }

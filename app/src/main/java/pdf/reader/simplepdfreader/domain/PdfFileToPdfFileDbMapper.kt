@@ -8,7 +8,9 @@ interface PdfFileToPdfFileDbMapper<T,M> {
 
     class Base : PdfFileDbToPdfFileMapper<PdfFileModel,PdfFileDb>{
         override fun map(data: PdfFileModel): PdfFileDb {
-            return PdfFileDb(data.dirName,data.name)
+            return PdfFileDb(data.dirName,data.name,data.favorite,data.reading,
+                data.finished,data.lastPage,data.isEverOpened,data.pageCount,data.interesting,
+                data.size,data.willRead,data.lastReadTime,data.addedTime)
         }
     }
 }

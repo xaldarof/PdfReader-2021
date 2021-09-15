@@ -33,5 +33,4 @@ class ItemDiffUtilCallBack(private val oldList:List<PdfFileDb>,private val newLi
                 oldPdfFileDb.pageCount == newPdfFileDb.pageCount
 
     }
-
 }

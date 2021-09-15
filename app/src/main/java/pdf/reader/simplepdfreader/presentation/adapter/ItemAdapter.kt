@@ -42,6 +42,9 @@ class ItemAdapter (
         notifyDataSetChanged()
     }
 
+    private val colors = arrayOf(context.resources.getColor(R.color.def_color),
+        context.resources.getColor(R.color.colorRed))
+
     inner class VH(private val item: ItemBinding) : RecyclerView.ViewHolder(item.root) {
         @KoinApiExtension
         fun onBind(pdfFile: PdfFileDb) {
@@ -52,33 +55,33 @@ class ItemAdapter (
             item.progress.progress = pdfFile.lastPage
 
             item.editBtn.setOnClickListener {
-                EditDialog.Base(context,pdfFile.dirName,pdfFile.name).showDialog()
+                EditDialog.Base(context,pdfFile.dirName,pdfFile).showDialog()
             }
 
             item.layout.setOnClickListener { onClickListener.onClick(pdfFile) }
 
             if (pdfFile.favorite) {
-                item.favoriteState.setColorFilter(context.resources.getColor(R.color.colorRed))
+                item.favoriteState.setColorFilter(colors[1])
             } else {
-                item.favoriteState.setColorFilter(context.resources.getColor(R.color.def_color))
+                item.favoriteState.setColorFilter(colors[0])
             }
 
             if (pdfFile.interesting) {
-                item.interestingState.setColorFilter(context.resources.getColor(R.color.colorRed))
+                item.interestingState.setColorFilter(colors[1])
             } else {
-                item.interestingState.setColorFilter(context.resources.getColor(R.color.def_color))
+                item.interestingState.setColorFilter(colors[0])
             }
 
             if (pdfFile.willRead) {
-                item.willReadState.setColorFilter(context.resources.getColor(R.color.colorRed))
+                item.willReadState.setColorFilter(colors[1])
             } else {
-                item.willReadState.setColorFilter(context.resources.getColor(R.color.def_color))
+                item.willReadState.setColorFilter(colors[0])
             }
 
             if (pdfFile.finished) {
-                item.doneState.setColorFilter(context.resources.getColor(R.color.colorRed))
+                item.doneState.setColorFilter(colors[1])
             } else {
-                item.doneState.setColorFilter(context.resources.getColor(R.color.def_color))
+                item.doneState.setColorFilter(colors[0])
             }
 
             //CLICKS FAVORITES
@@ -154,6 +157,5 @@ class ItemAdapter (
         fun onClickAddToWillRead(pdfFileDb: PdfFileDb)
 
         fun onClickAddToFinished(pdfFileDb: PdfFileDb)
-
     }
 }

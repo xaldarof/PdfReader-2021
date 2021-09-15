@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentSearchBinding
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
@@ -16,6 +17,7 @@ import pdf.reader.simplepdfreader.tools.NextActivity
 import pdf.reader.simplepdfreader.tools.*
 
 
+@KoinApiExtension
 class SearchFragment : Fragment(), ItemAdapter.OnClickListener {
 
     private lateinit var binding: FragmentSearchBinding
@@ -40,7 +42,7 @@ class SearchFragment : Fragment(), ItemAdapter.OnClickListener {
         binding.rv.adapter = itemAdapter
 
         binding.backBtn.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit();
+            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
         }
 
         binding.searchEditText.addTextChangedListener(TextWatcher(object : TextWatcherWrapper {

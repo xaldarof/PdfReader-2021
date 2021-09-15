@@ -38,4 +38,8 @@ class CoreFragmentViewModel : ViewModel(), KoinComponent {
         pdfFilesRepository.updateFinishedState(pdfFileDb.dirName,!pdfFileDb.finished)
     }
 
+    fun delete(pdfFileDb: PdfFileDb) = viewModelScope.launch {
+        pdfFilesRepository.deletePdfFile(pdfFileDb)
+    }
+
 }

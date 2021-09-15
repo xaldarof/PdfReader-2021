@@ -1,7 +1,9 @@
 package pdf.reader.simplepdfreader.data.cache
 
+import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
-import android.content.Context
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -54,8 +56,11 @@ interface PdfFilesDataSourceMobile {
                     entities.addAll(list)
                 }
             }
-            return flow { emit(entities) }
+            return flow {
+                emit(entities)
+                entities.clear() }
         }
+
        private fun getSize(size: Long): String {
             val df = DecimalFormat("0.00")
             val sizeKb = 1024.0f

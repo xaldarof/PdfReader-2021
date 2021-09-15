@@ -1,6 +1,5 @@
 package pdf.reader.simplepdfreader.presentation
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,8 +10,10 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import android.R
 import androidx.appcompat.app.AppCompatDelegate
+import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.databinding.ActivityUpdatingBinding
 
+@KoinApiExtension
 class UpdatingActivity : AppCompatActivity(), KoinComponent {
 
     private lateinit var binding: ActivityUpdatingBinding

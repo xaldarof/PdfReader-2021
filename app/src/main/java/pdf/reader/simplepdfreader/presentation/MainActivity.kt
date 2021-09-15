@@ -1,7 +1,5 @@
 package pdf.reader.simplepdfreader.presentation
 
-import android.R
-import android.content.pm.PackageManager
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.annotation.RequiresApi
@@ -14,15 +12,11 @@ import pdf.reader.simplepdfreader.databinding.ActivityMainBinding
 import pdf.reader.simplepdfreader.presentation.adapter.FragmentController
 import pdf.reader.simplepdfreader.tools.PermissionManager
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import pdf.reader.simplepdfreader.data.cache.WarningStateCache
-import pdf.reader.simplepdfreader.data.cache.WarningStateCacheImpl
-import pdf.reader.simplepdfreader.other.Politics
 import pdf.reader.simplepdfreader.tools.AddManager
+import pdf.reader.simplepdfreader.tools.Animator
 import pdf.reader.simplepdfreader.tools.FragmentChanger
 import java.lang.ref.WeakReference
 
@@ -34,6 +28,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
     private val fragments = arrayListOf<Fragment>(
         CoreFragment(), FavoriteFragment(),
         NewPdfFilesFragment(), InterestingFragment(), WillReadFragment(), DoneFragment())
+    private val repository:PdfFilesRepository by inject()
 
     @DelicateCoroutinesApi
     @RequiresApi(Build.VERSION_CODES.M)
@@ -66,7 +61,8 @@ class MainActivity : AppCompatActivity(), KoinComponent {
 
         binding.toolBarMain.scan.setOnClickListener {
             if (permissionManager.checkPermission()) {
-                startScanning()
+                Animator.Base().animate(binding.toolBarMain.scan)
+
             } else {
                 permissionManager.requestPermission()
             }

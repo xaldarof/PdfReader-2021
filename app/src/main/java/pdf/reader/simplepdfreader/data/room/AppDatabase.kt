@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import pdf.reader.simplepdfreader.fake_test_data.FakePdfFilesDao
 
-@Database(entities = [PdfFileDb::class],version = 10,exportSchema = false)
+@Database(entities = [PdfFileDb::class],version = 12,exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun pdfFilesDao(): PdfFilesDao

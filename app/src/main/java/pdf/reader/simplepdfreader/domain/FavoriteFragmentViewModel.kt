@@ -27,4 +27,8 @@ class FavoriteFragmentViewModel : ViewModel(), KoinComponent {
     fun updateFinishedState(pdfFileDb: PdfFileDb) = viewModelScope.launch {
         pdfFilesRepository.updateFinishedState(pdfFileDb.dirName,!pdfFileDb.finished)
     }
+
+    fun delete(pdfFileDb: PdfFileDb) = viewModelScope.launch {
+        pdfFilesRepository.deletePdfFile(pdfFileDb)
+    }
 }

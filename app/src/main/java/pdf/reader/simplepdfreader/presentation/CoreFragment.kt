@@ -16,6 +16,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import pdf.reader.simplepdfreader.data.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentCoreBinding
 import pdf.reader.simplepdfreader.domain.CoreFragmentViewModel
@@ -62,8 +64,9 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {
             delay(2000)
             viewModel.fetchPdfFiles().observe(viewLifecycleOwner, {
                 itemAdapter.setData(it)
-            })
-        }
+
+        })
+    }
 }
 
     @KoinApiExtension

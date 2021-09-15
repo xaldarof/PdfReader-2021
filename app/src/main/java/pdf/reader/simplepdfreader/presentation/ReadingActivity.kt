@@ -1,13 +1,10 @@
 package pdf.reader.simplepdfreader.presentation
 
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import pdf.reader.simplepdfreader.databinding.ActivityReadingBinding
 import android.widget.SeekBar
@@ -22,8 +19,11 @@ import pdf.reader.simplepdfreader.domain.PdfFileModel
 import pdf.reader.simplepdfreader.domain.ReadingActivityViewModel
 import java.io.File
 import org.koin.core.component.KoinApiExtension
+import org.koin.core.component.inject
+import pdf.reader.simplepdfreader.data.PdfFilesRepository
+import pdf.reader.simplepdfreader.data.ReadingFileRepository
+import pdf.reader.simplepdfreader.domain.PdfFileToPdfFileDbMapper
 import pdf.reader.simplepdfreader.tools.BarAnimator
-import pdf.reader.simplepdfreader.tools.ScreenController
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -38,6 +38,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
     private lateinit var pdfFile: PdfFileModel
     private lateinit var barAnimator: BarAnimator
     private lateinit var waitingDialogShower: WaitingDialogShower.Base
+    private val pdfFilesRepository: ReadingFileRepository by inject()
 
     @RequiresApi(Build.VERSION_CODES.M)
     @KoinApiExtension
@@ -66,12 +67,9 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         })
 
         val sharedPreferences = getSharedPreferences("cache", MODE_PRIVATE)
-
         val darkThemeCache = DarkThemeCache(DarkThemeCacheImpl(sharedPreferences))
-
         val autoSpacingStateCache =
             AutoSpacingStateCache(AutoSpacingStateCacheImpl(sharedPreferences))
-
         val horizontalScrollingCache =
             HorizontalScrollingCache(HorizontalScrollingCacheImpl(sharedPreferences))
 
@@ -148,7 +146,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
             .onLoad {
                 Handler(Looper.getMainLooper()).postDelayed({
                     waitingDialogShower.dismiss()
-                }, 500)
+                }, 1000)
             }
             .onRender {
                 waitingDialogShower.show()
@@ -166,7 +164,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
                 viewModel.setPageState(page)
             }
             .onError {
-                ErrorShower.Base(WeakReference(this), dirName).show()
+                ErrorShower.Base(WeakReference(this), PdfFileToPdfFileDbMapper.Base().map(pdfFile),pdfFilesRepository).show()
             }
             .load()
     }

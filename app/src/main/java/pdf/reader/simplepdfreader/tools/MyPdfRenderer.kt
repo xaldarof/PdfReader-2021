@@ -30,13 +30,9 @@ class MyPdfRenderer(private val context: Context) {
                     val width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNum)/2
                     val height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNum)/2
 
-                    val bitmap = Bitmap.createBitmap(
-                        width, height,
-                        Bitmap.Config.RGB_565
-                    )
-                    pdfiumCore.renderPageBitmap(
-                        pdfDocument, bitmap, pageNum, 0, 0,
-                        width, height)
+                    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+
+                    pdfiumCore.renderPageBitmap(pdfDocument, bitmap, pageNum, 0, 0, width, height)
 
                     pdfiumCore.closeDocument(pdfDocument)
 
