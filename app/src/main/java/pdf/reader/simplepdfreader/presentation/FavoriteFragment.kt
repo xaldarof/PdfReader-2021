@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.asLiveData
+import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import pdf.reader.simplepdfreader.core.Status
+import pdf.reader.simplepdfreader.data.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentFavoriteBinding
 import pdf.reader.simplepdfreader.domain.FavoriteFragmentViewModel
@@ -17,6 +20,7 @@ import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import pdf.reader.simplepdfreader.tools.NextActivity
 
+@KoinApiExtension
 class FavoriteFragment : Fragment(), ItemAdapter.OnClickListener, KoinComponent {
 
     private lateinit var binding: FragmentFavoriteBinding

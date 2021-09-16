@@ -8,7 +8,7 @@ import org.junit.Assert.*
 
 import org.junit.Before
 import org.junit.Test
-import pdf.reader.simplepdfreader.data.cache.PdfFilesDataSourceMobile
+import pdf.reader.simplepdfreader.data.data_source.PdfFilesDataSourceMobile
 
 class FakePdfFilesDataSourceTest {
 

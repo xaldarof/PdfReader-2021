@@ -4,16 +4,12 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.asLiveData
 import androidx.viewpager2.widget.ViewPager2
-import com.github.barteksc.pdfviewer.listener.OnPageChangeListener
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.launch
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.PdfFilesRepository

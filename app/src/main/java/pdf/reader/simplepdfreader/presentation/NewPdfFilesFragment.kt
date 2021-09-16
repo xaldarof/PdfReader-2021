@@ -7,13 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
-import pdf.reader.simplepdfreader.core.Status
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+import pdf.reader.simplepdfreader.data.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentInterestingBinding
 import pdf.reader.simplepdfreader.domain.NewFragmentViewModel
@@ -23,16 +20,14 @@ import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import pdf.reader.simplepdfreader.tools.NextActivity
 
 @KoinApiExtension
-class NewPdfFilesFragment : Fragment(), ItemAdapter.OnClickListener {
+class NewPdfFilesFragment : Fragment(), ItemAdapter.OnClickListener, KoinComponent {
 
     private lateinit var binding: FragmentInterestingBinding
     private val viewModel: NewFragmentViewModel by viewModels()
     private lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         updateData()
 
         binding = FragmentInterestingBinding.inflate(layoutInflater, container, false)

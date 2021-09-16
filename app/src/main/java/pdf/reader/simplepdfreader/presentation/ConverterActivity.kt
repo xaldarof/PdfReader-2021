@@ -13,6 +13,9 @@ import android.R
 import android.graphics.BitmapFactory
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import com.theartofdev.edmodo.cropper.CropImage
+import com.theartofdev.edmodo.cropper.CropImageActivity
+import com.theartofdev.edmodo.cropper.CropImageView
 import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.tools.ImageToPdfConverter
 import pdf.reader.simplepdfreader.tools.NameGenerator
@@ -20,7 +23,6 @@ import pdf.reader.simplepdfreader.tools.NameGenerator
 class ConverterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityConverterBinding
-    private lateinit var imageUri: Uri
     private val nameGenerator = NameGenerator.Base()
 
     @KoinApiExtension
@@ -29,7 +31,6 @@ class ConverterActivity : AppCompatActivity() {
         binding = ActivityConverterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
         supportActionBar?.hide()
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         binding.saveBtn.visibility = View.INVISIBLE
@@ -38,56 +39,33 @@ class ConverterActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.openGallery.setOnClickListener {
-            val i = Intent(Intent.ACTION_PICK, Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(i, GALLERY_REQUEST_CODE)
+        binding.openBtn.setOnClickListener {
+           openCropActivity()
         }
+        binding.imageView.setOnClickListener {
+            openCropActivity()
+        }
+    }
 
-        binding.openCamera.setOnClickListener {
-            val values = ContentValues()
-            values.put(Images.Media.TITLE, "Image From PdfReader")
-            values.put(Images.Media.DESCRIPTION, "Image that was converted to .pdf")
-            imageUri = contentResolver.insert(Images.Media.EXTERNAL_CONTENT_URI,values)!!
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-            startActivityForResult(intent, CAMERA_REQUEST_CODE)
-        }
+    private fun openCropActivity() {
+        CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CAMERA_REQUEST_CODE  && resultCode == RESULT_OK) {
-            val bitmap = Images.Media.getBitmap(contentResolver, imageUri)
-            binding.imageView.setImageBitmap(bitmap)
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            val cropImage = CropImage.getActivityResult(data)
+            val uri = cropImage.uri
+            binding.imageView.setImageURI(uri)
             binding.saveBtn.visibility = View.VISIBLE
 
             binding.saveBtn.setOnClickListener {
                 ImageToPdfConverter.Base(nameGenerator)
                     .convert(
                         ImageSaver.Base(this)
-                            .saveBitmap(binding.imageView)
-                    )
+                            .saveBitmap(binding.imageView))
             }
         }
-        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK) {
-            val imgUri = data!!.data
-            val inputStream = contentResolver.openInputStream(imgUri!!)
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-            binding.imageView.setImageBitmap(bitmap)
-            binding.saveBtn.visibility = View.VISIBLE
-
-            binding.saveBtn.setOnClickListener {
-                ImageToPdfConverter.Base(nameGenerator)
-                    .convert(
-                        ImageSaver.Base(this)
-                            .saveBitmap(binding.imageView)
-                    )
-            }
-        }
-    }
-    private companion object {
-        const val CAMERA_REQUEST_CODE = 11
-        const val GALLERY_REQUEST_CODE = 12
     }
 }
 

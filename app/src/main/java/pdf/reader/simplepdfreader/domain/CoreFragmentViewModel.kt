@@ -41,5 +41,4 @@ class CoreFragmentViewModel : ViewModel(), KoinComponent {
     fun delete(pdfFileDb: PdfFileDb) = viewModelScope.launch {
         pdfFilesRepository.deletePdfFile(pdfFileDb)
     }
-
 }

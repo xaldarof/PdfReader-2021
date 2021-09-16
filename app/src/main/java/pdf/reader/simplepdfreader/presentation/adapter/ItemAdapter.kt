@@ -54,11 +54,8 @@ class ItemAdapter (
             item.progress.max = pdfFile.pageCount
             item.progress.progress = pdfFile.lastPage
 
-            item.editBtn.setOnClickListener {
-                EditDialog.Base(context,pdfFile.dirName,pdfFile).showDialog()
-            }
-
             item.layout.setOnClickListener { onClickListener.onClick(pdfFile) }
+            item.editBtn.setOnClickListener { EditDialog.Base(context,pdfFile).showDialog() }
 
             if (pdfFile.favorite) {
                 item.favoriteState.setColorFilter(colors[1])
@@ -157,5 +154,6 @@ class ItemAdapter (
         fun onClickAddToWillRead(pdfFileDb: PdfFileDb)
 
         fun onClickAddToFinished(pdfFileDb: PdfFileDb)
+
     }
 }

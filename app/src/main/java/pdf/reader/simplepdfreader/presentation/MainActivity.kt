@@ -15,6 +15,7 @@ import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import org.koin.core.component.get
 import pdf.reader.simplepdfreader.tools.AddManager
 import pdf.reader.simplepdfreader.tools.Animator
 import pdf.reader.simplepdfreader.tools.FragmentChanger
@@ -24,11 +25,11 @@ import java.lang.ref.WeakReference
 class MainActivity : AppCompatActivity(), KoinComponent {
 
     private lateinit var binding: ActivityMainBinding
-    private val pdfFilesRepository: PdfFilesRepository by inject()
+    private val pdfFilesRepository = get<PdfFilesRepository>()
+
     private val fragments = arrayListOf<Fragment>(
         CoreFragment(), FavoriteFragment(),
         NewPdfFilesFragment(), InterestingFragment(), WillReadFragment(), DoneFragment())
-    private val repository:PdfFilesRepository by inject()
 
     @DelicateCoroutinesApi
     @RequiresApi(Build.VERSION_CODES.M)
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         AddManager.Base(this,binding.adView).init()
 
 
-        FragmentController(WeakReference(this), pdfFilesRepository, fragments)
+       FragmentController(WeakReference(this), pdfFilesRepository, fragments)
         val permissionManager = PermissionManager.Base(WeakReference(this))
         permissionManager.requestPermission()
 
@@ -69,11 +70,6 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         }
     }
 
-    private fun startScanning() {
-        val intent = Intent(this, UpdatingActivity::class.java)
-        startActivity(intent)
-    }
-
     @DelicateCoroutinesApi
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -81,7 +77,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
             if (grantResults.isNotEmpty() && grantResults[0] == PERMISSION_GRANTED
                 && grantResults[1] == PERMISSION_GRANTED && grantResults[2] == PERMISSION_GRANTED
             ) {
-                startScanning()
+                Animator.Base().animate(binding.toolBarMain.scan)
             }
 
         } else {

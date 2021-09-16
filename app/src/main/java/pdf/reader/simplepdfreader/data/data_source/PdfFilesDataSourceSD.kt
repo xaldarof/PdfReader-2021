@@ -1,7 +1,6 @@
-package pdf.reader.simplepdfreader.data.cache
+package pdf.reader.simplepdfreader.data.data_source
 
 import android.content.Context
-import android.net.Uri
 import kotlinx.coroutines.flow.Flow
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import java.io.File
@@ -12,7 +11,7 @@ interface PdfFilesDataSourceSD {
 
     suspend fun findFilesAndFetch(dir: File,context: Context): Flow<List<PdfFileDb>>
 
-    class Base: PdfFilesDataSourceSD{
+    class Base: PdfFilesDataSourceSD {
         override suspend fun findFilesAndFetch(dir: File,context: Context): Flow<List<PdfFileDb>> {
 
 

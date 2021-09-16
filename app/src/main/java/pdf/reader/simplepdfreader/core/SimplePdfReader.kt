@@ -2,9 +2,10 @@ package pdf.reader.simplepdfreader.core
 
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.android.ext.android.*
 import org.koin.core.context.startKoin
 import pdf.reader.simplepdfreader.di.appModule
-import pdf.reader.simplepdfreader.di.testAppModule
 
 class SimplePdfReader : Application() {
 
@@ -12,8 +13,9 @@ class SimplePdfReader : Application() {
         super.onCreate()
 
         startKoin {
+            androidLogger()
             androidContext(this@SimplePdfReader)
-            modules(appModule, testAppModule)
+            modules(appModule)
         }
     }
 }

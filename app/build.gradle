@@ -12,8 +12,8 @@ android {
         applicationId "pdf.reader.simplepdfreader"
         minSdk 21
         targetSdk 31
-        versionCode 10
-        versionName "1.5"
+        versionCode 12
+        versionName "2.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -41,8 +41,10 @@ android {
 dependencies {
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 
-
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    kapt "android.arch.persistence.room:compiler:1.1.1"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
@@ -53,7 +55,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
     implementation 'com.google.firebase:protolite-well-known-types:18.0.0'
-    implementation 'com.google.firebase:firebase-database:19.2.1'
+    implementation 'com.google.firebase:firebase-database:20.0.1'
     implementation 'androidx.test:monitor:1.4.0'
     implementation 'androidx.test:core-ktx:1.4.0'
     implementation 'androidx.test.ext:junit-ktx:1.1.3'

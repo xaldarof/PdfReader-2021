@@ -32,13 +32,9 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {
     private lateinit var binding: FragmentCoreBinding
     private lateinit var myPdfRenderer: MyPdfRenderer
     private lateinit var itemAdapter: ItemAdapter
-    private lateinit var linearLayoutManager: LinearLayoutManager
     private val viewModel : CoreFragmentViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCoreBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -47,8 +43,6 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myPdfRenderer = MyPdfRenderer(requireContext())
-        linearLayoutManager = LinearLayoutManager(requireContext(), VERTICAL, false)
-        binding.rv.layoutManager = linearLayoutManager
 
         itemAdapter = ItemAdapter(this, myPdfRenderer, binding.rv, requireContext())
         binding.rv.adapter = itemAdapter

@@ -32,6 +32,7 @@
             android:layout_width="0dp"
             app:layout_constraintWidth_percent="0.75"
             android:layout_height="40dp"
+            android:inputType="textPersonName"
             android:layout_gravity="center"
             android:drawableTint="@color/def_color"
             android:background="@drawable/edittext_style"
@@ -42,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="RtlSymmetry" />
+            tools:ignore="RtlSymmetry,UnusedAttribute" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

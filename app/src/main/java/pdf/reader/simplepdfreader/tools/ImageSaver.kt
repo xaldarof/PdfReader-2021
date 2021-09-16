@@ -20,33 +20,31 @@ import pdf.reader.simplepdfreader.data.PdfFilesRepository
 
 interface ImageSaver {
 
-    fun saveBitmap(image: ImageView) : File
+    fun saveBitmap(image: ImageView): File
 
-    class Base(private val context: Context) : ImageSaver,KoinComponent {
+    class Base(private val context: Context) : ImageSaver, KoinComponent {
 
         private lateinit var fileOutputStream: FileOutputStream
-        private val pdfFilesRepository : PdfFilesRepository by inject()
 
-        override fun saveBitmap(image: ImageView) : File{
-            val bitmapDrawable = image.drawable as BitmapDrawable
-            val bitmap = bitmapDrawable.bitmap
+        override fun saveBitmap(image: ImageView): File {
+                val bitmapDrawable = image.drawable as BitmapDrawable
+                val bitmap = bitmapDrawable.bitmap
 
-            val filePath = Environment.getExternalStorageDirectory()
-            val dir = File(filePath.absolutePath + "/Download/")
-            dir.mkdir()
-            val file = File(dir, "${System.currentTimeMillis()}.jpg")
+                val filePath = Environment.getExternalStorageDirectory()
+                val dir = File(filePath.absolutePath + "/Download/")
+                dir.mkdir()
+                val file = File(dir, "${System.currentTimeMillis()}.jpg")
 
-            try {
-                fileOutputStream = FileOutputStream(file)
-            } catch (e: FileNotFoundException) {}
+                try {
+                    fileOutputStream = FileOutputStream(file)
+                } catch (e: FileNotFoundException) {
+                }
 
-            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
-
-            Toast.makeText(context, "Сохранено в :$file", Toast.LENGTH_LONG).show()
-            Log.d("pos", "SAVED IN ${file.absolutePath}")
-
-            fileOutputStream.flush()
-            fileOutputStream.close()
+                if (bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)==true){
+                    Toast.makeText(context, "Сохранено в :$file", Toast.LENGTH_LONG).show()
+                }
+                fileOutputStream.flush()
+                fileOutputStream.close()
 
             return file
         }
