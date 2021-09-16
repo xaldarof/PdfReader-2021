@@ -8,23 +8,18 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import android.os.*
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentCoreBinding
 import pdf.reader.simplepdfreader.domain.CoreFragmentViewModel
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
-import java.io.File
 
 @KoinApiExtension
 class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {

@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentInterestingBinding
 import pdf.reader.simplepdfreader.domain.NewFragmentViewModel

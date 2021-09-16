@@ -4,18 +4,12 @@ import android.content.Context
 import android.os.Environment
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
 
 
 interface ImageSaver {

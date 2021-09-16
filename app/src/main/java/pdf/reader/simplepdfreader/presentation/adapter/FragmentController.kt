@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pdf.reader.simplepdfreader.R
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
+import pdf.reader.simplepdfreader.data.core.PdfFilesRepository
 import java.lang.ref.WeakReference
 
 @SuppressLint("UseCompatLoadingForDrawables")

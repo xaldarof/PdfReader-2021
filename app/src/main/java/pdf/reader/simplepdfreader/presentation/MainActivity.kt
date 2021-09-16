@@ -6,8 +6,7 @@ import androidx.annotation.RequiresApi
 import kotlinx.coroutines.*
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
+import pdf.reader.simplepdfreader.data.core.PdfFilesRepository
 import pdf.reader.simplepdfreader.databinding.ActivityMainBinding
 import pdf.reader.simplepdfreader.presentation.adapter.FragmentController
 import pdf.reader.simplepdfreader.tools.PermissionManager

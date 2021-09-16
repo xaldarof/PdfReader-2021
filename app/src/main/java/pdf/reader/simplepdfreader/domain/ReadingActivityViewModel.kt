@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import pdf.reader.simplepdfreader.data.ReadingFileRepository
+import pdf.reader.simplepdfreader.data.core.ReadingFileRepository
 
 @KoinApiExtension
 class ReadingActivityViewModel : ViewModel(),KoinComponent {

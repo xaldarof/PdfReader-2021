@@ -1,4 +1,4 @@
-package pdf.reader.simplepdfreader.data
+package pdf.reader.simplepdfreader.data.core
 
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.*

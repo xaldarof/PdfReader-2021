@@ -6,10 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
-import org.koin.java.KoinJavaComponent.inject
-import pdf.reader.simplepdfreader.core.Status
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentWillReadBinding
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper

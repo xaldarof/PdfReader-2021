@@ -3,13 +3,11 @@ package pdf.reader.simplepdfreader.domain
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
+import pdf.reader.simplepdfreader.data.core.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 
 @KoinApiExtension

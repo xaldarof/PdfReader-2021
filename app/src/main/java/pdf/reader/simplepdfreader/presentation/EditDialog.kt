@@ -1,7 +1,6 @@
 package pdf.reader.simplepdfreader.presentation
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
@@ -11,7 +10,7 @@ import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import pdf.reader.simplepdfreader.R
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
+import pdf.reader.simplepdfreader.data.core.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.EditLayoutBinding
 import java.io.File

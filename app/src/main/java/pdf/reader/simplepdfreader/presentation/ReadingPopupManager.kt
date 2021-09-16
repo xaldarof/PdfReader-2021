@@ -3,19 +3,15 @@ package pdf.reader.simplepdfreader.presentation
 import android.app.Dialog
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.view.Window
 import android.widget.Switch
 import androidx.annotation.RequiresApi
 import com.github.barteksc.pdfviewer.PDFView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import pdf.reader.simplepdfreader.R
-import pdf.reader.simplepdfreader.data.cache.AutoSpacingStateCache
-import pdf.reader.simplepdfreader.data.cache.DarkThemeCache
-import pdf.reader.simplepdfreader.data.cache.HorizontalScrollingCache
+import pdf.reader.simplepdfreader.data.core.CacheRepository
 import pdf.reader.simplepdfreader.databinding.ReadingSettingsBinding
 import pdf.reader.simplepdfreader.tools.*
 
@@ -24,9 +20,8 @@ interface ReadingPopupManager {
 
     fun showPopupMenu()
 
-    class Base(private val context: Context, private val darkThemeCache: DarkThemeCache,
-               private val autoSpacingStateCache: AutoSpacingStateCache,
-               private val horizontalScrollingCache: HorizontalScrollingCache,
+    class Base(private val context: Context,
+               private val cacheRepository: CacheRepository,
                private val pdfView: PDFView,
                private val path:String) : ReadingPopupManager {
 
@@ -44,9 +39,9 @@ interface ReadingPopupManager {
             dialogMain.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialogMain.setContentView(dialog.root)
 
-            dialog.darkTheme.isChecked = darkThemeCache.read()
-            dialog.AutoSpacing.isChecked = autoSpacingStateCache.read()
-            dialog.horizontalScroll.isChecked = horizontalScrollingCache.read()
+            dialog.darkTheme.isChecked = cacheRepository.readDarkThemeCache()
+            dialog.AutoSpacing.isChecked = cacheRepository.readAutoSpacingCache()
+            dialog.horizontalScroll.isChecked = cacheRepository.readHorScrollCache()
 
             themeControl(dialog.darkTheme)
             spacingControl(dialog.AutoSpacing)
@@ -77,11 +72,11 @@ interface ReadingPopupManager {
         private fun themeControl(switch: Switch){
             switch.setOnCheckedChangeListener { compoundButton, b ->
                 if (compoundButton.isChecked) {
-                    darkThemeCache.save(true)
+                    cacheRepository.writeDarkThemeCache(true)
                     pdfView.setNightMode(true)
 
                 } else {
-                    darkThemeCache.save(false)
+                    cacheRepository.writeDarkThemeCache(false)
                     pdfView.setNightMode(false)
                 }
             }
@@ -89,12 +84,12 @@ interface ReadingPopupManager {
         private fun spacingControl(switch: Switch){
             switch.setOnCheckedChangeListener { compoundButton, b ->
                 if (compoundButton.isChecked) {
-                    autoSpacingStateCache.save(true)
+                    cacheRepository.writAutoSpacingCache(true)
                     pdfView.setPageSnap(true)
                     pdfView.setPageFling(true)
 
                 } else {
-                    autoSpacingStateCache.save(false)
+                    cacheRepository.writAutoSpacingCache(false)
                     pdfView.setPageSnap(false)
                     pdfView.setPageFling(false)
                 }
@@ -103,11 +98,11 @@ interface ReadingPopupManager {
         private fun scrollingControl(switch: Switch){
             switch.setOnCheckedChangeListener { compoundButton, b ->
                 if (compoundButton.isChecked) {
-                    horizontalScrollingCache.save(true)
+                    cacheRepository.writeHorScrollCache(true)
                     pdfView.isNestedScrollingEnabled = true
 
                 } else {
-                    horizontalScrollingCache.save(false)
+                    cacheRepository.writeHorScrollCache(false)
                     pdfView.isNestedScrollingEnabled = false
                 }
             }

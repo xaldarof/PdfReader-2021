@@ -9,7 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pdf.reader.simplepdfreader.R
-import pdf.reader.simplepdfreader.data.ReadingFileRepository
+import pdf.reader.simplepdfreader.data.core.ReadingFileRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.tools.DirectoryDeleter
 import java.io.File
@@ -20,7 +20,8 @@ interface ErrorShower {
     fun show()
 
     class Base(private val weakReference: WeakReference<Activity>, private val pdfFileDb: PdfFileDb,
-               private val repository: ReadingFileRepository) :
+               private val repository: ReadingFileRepository
+    ) :
         ErrorShower {
 
         override fun show() {

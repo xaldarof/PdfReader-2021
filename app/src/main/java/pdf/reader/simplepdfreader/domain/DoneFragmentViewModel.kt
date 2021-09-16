@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
+import pdf.reader.simplepdfreader.data.core.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 
 @KoinApiExtension

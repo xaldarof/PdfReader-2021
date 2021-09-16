@@ -13,15 +13,14 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
 import org.koin.core.component.KoinComponent
-import pdf.reader.simplepdfreader.data.cache.*
 import pdf.reader.simplepdfreader.domain.CountModel
 import pdf.reader.simplepdfreader.domain.PdfFileModel
 import pdf.reader.simplepdfreader.domain.ReadingActivityViewModel
 import java.io.File
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.inject
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
-import pdf.reader.simplepdfreader.data.ReadingFileRepository
+import pdf.reader.simplepdfreader.data.core.CacheRepository
+import pdf.reader.simplepdfreader.data.core.ReadingFileRepository
 import pdf.reader.simplepdfreader.domain.PdfFileToPdfFileDbMapper
 import pdf.reader.simplepdfreader.tools.BarAnimator
 import java.lang.ref.WeakReference
@@ -39,6 +38,8 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
     private lateinit var barAnimator: BarAnimator
     private lateinit var waitingDialogShower: WaitingDialogShower.Base
     private val pdfFilesRepository: ReadingFileRepository by inject()
+    private val cacheRepository: CacheRepository by inject()
+    private val mapper = PdfFileToPdfFileDbMapper.Base()
 
     @RequiresApi(Build.VERSION_CODES.M)
     @KoinApiExtension
@@ -66,24 +67,16 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
             binding.seekBar.progress = it
         })
 
-        val sharedPreferences = getSharedPreferences("cache", MODE_PRIVATE)
-        val darkThemeCache = DarkThemeCache(DarkThemeCacheImpl(sharedPreferences))
-        val autoSpacingStateCache =
-            AutoSpacingStateCache(AutoSpacingStateCacheImpl(sharedPreferences))
-        val horizontalScrollingCache =
-            HorizontalScrollingCache(HorizontalScrollingCacheImpl(sharedPreferences))
-
         val readingPopupManager = ReadingPopupManager.Base(
-            this, darkThemeCache, autoSpacingStateCache,
-            horizontalScrollingCache, binding.pdfView, dirName
-        )
+            this,cacheRepository, binding.pdfView, dirName)
 
         barAnimator = BarAnimator.Base(binding.containerBottom, binding.containerTop)
 
-        updateData(
-            pdfFile.dirName, pdfFile.lastPage, darkThemeCache.read(), autoSpacingStateCache.read(),
-            horizontalScrollingCache.read()
-        )
+        cacheRepository.apply {
+            updateData(
+                pdfFile.dirName, pdfFile.lastPage, readDarkThemeCache(),
+                readAutoSpacingCache(), readHorScrollCache())
+        }
 
         binding.menuBtn.setOnClickListener {
             readingPopupManager.showPopupMenu()
@@ -164,7 +157,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
                 viewModel.setPageState(page)
             }
             .onError {
-                ErrorShower.Base(WeakReference(this), PdfFileToPdfFileDbMapper.Base().map(pdfFile),pdfFilesRepository).show()
+                ErrorShower.Base(WeakReference(this), mapper.map(pdfFile),pdfFilesRepository).show()
             }
             .load()
     }

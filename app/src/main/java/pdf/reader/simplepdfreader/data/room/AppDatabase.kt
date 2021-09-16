@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import pdf.reader.simplepdfreader.fake_test_data.FakePdfFilesDao
 
-@Database(entities = [PdfFileDb::class],version = 12,exportSchema = false)
+@Database(entities = [PdfFileDb::class],version = 13,exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun pdfFilesDao(): PdfFilesDao
@@ -15,16 +15,7 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         private const val DATABASE_NAME = "files"
 
-        @Volatile
-        private var instance: AppDatabase? = null
-
         fun getInstance(context: Context): AppDatabase {
-            return instance ?: synchronized(this) {
-                instance ?: buildDatabase(context)
-            }
-        }
-
-        private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
                 .allowMainThreadQueries()
                 .fallbackToDestructiveMigration()

@@ -1,4 +1,4 @@
-package pdf.reader.simplepdfreader.data
+package pdf.reader.simplepdfreader.data.core
 
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.data.room.PdfFilesDao
@@ -12,7 +12,7 @@ interface ReadingFileRepository {
 
     suspend fun deletePdfFile(pdfFileDb: PdfFileDb)
 
-    class Base(private val pdfFilesDao: PdfFilesDao) : ReadingFileRepository{
+    class Base(private val pdfFilesDao: PdfFilesDao) : ReadingFileRepository {
         override suspend fun updateLastPage(dirName:String,lastPage:Int) {
             pdfFilesDao.updateLastPage(dirName,lastPage)
         }

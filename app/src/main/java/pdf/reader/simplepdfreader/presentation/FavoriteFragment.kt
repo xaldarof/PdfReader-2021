@@ -6,12 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import pdf.reader.simplepdfreader.core.Status
-import pdf.reader.simplepdfreader.data.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentFavoriteBinding
 import pdf.reader.simplepdfreader.domain.FavoriteFragmentViewModel
