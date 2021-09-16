@@ -73,8 +73,7 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         barAnimator = BarAnimator.Base(binding.containerBottom, binding.containerTop)
 
         cacheRepository.apply {
-            updateData(
-                pdfFile.dirName, pdfFile.lastPage, readDarkThemeCache(),
+            updateData(pdfFile.dirName, pdfFile.lastPage, readDarkThemeCache(),
                 readAutoSpacingCache(), readHorScrollCache())
         }
 
@@ -93,7 +92,6 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
         binding.pdfView.setOnClickListener {
             barAnimator.check()
         }
-
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {

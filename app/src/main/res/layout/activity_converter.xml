@@ -14,12 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-         />
+        android:layout_centerHorizontal="true" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/openGallery"
-        android:layout_width="150dp"
+        android:id="@+id/openBtn"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/cardView"
         android:layout_alignParentStart="true"
@@ -27,37 +26,20 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/scan_button_style"
-        android:text="@string/open_gallery"
+        android:text="СОЗДАТЬ"
         android:textColor="@color/def_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/openCamera"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/cardView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/scan_button_style"
-        android:text="@string/open_camera"
-        android:textColor="@color/def_color"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/saveBtn"
-        android:layout_width="150dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/openGallery"
-        android:layout_alignStart="@+id/openGallery"
-        android:layout_alignEnd="@+id/openCamera"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="0dp"
+        android:layout_below="@+id/openBtn"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/scan_button_style"
         android:text="@string/save"
         android:textColor="@color/def_color"
@@ -65,11 +47,10 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="350dp"
         android:layout_below="@+id/toolBarMain"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="12dp"
@@ -81,11 +62,12 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:scaleType="fitXY"
             android:layout_width="match_parent"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_file"
-            />
+            android:background="?attr/selectableItemBackground"
+            android:src="@drawable/ic_file" />
 
     </androidx.cardview.widget.CardView>
 

@@ -7,20 +7,21 @@ import kotlinx.coroutines.flow.flow
 import pdf.reader.simplepdfreader.tools.ByteToMbConverter
 import java.io.File
 import java.util.*
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.collections.ArrayList
 
 
 interface PdfFilesDataSourceMobile {
 
-    suspend fun findFilesAndFetch(dir: File): Flow<ArrayList<PdfFileDb>>
+    suspend fun findFilesAndFetch(dir: File): Flow<CopyOnWriteArrayList<PdfFileDb>>
 
     class Base : PdfFilesDataSourceMobile {
 
-        private val entities = ArrayList<PdfFileDb>()
+        private val entities = CopyOnWriteArrayList<PdfFileDb>()
         private val byteToMbConverter = ByteToMbConverter.Base()
 
-        override suspend fun findFilesAndFetch(dir: File) : Flow<ArrayList<PdfFileDb>> {
-            val list = ArrayList<PdfFileDb>()
+        override suspend fun findFilesAndFetch(dir: File) : Flow<CopyOnWriteArrayList<PdfFileDb>> {
+            val list = CopyOnWriteArrayList<PdfFileDb>()
             coroutineScope {
                 val fileList = dir.listFiles()
 

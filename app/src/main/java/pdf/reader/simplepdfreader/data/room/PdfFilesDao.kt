@@ -3,13 +3,14 @@ package pdf.reader.simplepdfreader.data.room
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import java.util.concurrent.CopyOnWriteArrayList
 
 @Dao
 interface PdfFilesDao {
 
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertPdfFile(pdfFiles: List<PdfFileDb>)
+    suspend fun insertPdfFile(pdfFiles: CopyOnWriteArrayList<PdfFileDb>)
 
     @Delete
     suspend fun deletePdfFile(pdfFileDb: PdfFileDb)
