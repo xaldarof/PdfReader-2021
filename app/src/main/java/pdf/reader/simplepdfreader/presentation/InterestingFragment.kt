@@ -25,7 +25,7 @@ class InterestingFragment : Fragment(), ItemAdapter.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentInterestingBinding.inflate(inflater, container, false)
+        binding = FragmentInterestingBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -39,9 +39,9 @@ class InterestingFragment : Fragment(), ItemAdapter.OnClickListener {
     }
 
     private fun updateData() {
-        viewModel.fetchInterestingPdfFiles().observe(viewLifecycleOwner, {
+        viewModel.fetchInterestingPdfFiles().observeForever{
             itemAdapter.setData(it)
-        })
+        }
     }
 
     override fun onResume() {

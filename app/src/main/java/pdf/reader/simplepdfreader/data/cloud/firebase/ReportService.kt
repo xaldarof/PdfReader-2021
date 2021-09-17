@@ -1,4 +1,4 @@
-package pdf.reader.simplepdfreader.data.cloud
+package pdf.reader.simplepdfreader.data.cloud.firebase
 
 interface ReportService {
 

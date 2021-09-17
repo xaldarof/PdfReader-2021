@@ -17,23 +17,23 @@ import java.lang.ref.WeakReference
 
 @SuppressLint("UseCompatLoadingForDrawables")
 class FragmentController(
-    weakReference: WeakReference<AppCompatActivity>,
+    activity: AppCompatActivity,
     private val pdfFilesRepository: PdfFilesRepository,
     private val fragments: List<Fragment>
 ) {
 
-    private var viewPager2: ViewPager2 = weakReference.get()!!.findViewById(R.id.pager)
+    private var viewPager2: ViewPager2 = activity.findViewById(R.id.pager)
     private var tabLayout: TabLayout
     private var fragmentAdapter: FragmentAdapter =
         FragmentAdapter(
-            weakReference.get()!!.supportFragmentManager,
-            weakReference.get()!!.lifecycle, fragments
+            activity.supportFragmentManager,
+            activity.lifecycle, fragments
         )
     private var badgeDrawable: BadgeDrawable
 
     init {
         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-        tabLayout = weakReference.get()!!.findViewById(R.id.tab_layout)
+        tabLayout = activity.findViewById(R.id.tab_layout)
         viewPager2.adapter = fragmentAdapter
         viewPager2.offscreenPageLimit = 6
 
@@ -41,27 +41,27 @@ class FragmentController(
             when (position) {
                 0 -> {
                     tab.icon =
-                        weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_home_24)
+                        activity.resources.getDrawable(R.drawable.ic_baseline_home_24)
                 }
 
                 1 -> tab.icon =
-                    weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_turned_in_not_24)
+                    activity.resources.getDrawable(R.drawable.ic_baseline_turned_in_not_24)
 
 
                 2 -> tab.icon =
-                    weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_fiber_new_24)
+                    activity.resources.getDrawable(R.drawable.ic_baseline_fiber_new_24)
 
 
                 3 -> tab.icon =
-                    weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_local_fire_department_24)
+                    activity.resources.getDrawable(R.drawable.ic_baseline_local_fire_department_24)
 
 
                 4 -> tab.icon =
-                    weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_access_time_24)
+                    activity.resources.getDrawable(R.drawable.ic_baseline_access_time_24)
 
 
                 5 -> tab.icon =
-                    weakReference.get()!!.resources.getDrawable(R.drawable.ic_baseline_done_all_24)
+                    activity.resources.getDrawable(R.drawable.ic_baseline_done_all_24)
 
             }
         }.attach()
@@ -71,7 +71,7 @@ class FragmentController(
         badgeDrawable.isVisible = true
 
         CoroutineScope(Dispatchers.Main).launch {
-            pdfFilesRepository.fetchDataForCount().observe(weakReference.get()!!, {
+            pdfFilesRepository.fetchDataForCount().observe(activity, {
                 badgeDrawable.number = it.size
             })
         }

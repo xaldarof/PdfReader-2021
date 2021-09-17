@@ -22,7 +22,7 @@ interface PermissionManager {
                return true
             } else {
                 weakReference.get()!!.requestPermissions(
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA), 20)
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), 20)
                 false
             }
         }

@@ -26,7 +26,7 @@ class DoneFragment : Fragment(), ItemAdapter.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDoneBinding.inflate(layoutInflater, container, false)
+        binding = FragmentDoneBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -41,9 +41,9 @@ class DoneFragment : Fragment(), ItemAdapter.OnClickListener {
     }
 
     private fun updateData() {
-        viewModel.fetchFinished().observe(viewLifecycleOwner, {
+        viewModel.fetchFinished().observeForever {
             itemAdapter.setData(it)
-        })
+        }
     }
 
     override fun onResume() {

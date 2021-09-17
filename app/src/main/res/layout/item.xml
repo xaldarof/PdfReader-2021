@@ -42,7 +42,6 @@
         android:clickable="false"
         android:focusable="false"
         android:progress="0"
-        android:secondaryProgress="100"
         android:progressBackgroundTint="@color/def_color"
         android:thumbTint="@color/def_color"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"

@@ -3,43 +3,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="pdf.reader.simplepdfreader">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<!--    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"-->
+<!--        tools:ignore="ScopedStorage" />-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".core.SimplePdfReader"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SimplePdfReader"
-        android:allowBackup="true">
-
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+        android:theme="@style/Theme.SimplePdfReader">
+        <activity
+            android:name=".presentation.SearchBookActivity"
+            android:exported="true" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
 
         <activity
             android:name=".presentation.PresentationActivity"
-            android:exported="true" >
+            android:exported="true">
+
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+
         <activity
             android:name=".presentation.ReportActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
-
-
         <activity
             android:name=".presentation.ConverterActivity"
             android:exported="true"
@@ -50,35 +54,24 @@
             android:label="@string/title_activity_updating"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.SimplePdfReader.NoActionBar" />
+
         <activity
             android:name=".presentation.ReadingActivity"
             android:exported="true"
-            android:label="@string/title_activity_reading" >
+            android:label="@string/title_activity_reading"/>
 
-            <intent-filter android:label="PDF READER"
-                tools:ignore="AppLinkUrlError">
-                <action android:name="android.intent.action.VIEW"/>
-                <data android:scheme="http"
-                    tools:ignore="AppLinkUrlError" />
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-
-        </activity>
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait">
 
         </activity>
 
-
-        <!--META DATA OF ADMOB-->
+        <!-- META DATA OF ADMOB -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-6592657632288197~6637627867" />
-
-
-        <!--File-->
+            android:value="ca-app-pub-6592657632288197~6637627867" /> <!-- File -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="pdf.reader.simplepdfreader"
@@ -88,7 +81,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

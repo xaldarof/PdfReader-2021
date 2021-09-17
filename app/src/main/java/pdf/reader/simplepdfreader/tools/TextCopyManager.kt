@@ -5,12 +5,14 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
+import org.w3c.dom.Text
 
 interface TextCopyManager {
 
     fun copyToClipboard(text:String):Boolean
 
     class Base(private val context: Context) : TextCopyManager {
+
         override fun copyToClipboard(text: String) : Boolean {
             val copyManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val copyData = ClipData.newPlainText("body",text)

@@ -5,6 +5,9 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import com.google.firebase.database.DataSnapshot
+import pdf.reader.simplepdfreader.data.cloud.firebase.ReportModel
+import pdf.reader.simplepdfreader.data.cloud.firebase.ReportServiceImpl
+import pdf.reader.simplepdfreader.data.cloud.firebase.Reporter
 
 
 class ReporterTest {

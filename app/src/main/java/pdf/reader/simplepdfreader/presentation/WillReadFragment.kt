@@ -25,7 +25,7 @@ class WillReadFragment : Fragment(), ItemAdapter.OnClickListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentWillReadBinding.inflate(layoutInflater, container, false)
+        binding = FragmentWillReadBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -39,9 +39,9 @@ class WillReadFragment : Fragment(), ItemAdapter.OnClickListener {
     }
 
     private fun updateData() {
-        viewModel.fetchWillRead().observe(viewLifecycleOwner, {
+        viewModel.fetchWillRead().observeForever {
             itemAdapter.setData(it)
-        })
+        }
     }
 
     override fun onResume() {

@@ -28,7 +28,7 @@ class FavoriteFragment : Fragment(), ItemAdapter.OnClickListener, KoinComponent 
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFavoriteBinding.inflate(inflater, container, false)
+        binding = FragmentFavoriteBinding.inflate(layoutInflater)
         return binding.root
 
     }
@@ -44,9 +44,9 @@ class FavoriteFragment : Fragment(), ItemAdapter.OnClickListener, KoinComponent 
     }
 
     private fun updateData() {
-        viewModel.fetchFavorites().observe(viewLifecycleOwner, {
+        viewModel.fetchFavorites().observeForever {
             itemAdapter.setData(it)
-        })
+        }
     }
 
     override fun onResume() {

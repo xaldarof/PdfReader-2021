@@ -1,6 +1,5 @@
 package pdf.reader.simplepdfreader.presentation
 
-import android.app.UiModeManager.MODE_NIGHT_NO
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,9 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import pdf.reader.simplepdfreader.data.cloud.ReportModel
-import pdf.reader.simplepdfreader.data.cloud.ReportServiceImpl
-import pdf.reader.simplepdfreader.data.cloud.Reporter
+import pdf.reader.simplepdfreader.data.cloud.firebase.ReportModel
+import pdf.reader.simplepdfreader.data.cloud.firebase.ReportServiceImpl
+import pdf.reader.simplepdfreader.data.cloud.firebase.Reporter
 import pdf.reader.simplepdfreader.databinding.ActivityReportBinding
 import java.text.SimpleDateFormat
 import java.util.*

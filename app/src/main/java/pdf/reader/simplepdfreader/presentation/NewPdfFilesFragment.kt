@@ -29,7 +29,7 @@ class NewPdfFilesFragment : Fragment(), ItemAdapter.OnClickListener, KoinCompone
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         updateData()
 
-        binding = FragmentInterestingBinding.inflate(layoutInflater, container, false)
+        binding = FragmentInterestingBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -43,10 +43,11 @@ class NewPdfFilesFragment : Fragment(), ItemAdapter.OnClickListener, KoinCompone
     }
 
     private fun updateData() {
-        viewModel.fetchNewPdfFiles().observe(viewLifecycleOwner, {
+        viewModel.fetchNewPdfFiles().observeForever {
             itemAdapter.setData(it)
-        })
+        }
     }
+
 
     override fun onResume() {
         super.onResume()

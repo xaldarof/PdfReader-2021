@@ -15,6 +15,7 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import org.koin.core.component.get
+import org.koin.core.component.inject
 import pdf.reader.simplepdfreader.tools.AdManager
 import pdf.reader.simplepdfreader.tools.Animator
 import pdf.reader.simplepdfreader.tools.FragmentChanger
@@ -24,11 +25,7 @@ import java.lang.ref.WeakReference
 class MainActivity : AppCompatActivity(), KoinComponent {
 
     private lateinit var binding: ActivityMainBinding
-    private val pdfFilesRepository = get<PdfFilesRepository>()
-
-    private val fragments = arrayListOf<Fragment>(
-        CoreFragment(), FavoriteFragment(),
-        NewPdfFilesFragment(), InterestingFragment(), WillReadFragment(), DoneFragment())
+    private val pdfFilesRepository:PdfFilesRepository by inject()
 
     @DelicateCoroutinesApi
     @RequiresApi(Build.VERSION_CODES.M)
@@ -40,8 +37,11 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         AdManager.Base(this,binding.adView).init()
 
+        val fragments = arrayListOf<Fragment>(
+            CoreFragment(), FavoriteFragment(),
+            NewPdfFilesFragment(), InterestingFragment(), WillReadFragment(), DoneFragment())
 
-       FragmentController(WeakReference(this), pdfFilesRepository, fragments)
+       FragmentController(this, pdfFilesRepository, fragments)
         val permissionManager = PermissionManager.Base(WeakReference(this))
         permissionManager.requestPermission()
 
@@ -51,6 +51,9 @@ class MainActivity : AppCompatActivity(), KoinComponent {
             fragmentChanger.replace(searchFragment)
         }
 
+        binding.toolBarMain.searchBook.setOnClickListener {
+            startActivity(Intent(this,SearchBookActivity::class.java))
+        }
         binding.toolBarMain.openReporter.setOnClickListener {
             startActivity(Intent(this,ReportActivity::class.java))
         }
@@ -79,7 +82,6 @@ class MainActivity : AppCompatActivity(), KoinComponent {
                 Animator.Base().animate(binding.toolBarMain.scan)
             }
 
-        } else {
         }
     }
 }

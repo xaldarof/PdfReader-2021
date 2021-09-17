@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.core.ReadingFileRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
@@ -21,9 +22,9 @@ interface ErrorShower {
 
     class Base(private val weakReference: WeakReference<Activity>, private val pdfFileDb: PdfFileDb,
                private val repository: ReadingFileRepository
-    ) :
-        ErrorShower {
+    ) : ErrorShower {
 
+        @KoinApiExtension
         override fun show() {
             val dialog = Dialog(weakReference.get()!!, R.style.BottomSheetDialogTheme)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

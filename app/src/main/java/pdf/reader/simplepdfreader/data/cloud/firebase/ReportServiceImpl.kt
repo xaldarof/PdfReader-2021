@@ -1,9 +1,10 @@
-package pdf.reader.simplepdfreader.data.cloud
+package pdf.reader.simplepdfreader.data.cloud.firebase
 
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class ReportServiceImpl(private var firebaseDatabase: FirebaseDatabase,private var databaseReference: DatabaseReference) : ReportService {
+class ReportServiceImpl(private var firebaseDatabase: FirebaseDatabase,private var databaseReference: DatabaseReference) :
+    ReportService {
     override fun sendReport(reportModel: ReportModel) {
         firebaseDatabase = FirebaseDatabase.getInstance()
         databaseReference = firebaseDatabase.getReference("reports")
