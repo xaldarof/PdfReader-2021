@@ -10,8 +10,8 @@ import java.io.File
 interface FileDataShare {
 
     class Base(private val context: Context) : Share<String> {
-        override fun share(data:String) {
-            val imageUri: Uri = FileProvider.getUriForFile(context, "pdf.reader.simplepdfreader", File(data))
+        override fun share(path:String) {
+            val imageUri: Uri = FileProvider.getUriForFile(context, "pdf.reader.simplepdfreader", File(path))
             val shareIntent = Intent(Intent.ACTION_SEND)
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri)
             shareIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION

@@ -9,14 +9,12 @@ import android.widget.Toast
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
-import org.koin.core.component.KoinComponent
-
 
 interface ImageSaver {
 
     fun saveBitmap(image: ImageView): File
 
-    class Base(private val context: Context) : ImageSaver, KoinComponent {
+    class Base(private val context: Context) : ImageSaver {
 
         private lateinit var fileOutputStream: FileOutputStream
 

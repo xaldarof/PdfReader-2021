@@ -19,6 +19,7 @@ class InterestingFragment : Fragment(), ItemAdapter.OnClickListener {
     private lateinit var binding: FragmentInterestingBinding
     private lateinit var itemAdapter: ItemAdapter
     private val viewModel: InterestingFragmentViewModel by viewModels()
+    private val mapper = PdfFileDbToPdfFileMapper.Base()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +51,7 @@ class InterestingFragment : Fragment(), ItemAdapter.OnClickListener {
 
     override fun onClick(pdfFileDb: PdfFileDb) {
         NextActivity.Base(requireContext())
-            .startActivity(PdfFileDbToPdfFileMapper.Base().map(pdfFileDb))
+            .startActivity(mapper.map(pdfFileDb))
     }
 
     override fun onClickAddToFavorites(pdfFileDb: PdfFileDb) {

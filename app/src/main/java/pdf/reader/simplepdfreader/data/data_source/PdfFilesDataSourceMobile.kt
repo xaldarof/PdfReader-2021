@@ -15,10 +15,9 @@ interface PdfFilesDataSourceMobile {
 
     suspend fun findFilesAndFetch(dir: File): Flow<CopyOnWriteArrayList<PdfFileDb>>
 
-    class Base : PdfFilesDataSourceMobile {
+    class Base(private val byteToMbConverter : ByteToMbConverter) : PdfFilesDataSourceMobile {
 
         private val entities = CopyOnWriteArrayList<PdfFileDb>()
-        private val byteToMbConverter = ByteToMbConverter.Base()
 
         override suspend fun findFilesAndFetch(dir: File) : Flow<CopyOnWriteArrayList<PdfFileDb>> {
             val list = CopyOnWriteArrayList<PdfFileDb>()

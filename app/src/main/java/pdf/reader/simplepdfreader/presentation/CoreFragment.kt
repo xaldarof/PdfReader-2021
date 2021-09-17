@@ -1,6 +1,5 @@
 package pdf.reader.simplepdfreader.presentation
 
-import android.content.Intent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +19,7 @@ import pdf.reader.simplepdfreader.domain.CoreFragmentViewModel
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
+import pdf.reader.simplepdfreader.tools.NextActivity
 
 @KoinApiExtension
 class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {
@@ -28,6 +28,7 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {
     private lateinit var myPdfRenderer: MyPdfRenderer
     private lateinit var itemAdapter: ItemAdapter
     private val viewModel : CoreFragmentViewModel by viewModels()
+    private val mapper = PdfFileDbToPdfFileMapper.Base()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCoreBinding.inflate(inflater, container, false)
@@ -60,9 +61,8 @@ class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {
 
     @KoinApiExtension
     override fun onClick(pdfFileDb: PdfFileDb) {
-        val intent = Intent(context, ReadingActivity::class.java)
-        intent.putExtra("pdf", PdfFileDbToPdfFileMapper.Base().map(pdfFileDb))
-        startActivity(intent)
+        NextActivity.Base(requireContext())
+            .startActivity(mapper.map(pdfFileDb))
     }
 
     override fun onClickAddToFavorites(pdfFileDb: PdfFileDb) {

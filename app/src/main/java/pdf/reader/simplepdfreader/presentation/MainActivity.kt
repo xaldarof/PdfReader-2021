@@ -15,7 +15,7 @@ import android.content.pm.PackageManager.PERMISSION_GRANTED
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import org.koin.core.component.get
-import pdf.reader.simplepdfreader.tools.AddManager
+import pdf.reader.simplepdfreader.tools.AdManager
 import pdf.reader.simplepdfreader.tools.Animator
 import pdf.reader.simplepdfreader.tools.FragmentChanger
 import java.lang.ref.WeakReference
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         setContentView(binding.root)
         supportActionBar?.hide()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        AddManager.Base(this,binding.adView).init()
+        AdManager.Base(this,binding.adView).init()
 
 
        FragmentController(WeakReference(this), pdfFilesRepository, fragments)

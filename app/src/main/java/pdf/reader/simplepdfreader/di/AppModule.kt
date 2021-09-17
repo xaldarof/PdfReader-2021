@@ -11,11 +11,13 @@ import pdf.reader.simplepdfreader.data.cache.*
 import pdf.reader.simplepdfreader.data.data_source.PdfFilesDataSourceMobile
 import pdf.reader.simplepdfreader.data.room.AppDatabase
 import pdf.reader.simplepdfreader.data.room.PdfFilesDao
+import pdf.reader.simplepdfreader.tools.ByteToMbConverter
 
 
-val coreModule = module {
+val dataModule = module {
+    factory<ByteToMbConverter> { ByteToMbConverter.Base() }
     single<PdfFilesDao> { AppDatabase.getInstance(androidContext()).pdfFilesDao() }
-    single<PdfFilesDataSourceMobile> { PdfFilesDataSourceMobile.Base() }
+    single<PdfFilesDataSourceMobile> { PdfFilesDataSourceMobile.Base(get()) }
     single<ReadingFileRepository> { ReadingFileRepository.Base(get()) }
     single<PdfFilesRepository> { PdfFilesRepository.Base(get(), get()) }
 }

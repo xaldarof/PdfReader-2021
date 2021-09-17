@@ -49,14 +49,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!--    app:adUnitId="ca-app-pub-3940256099942544/6300978111"-->
+    <!--  [REAL ID]  app:adUnitId="ca-app-pub-6592657632288197/3487337453"-->
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:adSize="SMART_BANNER"
-        app:adUnitId="ca-app-pub-6592657632288197/3487337453"
+        app:adUnitId="ca-app-pub-3940256099942544/6300978111"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_percent="0.08">
     </com.google.android.gms.ads.AdView>

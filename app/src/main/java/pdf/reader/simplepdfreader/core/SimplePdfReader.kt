@@ -6,7 +6,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.android.ext.android.*
 import org.koin.core.context.startKoin
 import pdf.reader.simplepdfreader.di.cacheModule
-import pdf.reader.simplepdfreader.di.coreModule
+import pdf.reader.simplepdfreader.di.dataModule
 
 class SimplePdfReader : Application() {
 
@@ -16,7 +16,7 @@ class SimplePdfReader : Application() {
         startKoin {
             androidLogger()
             androidContext(this@SimplePdfReader)
-            modules(coreModule, cacheModule)
+            modules(dataModule, cacheModule)
         }
     }
 }
