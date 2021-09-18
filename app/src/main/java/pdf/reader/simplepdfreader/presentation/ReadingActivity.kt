@@ -22,6 +22,9 @@ import org.koin.core.component.inject
 import pdf.reader.simplepdfreader.data.core.CacheRepository
 import pdf.reader.simplepdfreader.data.core.ReadingFileRepository
 import pdf.reader.simplepdfreader.domain.PdfFileToPdfFileDbMapper
+import pdf.reader.simplepdfreader.presentation.dialogs.ErrorShower
+import pdf.reader.simplepdfreader.presentation.dialogs.ReadingPopupManager
+import pdf.reader.simplepdfreader.presentation.dialogs.WaitingDialogShower
 import pdf.reader.simplepdfreader.tools.BarAnimator
 import java.lang.ref.WeakReference
 import java.util.*

@@ -1,7 +1,6 @@
 package pdf.reader.simplepdfreader.presentation.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,7 +11,7 @@ import kotlin.collections.ArrayList
 import com.google.android.material.snackbar.Snackbar
 import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.R
-import pdf.reader.simplepdfreader.presentation.EditDialog
+import pdf.reader.simplepdfreader.presentation.dialogs.EditDialog
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import java.io.*
 

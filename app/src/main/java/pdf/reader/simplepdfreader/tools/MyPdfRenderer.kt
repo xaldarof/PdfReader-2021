@@ -15,6 +15,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
 import android.R
+import java.lang.NullPointerException
 
 class MyPdfRenderer(private val context: Context) {
 
@@ -38,7 +39,7 @@ class MyPdfRenderer(private val context: Context) {
 
                     setImage(bitmap, imageView)
 
-                } catch (ex: IOException) {
+                } catch (ex: NullPointerException) {
                     ex.printStackTrace()
                 }
             }

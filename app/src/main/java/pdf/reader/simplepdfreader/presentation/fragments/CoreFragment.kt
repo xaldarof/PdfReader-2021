@@ -1,59 +1,68 @@
-package pdf.reader.simplepdfreader.presentation
+package pdf.reader.simplepdfreader.presentation.fragments
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.os.*
 import androidx.fragment.app.viewModels
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
-import pdf.reader.simplepdfreader.databinding.FragmentFavoriteBinding
-import pdf.reader.simplepdfreader.domain.FavoriteFragmentViewModel
+import pdf.reader.simplepdfreader.databinding.FragmentCoreBinding
+import pdf.reader.simplepdfreader.domain.CoreFragmentViewModel
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import pdf.reader.simplepdfreader.tools.NextActivity
+import androidx.lifecycle.LifecycleOwner
+
+
+
 
 @KoinApiExtension
-class FavoriteFragment : Fragment(), ItemAdapter.OnClickListener, KoinComponent {
+class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {
 
-    private lateinit var binding: FragmentFavoriteBinding
-    private val viewModel: FavoriteFragmentViewModel by viewModels()
+    private lateinit var binding: FragmentCoreBinding
+    private val viewModel: CoreFragmentViewModel by viewModels()
+    private lateinit var myPdfRenderer: MyPdfRenderer
     private lateinit var itemAdapter: ItemAdapter
     private val mapper = PdfFileDbToPdfFileMapper.Base()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentFavoriteBinding.inflate(layoutInflater)
-        return binding.root
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = FragmentCoreBinding.inflate(layoutInflater)
 
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val myPdfRenderer = MyPdfRenderer(requireContext())
+        myPdfRenderer = MyPdfRenderer(requireContext())
+
         itemAdapter = ItemAdapter(this, myPdfRenderer, binding.rv, requireContext())
-        binding.rv.itemAnimator = null
-        updateData()
         binding.rv.adapter = itemAdapter
 
-    }
-
-    private fun updateData() {
-        viewModel.fetchFavorites().observeForever {
-            itemAdapter.setData(it)
+        CoroutineScope(Dispatchers.Main).launch {
+            updateData()
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        updateData()
+    private suspend fun updateData() {
+        while (true) {
+            delay(2000)
+            viewModel.findPdfFilesAndInsert(Environment.getExternalStorageDirectory())
+            viewModel.fetchPdfFiles().observeForever {
+                itemAdapter.setData(it)
+            }
     }
+}
 
+    @KoinApiExtension
     override fun onClick(pdfFileDb: PdfFileDb) {
         NextActivity.Base(requireContext())
             .startActivity(mapper.map(pdfFileDb))

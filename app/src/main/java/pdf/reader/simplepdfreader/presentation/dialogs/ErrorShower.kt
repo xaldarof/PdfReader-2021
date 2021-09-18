@@ -1,4 +1,4 @@
-package pdf.reader.simplepdfreader.presentation
+package pdf.reader.simplepdfreader.presentation.dialogs
 
 import android.app.Activity
 import android.app.Dialog
@@ -12,6 +12,7 @@ import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.core.ReadingFileRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
+import pdf.reader.simplepdfreader.presentation.UpdatingActivity
 import pdf.reader.simplepdfreader.tools.DirectoryDeleter
 import java.io.File
 import java.lang.ref.WeakReference
@@ -32,22 +33,26 @@ interface ErrorShower {
             val scanButton = dialog.findViewById<AppCompatButton>(R.id.scanBtn)
             val deleteButton = dialog.findViewById<AppCompatButton>(R.id.deleteBtn)
 
-            scanButton.setOnClickListener {
-                weakReference.get()!!.startActivity(Intent(weakReference.get()!!, UpdatingActivity::class.java))
-                weakReference.get()!!.finish()
-            }
-
-            deleteButton.setOnClickListener {
-                CoroutineScope(Dispatchers.IO).launch {
-                    if (File(pdfFileDb.dirName).isDirectory) {
-                        DirectoryDeleter.Base().delete(pdfFileDb.dirName)
-                    }
-                    repository.deletePdfFile(pdfFileDb)
-                    weakReference.get()!!.finish()
-                }
-            }
-
+            scanButton.setOnClickListener { startScanning() }
+            deleteButton.setOnClickListener { deleteFile() }
             dialog.show()
         }
+       @KoinApiExtension
+       private fun startScanning(){
+            weakReference.get()!!.startActivity(Intent(weakReference.get()!!, UpdatingActivity::class.java))
+            weakReference.get()!!.finish()
+        }
+
+       private fun deleteFile(){
+           CoroutineScope(Dispatchers.IO).launch {
+               if (File(pdfFileDb.dirName).isDirectory) {
+                   DirectoryDeleter.Base().delete(pdfFileDb.dirName)
+               }
+               repository.deletePdfFile(pdfFileDb)
+               weakReference.get()!!.finish()
+           }
+       }
     }
+
+
 }

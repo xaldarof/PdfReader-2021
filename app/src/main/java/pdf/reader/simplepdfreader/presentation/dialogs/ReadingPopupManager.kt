@@ -1,4 +1,4 @@
-package pdf.reader.simplepdfreader.presentation
+package pdf.reader.simplepdfreader.presentation.dialogs
 
 import android.app.Dialog
 import android.content.Context
@@ -62,7 +62,7 @@ interface ReadingPopupManager {
             }
 
             dialog.getScreenBtn.setOnClickListener {
-                ImageSaveDialog.Base(pdfRenderer,imageSaver,context).show(path,pdfView.currentPage)
+                ImageSaveDialog.Base(pdfRenderer, imageSaver, context).show(path,pdfView.currentPage)
             }
 
             dialogMain.show()

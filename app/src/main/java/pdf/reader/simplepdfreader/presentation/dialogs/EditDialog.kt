@@ -1,4 +1,4 @@
-package pdf.reader.simplepdfreader.presentation
+package pdf.reader.simplepdfreader.presentation.dialogs
 
 import android.content.Context
 import android.widget.Toast

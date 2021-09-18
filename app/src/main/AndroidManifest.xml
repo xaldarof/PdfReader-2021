@@ -7,8 +7,8 @@
 <!--        tools:ignore="ScopedStorage" />-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -22,6 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimplePdfReader">
         <activity
+            android:launchMode="singleTop"
             android:name=".presentation.SearchBookActivity"
             android:exported="true" />
         <activity
@@ -30,6 +31,7 @@
 
         <activity
             android:name=".presentation.PresentationActivity"
+            android:launchMode="singleTop"
             android:exported="true">
 
 
@@ -43,14 +45,17 @@
         <activity
             android:name=".presentation.ReportActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.ConverterActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.UpdatingActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:label="@string/title_activity_updating"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.SimplePdfReader.NoActionBar" />
@@ -58,12 +63,13 @@
         <activity
             android:name=".presentation.ReadingActivity"
             android:exported="true"
+            android:launchMode="singleTop"
             android:label="@string/title_activity_reading"/>
 
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
 
         </activity>
