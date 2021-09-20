@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import org.koin.core.component.KoinApiExtension
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentDoneBinding
-import pdf.reader.simplepdfreader.domain.DoneFragmentViewModel
+import pdf.reader.simplepdfreader.presentation.viewmodels.DoneFragmentViewModel
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer

@@ -1,6 +1,7 @@
 package pdf.reader.simplepdfreader.domain
 
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
+import pdf.reader.simplepdfreader.presentation.viewmodels.PdfFileModel
 
 interface PdfFileToPdfFileDbMapper<T,M> {
 

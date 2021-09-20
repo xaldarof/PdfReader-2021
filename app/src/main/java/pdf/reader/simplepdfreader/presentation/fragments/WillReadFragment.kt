@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentWillReadBinding
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
-import pdf.reader.simplepdfreader.domain.WillReadFragmentViewModel
+import pdf.reader.simplepdfreader.presentation.viewmodels.WillReadFragmentViewModel
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import pdf.reader.simplepdfreader.tools.NextActivity

@@ -1,4 +1,4 @@
-package pdf.reader.simplepdfreader.domain
+package pdf.reader.simplepdfreader.presentation.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

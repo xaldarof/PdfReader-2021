@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 30
 
     defaultConfig {
         applicationId "pdf.reader.simplepdfreader"
         minSdk 21
-        targetSdk 31
-        versionCode 13
+        targetSdk 30
+        versionCode 14
         versionName "2.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -42,11 +42,15 @@ dependencies {
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.google.android.material:material:1.4.0'
 
     //NET
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 
     implementation 'androidx.core:core-ktx:1.6.0'

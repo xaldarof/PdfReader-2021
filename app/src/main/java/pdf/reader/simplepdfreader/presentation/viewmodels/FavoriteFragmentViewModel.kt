@@ -1,4 +1,4 @@
-package pdf.reader.simplepdfreader.domain
+package pdf.reader.simplepdfreader.presentation.viewmodels
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch

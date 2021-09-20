@@ -13,9 +13,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.MutableLiveData
 import org.koin.core.component.KoinComponent
-import pdf.reader.simplepdfreader.domain.CountModel
-import pdf.reader.simplepdfreader.domain.PdfFileModel
-import pdf.reader.simplepdfreader.domain.ReadingActivityViewModel
+import pdf.reader.simplepdfreader.presentation.viewmodels.CountModel
+import pdf.reader.simplepdfreader.presentation.viewmodels.PdfFileModel
+import pdf.reader.simplepdfreader.presentation.viewmodels.ReadingActivityViewModel
 import java.io.File
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.inject
@@ -137,13 +137,11 @@ class ReadingActivity : AppCompatActivity(), KoinComponent {
             .pageSnap(pageSnap)
             .autoSpacing(pageSnap)
             .pageFling(pageSnap)
-            .onLoad {
+            .onRender {
+                waitingDialogShower.show()
                 Handler(Looper.getMainLooper()).postDelayed({
                     waitingDialogShower.dismiss()
                 }, 1000)
-            }
-            .onRender {
-                waitingDialogShower.show()
             }
 
             .swipeHorizontal(horizontalScroll)

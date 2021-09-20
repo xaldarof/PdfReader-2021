@@ -2,7 +2,7 @@ package pdf.reader.simplepdfreader.tools
 
 import android.content.Context
 import android.content.Intent
-import pdf.reader.simplepdfreader.domain.PdfFileModel
+import pdf.reader.simplepdfreader.presentation.viewmodels.PdfFileModel
 import pdf.reader.simplepdfreader.presentation.ReadingActivity
 
 interface NextActivity {

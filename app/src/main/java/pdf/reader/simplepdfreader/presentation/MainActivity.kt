@@ -77,10 +77,12 @@ class MainActivity : AppCompatActivity(), KoinComponent, RequestPermissionDialog
     }
 
     override fun onBackPressed() {
+        if (!checkDoubleBackPress){
+            Toast.makeText(this, "Нажмите еще раз для выхода", Toast.LENGTH_SHORT).show()
+        }
         if (checkDoubleBackPress) {
             super.onBackPressed()
         }
-        Toast.makeText(this, "Нажмите еще раз для выхода", Toast.LENGTH_SHORT).show()
         checkDoubleBackPress=true
         Handler(Looper.getMainLooper()).postDelayed({ checkDoubleBackPress=false },2000)
     }

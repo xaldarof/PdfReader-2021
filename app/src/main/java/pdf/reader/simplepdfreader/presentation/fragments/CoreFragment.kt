@@ -12,24 +12,21 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import org.koin.core.component.get
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.FragmentCoreBinding
-import pdf.reader.simplepdfreader.domain.CoreFragmentViewModel
+import pdf.reader.simplepdfreader.presentation.viewmodels.CoreFragmentViewModel
 import pdf.reader.simplepdfreader.domain.PdfFileDbToPdfFileMapper
 import pdf.reader.simplepdfreader.presentation.adapter.ItemAdapter
 import pdf.reader.simplepdfreader.tools.MyPdfRenderer
 import pdf.reader.simplepdfreader.tools.NextActivity
-import androidx.lifecycle.LifecycleOwner
-
-
 
 
 @KoinApiExtension
 class CoreFragment : Fragment(), ItemAdapter.OnClickListener,KoinComponent {
 
     private lateinit var binding: FragmentCoreBinding
-    private val viewModel: CoreFragmentViewModel by viewModels()
+    private val viewModel: CoreFragmentViewModel = get()
     private lateinit var myPdfRenderer: MyPdfRenderer
     private lateinit var itemAdapter: ItemAdapter
     private val mapper = PdfFileDbToPdfFileMapper.Base()

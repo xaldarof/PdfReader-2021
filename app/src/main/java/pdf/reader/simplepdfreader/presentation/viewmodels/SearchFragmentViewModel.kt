@@ -1,22 +1,24 @@
-package pdf.reader.simplepdfreader.domain
+package pdf.reader.simplepdfreader.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import pdf.reader.simplepdfreader.data.core.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 
-class InterestingFragmentViewModel : ViewModel(),KoinComponent {
+@KoinApiExtension
+class SearchFragmentViewModel: ViewModel(),KoinComponent {
 
-    private val pdfFilesRepository: PdfFilesRepository by inject ()
+    private val pdfFilesRepository: PdfFilesRepository by inject()
 
-    fun fetchInterestingPdfFiles() = pdfFilesRepository.fetchInteresting().asLiveData()
+    fun fetchPdfFiles() = pdfFilesRepository.fetchPdfFiles().asLiveData()
 
     fun updateFavoriteState(pdfFileDb: PdfFileDb) = viewModelScope.launch {
-        pdfFilesRepository.updateFavoriteState(pdfFileDb.dirName,!pdfFileDb.favorite)
+        pdfFilesRepository.updateFavoriteState(pdfFileDb.dirName, !pdfFileDb.favorite)
     }
 
     fun updateInterestingState(pdfFileDb: PdfFileDb) = viewModelScope.launch {

@@ -6,11 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import pdf.reader.simplepdfreader.fake_test_data.FakePdfFilesDao
 
-@Database(entities = [PdfFileDb::class],version = 13,exportSchema = false)
+@Database(entities = [PdfFileDb::class, BookDb::class], version = 14, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun pdfFilesDao(): PdfFilesDao
-    abstract fun testPdfFilesDao():FakePdfFilesDao
+    abstract fun bookDao(): BookDao
+
+    abstract fun testPdfFilesDao(): FakePdfFilesDao
 
     companion object {
         private const val DATABASE_NAME = "files"

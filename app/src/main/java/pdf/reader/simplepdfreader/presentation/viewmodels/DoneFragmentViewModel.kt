@@ -1,4 +1,4 @@
-package pdf.reader.simplepdfreader.domain
+package pdf.reader.simplepdfreader.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -11,11 +11,11 @@ import pdf.reader.simplepdfreader.data.core.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 
 @KoinApiExtension
-class NewFragmentViewModel : ViewModel() , KoinComponent{
+class DoneFragmentViewModel:ViewModel(),KoinComponent {
 
-    private val pdfFilesRepository: PdfFilesRepository by inject ()
+    private val pdfFilesRepository : PdfFilesRepository by inject()
 
-    fun fetchNewPdfFiles() = pdfFilesRepository.fetchNewPdfFiles().asLiveData()
+    fun fetchFinished() = pdfFilesRepository.fetchFinished().asLiveData()
 
     fun updateFavoriteState(pdfFileDb: PdfFileDb) = viewModelScope.launch {
         pdfFilesRepository.updateFavoriteState(pdfFileDb.dirName,!pdfFileDb.favorite)
@@ -31,7 +31,6 @@ class NewFragmentViewModel : ViewModel() , KoinComponent{
     fun updateFinishedState(pdfFileDb: PdfFileDb) = viewModelScope.launch {
         pdfFilesRepository.updateFinishedState(pdfFileDb.dirName,!pdfFileDb.finished)
     }
-
     fun delete(pdfFileDb: PdfFileDb) = viewModelScope.launch {
         pdfFilesRepository.deletePdfFile(pdfFileDb)
     }
