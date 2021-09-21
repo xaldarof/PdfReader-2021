@@ -9,7 +9,7 @@ interface BookDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertBook(bookDb: BookDb)
 
-    @Query("SELECT * FROM books")
+    @Query("SELECT * FROM books ORDER BY addedTime DESC")
     fun fetchBooks():Flow<List<BookDb>>
 
     @Delete

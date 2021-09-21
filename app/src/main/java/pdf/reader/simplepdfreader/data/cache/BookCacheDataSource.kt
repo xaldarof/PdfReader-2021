@@ -8,6 +8,7 @@ interface BookCacheDataSource {
 
     fun fetchBooks():Flow<List<BookDb>>
     suspend fun insertBook(bookDb: BookDb)
+    suspend fun deleteBook(bookDb: BookDb)
 
     class Base(private val bookDao: BookDao) : BookCacheDataSource{
         override fun fetchBooks(): Flow<List<BookDb>> {
@@ -16,6 +17,10 @@ interface BookCacheDataSource {
 
         override suspend fun insertBook(bookDb: BookDb) {
             bookDao.insertBook(bookDb)
+        }
+
+        override suspend fun deleteBook(bookDb: BookDb) {
+            bookDao.deleteBook(bookDb)
         }
 
     }

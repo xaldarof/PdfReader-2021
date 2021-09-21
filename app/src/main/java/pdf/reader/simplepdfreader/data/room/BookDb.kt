@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 data class BookDb(
     val title:String,
     val author:String,
-
     @PrimaryKey
-    val isbn:String
+    val isbn:String,
+
+    val addedTime:String
 )

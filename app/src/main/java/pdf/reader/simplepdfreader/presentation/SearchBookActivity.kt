@@ -2,6 +2,8 @@ package pdf.reader.simplepdfreader.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import pdf.reader.simplepdfreader.databinding.ActivitySearchBookBinding
@@ -19,6 +21,7 @@ class SearchBookActivity : AppCompatActivity(), KoinComponent {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBookBinding.inflate(layoutInflater)
+        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
         setContentView(binding.root)
         supportActionBar?.hide()
 

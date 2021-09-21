@@ -12,7 +12,7 @@ android {
         applicationId "pdf.reader.simplepdfreader"
         minSdk 21
         targetSdk 30
-        versionCode 14
+        versionCode 15
         versionName "2.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

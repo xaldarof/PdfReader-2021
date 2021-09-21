@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import com.squareup.picasso.Picasso
 import pdf.reader.simplepdfreader.data.cloud.api.Book
 import pdf.reader.simplepdfreader.databinding.ActivityBookInfoBinding
@@ -16,6 +17,8 @@ class BookInfoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityBookInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         supportActionBar?.hide()
         val book = intent.getSerializableExtra("book") as Book
 

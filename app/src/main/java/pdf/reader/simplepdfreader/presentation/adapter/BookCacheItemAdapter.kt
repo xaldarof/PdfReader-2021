@@ -9,9 +9,11 @@ import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.room.BookDb
 import pdf.reader.simplepdfreader.databinding.BooksCacheItemBinding
 import pdf.reader.simplepdfreader.presentation.dialogs.BookPopMenu
+import pdf.reader.simplepdfreader.presentation.fragments.net_fragment.SearchBookFragment
+import pdf.reader.simplepdfreader.tools.DateProvider
 import java.lang.reflect.Field
 
-class BookCacheItemAdapter : RecyclerView.Adapter<BookCacheItemAdapter.VH>() {
+class BookCacheItemAdapter(private val bookPopMenu: BookPopMenu) : RecyclerView.Adapter<BookCacheItemAdapter.VH>() {
 
     private val list = ArrayList<BookDb>()
 
@@ -27,9 +29,10 @@ class BookCacheItemAdapter : RecyclerView.Adapter<BookCacheItemAdapter.VH>() {
             binding.authorTv.text = bookDb.author
             binding.isbnTv.text = bookDb.isbn
             binding.titleTv.text = bookDb.title
+            binding.dateTv.text = DateProvider.Base().getFormattedDate()
 
             binding.container.setOnClickListener {
-                BookPopMenu.Base().show(binding.container,bookDb)
+                bookPopMenu.show(binding.container,bookDb)
             }
         }
     }

@@ -2,7 +2,12 @@ package pdf.reader.simplepdfreader.presentation.dialogs
 
 import android.util.Log
 import android.view.View
+import androidx.appcompat.widget.PopupMenu
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import pdf.reader.simplepdfreader.R
+import pdf.reader.simplepdfreader.data.cloud.BookRepository
 import pdf.reader.simplepdfreader.data.room.BookDb
 import java.lang.reflect.Field
 
@@ -10,32 +15,26 @@ interface BookPopMenu {
 
     fun show(view: View, bookDb: BookDb)
 
-    fun registerCallBack(popupCallBack: Base.CustomPopupCallBack)
+    class Base(private val onClickCallBack: OnClickCallBack) : BookPopMenu {
 
-    class Base : BookPopMenu {
-
-        private var callBack:CustomPopupCallBack? = null
-
-        override fun registerCallBack(popupCallBack: CustomPopupCallBack) {
-            this.callBack = popupCallBack
-        }
-
-        interface CustomPopupCallBack {
-            fun sendResult(result:String)
+        interface OnClickCallBack{
+            suspend fun onClickDelete(bookDb: BookDb)
+            fun onClickOpen(isbn:String)
         }
 
         override fun show(view: View, bookDb: BookDb) {
-            val popupMenu = androidx.appcompat.widget.PopupMenu(view.context, view)
+            val popupMenu = PopupMenu(view.context, view)
             popupMenu.inflate(R.menu.menu)
 
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.open -> {
-                        callBack?.sendResult(bookDb.isbn)
-                        Log.d("pos", "CLICKED OPEN ${bookDb.isbn}")
+                        onClickCallBack.onClickOpen(bookDb.isbn)
                     }
                     R.id.delete -> {
-                        Log.d("pos", "CLICKED DELETE ${bookDb.author}")
+                        CoroutineScope(Dispatchers.IO).launch {
+                            onClickCallBack.onClickDelete(bookDb)
+                        }
                     }
                 }
                 true
