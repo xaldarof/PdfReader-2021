@@ -26,24 +26,24 @@ interface PermissionManager {
     fun checkReadPermission(): Boolean
     fun checkWritePermission(): Boolean
     fun checkCameraPermission(): Boolean
-    fun checkManagePermission(): Boolean
+    //fun checkManagePermission(): Boolean
 
 
     @RequiresApi(Build.VERSION_CODES.M)
     class Base(private val weakReference: WeakReference<Activity>,private val context: Context) : PermissionManager {
 
         override fun requestPermission(): Boolean {
-            return if (!checkCameraPermission() && !checkReadPermission() && !checkWritePermission() && !checkManagePermission()) {
+            return if (!checkCameraPermission() && !checkReadPermission() && !checkWritePermission()) {
                 if (Build.VERSION.SDK_INT >= 30) {
-                    weakReference.get()!!.requestPermissions(
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MANAGE_EXTERNAL_STORAGE,Manifest.permission.CAMERA), 20)
-
-                    if (!Environment.isExternalStorageManager()) {
-                        RequestPermissionDialog.Base(context).showDialog()
-                    }
+//                    weakReference.get()!!.requestPermissions(
+//                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MANAGE_EXTERNAL_STORAGE,Manifest.permission.CAMERA), 20)
+//
+//                    if (!Environment.isExternalStorageManager()) {
+//                        RequestPermissionDialog.Base(context).showDialog()
+//                    }
                 } else {
                     weakReference.get()!!.requestPermissions(
-                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.MANAGE_EXTERNAL_STORAGE,Manifest.permission.CAMERA), 20)
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA), 20)
                 }
                 false
             } else {
@@ -70,11 +70,11 @@ interface PermissionManager {
                 Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
         }
 
-        override fun checkManagePermission(): Boolean {
-            return ContextCompat.checkSelfPermission(
-                weakReference.get()!!.applicationContext,
-                Manifest.permission.MANAGE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-        }
+//        override fun checkManagePermission(): Boolean {
+//            return ContextCompat.checkSelfPermission(
+//                weakReference.get()!!.applicationContext,
+//                Manifest.permission.MANAGE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+//        }
 
     }
 }

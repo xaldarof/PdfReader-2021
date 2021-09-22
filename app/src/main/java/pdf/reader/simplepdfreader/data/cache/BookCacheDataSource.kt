@@ -7,6 +7,7 @@ import pdf.reader.simplepdfreader.data.room.BookDb
 interface BookCacheDataSource {
 
     fun fetchBooks():Flow<List<BookDb>>
+
     suspend fun insertBook(bookDb: BookDb)
     suspend fun deleteBook(bookDb: BookDb)
 

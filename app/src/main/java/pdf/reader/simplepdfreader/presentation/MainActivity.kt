@@ -16,7 +16,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import org.koin.core.component.inject
-import pdf.reader.simplepdfreader.presentation.dialogs.RequestPermissionDialog
 import pdf.reader.simplepdfreader.presentation.fragments.*
 import pdf.reader.simplepdfreader.tools.AdManager
 import pdf.reader.simplepdfreader.tools.Animator
@@ -24,12 +23,11 @@ import pdf.reader.simplepdfreader.tools.FragmentChanger
 import java.lang.ref.WeakReference
 
 @KoinApiExtension
-class MainActivity : AppCompatActivity(), KoinComponent, RequestPermissionDialog.Base.PermissionCallBack {
+class MainActivity : AppCompatActivity(), KoinComponent {
 
     private lateinit var binding: ActivityMainBinding
     private val pdfFilesRepository: PdfFilesRepository by inject()
     private var checkDoubleBackPress = false
-    private val requestDialog = RequestPermissionDialog.Base(this)
 
     @DelicateCoroutinesApi
     @RequiresApi(Build.VERSION_CODES.M)
@@ -40,7 +38,6 @@ class MainActivity : AppCompatActivity(), KoinComponent, RequestPermissionDialog
         supportActionBar?.hide()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         AdManager.Base(this, binding.adView).init()
-        requestDialog.registerCalLBack(this)
 
         val fragments = arrayListOf<Fragment>(
             CoreFragment(), FavoriteFragment(),
@@ -59,6 +56,7 @@ class MainActivity : AppCompatActivity(), KoinComponent, RequestPermissionDialog
         binding.toolBarMain.searchBook.setOnClickListener {
             startActivity(Intent(this, SearchBookActivity::class.java))
         }
+
         binding.toolBarMain.openReporter.setOnClickListener {
             startActivity(Intent(this, ReportActivity::class.java))
         }
@@ -99,9 +97,5 @@ class MainActivity : AppCompatActivity(), KoinComponent, RequestPermissionDialog
                 Animator.Base().animate(binding.toolBarMain.scan)
             }
         }
-    }
-
-    override fun request(result: Boolean) {
-        finish()
     }
 }
