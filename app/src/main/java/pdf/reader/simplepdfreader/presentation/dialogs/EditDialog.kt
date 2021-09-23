@@ -1,6 +1,7 @@
 package pdf.reader.simplepdfreader.presentation.dialogs
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
@@ -13,7 +14,9 @@ import pdf.reader.simplepdfreader.R
 import pdf.reader.simplepdfreader.data.core.PdfFilesRepository
 import pdf.reader.simplepdfreader.data.room.PdfFileDb
 import pdf.reader.simplepdfreader.databinding.EditLayoutBinding
+import pdf.reader.simplepdfreader.tools.FileNameChanger
 import java.io.File
+import java.util.logging.Handler
 
 interface EditDialog {
 
@@ -24,6 +27,7 @@ interface EditDialog {
         BottomSheetDialog(context, R.style.BottomSheetDialogTheme), EditDialog, KoinComponent {
 
         private val pdfFilesRepository: PdfFilesRepository by inject()
+        private val editor = FileNameChanger.Base(pdfFilesRepository)
 
         override fun showDialog() {
             val binding = EditLayoutBinding.inflate(layoutInflater)
@@ -32,11 +36,9 @@ interface EditDialog {
             binding.saveBtn.setOnClickListener {
                 if (binding.newNameEditText.text.toString().isNotEmpty()) {
                     CoroutineScope(Dispatchers.IO).launch {
-                        pdfFilesRepository.updatePath(pdfFileDb.dirName, binding.newNameEditText.text.toString())
-                        File(File(pdfFileDb.dirName).absolutePath).renameTo(File("${File(pdfFileDb.dirName).absoluteFile}/${binding.newNameEditText.text}"))
+                        val edit = editor.changeName(pdfFileDb.dirName, binding.newNameEditText.text.toString())
+                        showInfoAboutChanging(edit)
                     }
-                    Toast.makeText(context, "Успешно изменено!", Toast.LENGTH_SHORT).show()
-                    dismiss()
                 }
             }
 
@@ -50,6 +52,18 @@ interface EditDialog {
 
             setContentView(binding.root)
             show()
+        }
+
+        private fun showInfoAboutChanging(result:Boolean){
+            CoroutineScope(Dispatchers.Main).launch {
+                if (result){
+                    Toast.makeText(context, "Успешно изменено", Toast.LENGTH_SHORT).show()
+                    dismiss()
+                }else {
+                    Toast.makeText(context, "Что-то пошло не так :(", Toast.LENGTH_SHORT).show()
+                    dismiss()
+                }
+            }
         }
     }
 }

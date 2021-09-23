@@ -28,14 +28,13 @@ interface PdfFilesRepository {
     suspend fun updateInterestingState(dirName: String, interesting: Boolean)
     suspend fun updateWillReadState(dirName: String, willRead: Boolean)
     suspend fun updateFinishedState(dirName: String, finished: Boolean)
-    suspend fun updatePath(dirName: String, name: String)
+    suspend fun updateName(dirName: String, name: String)
+    suspend fun updatePath(dirName: String,newPath:String)
 
     suspend fun deletePdfFile(pdfFileDb: PdfFileDb)
 
     class Base(
-        private val dataSourceMobile: PdfFilesDataSourceMobile,
-        private val dao: PdfFilesDao
-    ) : PdfFilesRepository {
+        private val dataSourceMobile: PdfFilesDataSourceMobile, private val dao: PdfFilesDao) : PdfFilesRepository {
 
         override fun fetchPdfFiles(): Flow<List<PdfFileDb>> {
             return dao.fetchAllPdfFiles()
@@ -89,8 +88,12 @@ interface PdfFilesRepository {
             dao.updateFinishedState(dirName, finished)
         }
 
-        override suspend fun updatePath(dirName: String, name: String) {
+        override suspend fun updateName(dirName: String, name: String) {
             dao.updateName(dirName, name)
+        }
+
+        override suspend fun updatePath(dirName: String, newPath: String) {
+            dao.updatePath(dirName,newPath)
         }
 
         override suspend fun deletePdfFile(pdfFileDb: PdfFileDb) {

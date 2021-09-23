@@ -9,17 +9,15 @@ import org.koin.core.component.KoinComponent
 import pdf.reader.simplepdfreader.data.core.PdfFilesRepository
 import pdf.reader.simplepdfreader.databinding.ActivityMainBinding
 import pdf.reader.simplepdfreader.presentation.adapter.FragmentController
-import pdf.reader.simplepdfreader.tools.PermissionManager
 import android.content.Intent
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import org.koin.core.component.inject
+import pdf.reader.simplepdfreader.presentation.dialogs.Api30Error
 import pdf.reader.simplepdfreader.presentation.fragments.*
-import pdf.reader.simplepdfreader.tools.AdManager
-import pdf.reader.simplepdfreader.tools.Animator
-import pdf.reader.simplepdfreader.tools.FragmentChanger
+import pdf.reader.simplepdfreader.tools.*
 import java.lang.ref.WeakReference
 
 @KoinApiExtension
@@ -71,6 +69,13 @@ class MainActivity : AppCompatActivity(), KoinComponent {
             } else {
                 permissionManager.requestPermission()
             }
+        }
+        checkApi()
+    }
+
+    private fun checkApi() {
+        if (Build.VERSION.SDK_INT > 29) {
+            Api30Error.Base(this).show()
         }
     }
 

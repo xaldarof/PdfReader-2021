@@ -71,5 +71,8 @@ interface PdfFilesDao {
     @Query("UPDATE pdf SET name = :name WHERE dirName = :dirName")
     suspend fun updateName(dirName: String, name:String)
 
+    @Query("UPDATE pdf SET dirName = :newPath WHERE dirName = :dirName")
+    suspend fun updatePath(dirName: String, newPath:String)
+
 
 }

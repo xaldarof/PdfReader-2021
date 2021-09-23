@@ -25,8 +25,8 @@ class SearchBookActivity : AppCompatActivity(), KoinComponent {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        val list = arrayListOf(SearchBookFragment(),HistoryFragment())
-        val adapter = ViewPagerAdapter(list,supportFragmentManager,lifecycle)
+        val list = arrayListOf(SearchBookFragment(), HistoryFragment())
+        val adapter = ViewPagerAdapter(list, supportFragmentManager, lifecycle)
         binding.viewPager.adapter = adapter
 
     }

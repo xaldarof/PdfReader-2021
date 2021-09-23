@@ -1,6 +1,8 @@
 package pdf.reader.simplepdfreader.presentation.fragments.net_fragment
 
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.viewpager2.widget.ViewPager2
+import kotlinx.parcelize.Parcelize
 import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get

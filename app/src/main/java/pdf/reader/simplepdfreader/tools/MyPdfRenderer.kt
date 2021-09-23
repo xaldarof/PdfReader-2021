@@ -21,33 +21,38 @@ class MyPdfRenderer(private val context: Context) {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     fun getBitmap(file: File?, imageView: ImageView): Bitmap? {
-        if (file!!.exists()) {
-            CoroutineScope(Dispatchers.Default).launch {
-                val pageNum = 0
-                val pdfiumCore = PdfiumCore(context)
-                try {
-                    val pdfDocument: PdfDocument = pdfiumCore.newDocument(openFile(file))
-                    pdfiumCore.openPage(pdfDocument, pageNum)
-                    val width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNum)/2
-                    val height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNum)/2
+        try {
+            if (file!!.exists()) {
+                CoroutineScope(Dispatchers.Default).launch {
+                    val pageNum = 0
+                    val pdfiumCore = PdfiumCore(context)
+                    try {
+                        val pdfDocument: PdfDocument = pdfiumCore.newDocument(openFile(file))
+                        pdfiumCore.openPage(pdfDocument, pageNum)
+                        val width = pdfiumCore.getPageWidthPoint(pdfDocument, pageNum) / 2
+                        val height = pdfiumCore.getPageHeightPoint(pdfDocument, pageNum) / 2
 
-                    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+                        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
 
-                    pdfiumCore.renderPageBitmap(pdfDocument, bitmap, pageNum, 0, 0, width, height)
+                        pdfiumCore.renderPageBitmap(pdfDocument, bitmap, pageNum, 0, 0, width, height)
 
-                    pdfiumCore.closeDocument(pdfDocument)
+                        pdfiumCore.closeDocument(pdfDocument)
 
-                    setImage(bitmap, imageView)
+                        setImage(bitmap, imageView)
 
-                } catch (ex: NullPointerException) {
-                    ex.printStackTrace()
+                    } catch (ex: NullPointerException) {
+                        ex.printStackTrace()
+                    }catch (e:IOException){
+                        e.printStackTrace()
+                    }
                 }
-            }
-        }else {
-            val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.stat_notify_error)
+            } else {
+                val bitmap =
+                    BitmapFactory.decodeResource(context.resources, R.drawable.stat_notify_error)
 
-            return bitmap
-        }
+                return bitmap
+            }
+        }catch (e:IOException){}
         return null
     }
 
@@ -65,6 +70,4 @@ class MyPdfRenderer(private val context: Context) {
             return null
         }
     }
-
-
 }
