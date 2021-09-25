@@ -1,5 +1,6 @@
 package pdf.reader.simplepdfreader.presentation
 
+import android.Manifest
 import android.os.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.annotation.RequiresApi
@@ -10,6 +11,7 @@ import pdf.reader.simplepdfreader.data.core.PdfFilesRepository
 import pdf.reader.simplepdfreader.databinding.ActivityMainBinding
 import pdf.reader.simplepdfreader.presentation.adapter.FragmentController
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
@@ -36,13 +38,13 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         supportActionBar?.hide()
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         AdManager.Base(this, binding.adView).init()
-
+        checkApi()
         val fragments = arrayListOf<Fragment>(
             CoreFragment(), FavoriteFragment(),
             NewPdfFilesFragment(), InterestingFragment(), WillReadFragment(), DoneFragment())
 
         FragmentController(this, pdfFilesRepository, fragments)
-        val permissionManager = PermissionManager.Base(WeakReference(this),this)
+        val permissionManager = PermissionManager.Base(WeakReference(this))
         permissionManager.requestPermission()
 
         val searchFragment = SearchFragment()
@@ -60,17 +62,17 @@ class MainActivity : AppCompatActivity(), KoinComponent {
         }
 
         binding.toolBarMain.openConverter.setOnClickListener {
-            startActivity(Intent(this, ConverterActivity::class.java))
+            if (!permissionManager.requestPermission()) {
+                startActivity(Intent(this, ConverterActivity::class.java))
+            }
         }
 
         binding.toolBarMain.scan.setOnClickListener {
-            if (permissionManager.requestPermission()) {
+            if (!permissionManager.requestPermission()) {
                 Animator.Base().animate(binding.toolBarMain.scan)
-            } else {
-                permissionManager.requestPermission()
             }
         }
-        checkApi()
+
     }
 
     private fun checkApi() {

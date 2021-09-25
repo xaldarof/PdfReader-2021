@@ -14,8 +14,8 @@ android {
         applicationId "pdf.reader.simplepdfreader"
         minSdk 21
         targetSdk 29
-        versionCode 19
-        versionName "3"
+        versionCode 21
+        versionName "3.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -55,10 +55,6 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
 
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation "io.insert-koin:koin-android:2.2.3"
-    implementation "io.insert-koin:koin-android-viewmodel:2.2.3"
-
     
     implementation "android.arch.persistence.room:runtime:1.1.1"
     kapt "android.arch.persistence.room:compiler:1.1.1"
@@ -83,7 +79,12 @@ dependencies {
     implementation 'com.google.android.gms:play-services-ads:20.3.0'
 
     implementation 'com.github.barteksc:android-pdf-viewer:3.1.0-beta.1'
+
+    //DI
     implementation "io.insert-koin:koin-android:2.2.3"
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation "io.insert-koin:koin-android:2.2.3"
+    implementation "io.insert-koin:koin-android-viewmodel:2.2.3"
 
 
     implementation 'com.mikhaellopez:circularprogressbar:3.1.0'

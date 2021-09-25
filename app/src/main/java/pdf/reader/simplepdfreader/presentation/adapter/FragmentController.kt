@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.asLiveData
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.tabs.TabLayout
@@ -17,19 +18,21 @@ import java.lang.ref.WeakReference
 
 @SuppressLint("UseCompatLoadingForDrawables")
 class FragmentController(
-    activity: AppCompatActivity,
+    private val activity: AppCompatActivity,
     private val pdfFilesRepository: PdfFilesRepository,
     private val fragments: List<Fragment>
 ) {
 
     private var viewPager2: ViewPager2 = activity.findViewById(R.id.pager)
     private var tabLayout: TabLayout
+
     private var fragmentAdapter: FragmentAdapter =
         FragmentAdapter(
             activity.supportFragmentManager,
             activity.lifecycle, fragments
         )
     private var badgeDrawable: BadgeDrawable
+    private var badgeDrawableNew:BadgeDrawable
 
     init {
         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -70,10 +73,29 @@ class FragmentController(
         badgeDrawable.backgroundColor = Color.GRAY
         badgeDrawable.isVisible = true
 
+        badgeDrawableNew = tabLayout.getTabAt(2)!!.orCreateBadge
+        badgeDrawableNew.backgroundColor = Color.RED
+        badgeDrawableNew.isVisible = true
+
         CoroutineScope(Dispatchers.Main).launch {
-            pdfFilesRepository.fetchDataForCount().observe(activity, {
-                badgeDrawable.number = it.size
-            })
+            dataCountObserve()
+            dataCountObserveNew()
         }
+    }
+
+    private suspend fun dataCountObserve() {
+        pdfFilesRepository.fetchDataForCount().observe(activity, {
+            badgeDrawable.number = it.size
+        })
+    }
+    private fun dataCountObserveNew(){
+        pdfFilesRepository.fetchNewPdfFiles().asLiveData().observe(activity,{
+            if (it.isEmpty()){
+                badgeDrawableNew.isVisible = false
+            }else {
+                badgeDrawableNew.isVisible = true
+                badgeDrawableNew.number = it.size
+            }
+        })
     }
 }
